@@ -27,8 +27,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Framework", "Framework", "{
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Company.Framework", "src\Framework\Company.Framework\Company.Framework.csproj", "{40700C35-EF8E-4F1B-B396-1051A3644A4A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Company.Crm.SqlServer", "src\Infrastructure\Company.Crm.SqlServer\Company.Crm.SqlServer.csproj", "{F9F4A0FB-5982-46AE-89F3-BFCBEAAC71F3}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,10 +57,6 @@ Global
 		{40700C35-EF8E-4F1B-B396-1051A3644A4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{40700C35-EF8E-4F1B-B396-1051A3644A4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{40700C35-EF8E-4F1B-B396-1051A3644A4A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F9F4A0FB-5982-46AE-89F3-BFCBEAAC71F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F9F4A0FB-5982-46AE-89F3-BFCBEAAC71F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F9F4A0FB-5982-46AE-89F3-BFCBEAAC71F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F9F4A0FB-5982-46AE-89F3-BFCBEAAC71F3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -78,7 +72,6 @@ Global
 		{62FF199B-C805-4E0F-AB61-4035FF16848F} = {0789C273-1E17-4233-9F37-7D1A9DC49F25}
 		{4CE2431C-D09C-4AE0-BBC8-E38AC90FD6CE} = {9B351D14-856D-42EC-A2A9-5C4C896816AB}
 		{40700C35-EF8E-4F1B-B396-1051A3644A4A} = {4CE2431C-D09C-4AE0-BBC8-E38AC90FD6CE}
-		{F9F4A0FB-5982-46AE-89F3-BFCBEAAC71F3} = {34096A06-335F-4954-A137-03EA8D373F62}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CA9F9B49-3467-45D2-A48F-39EB37A83292}
