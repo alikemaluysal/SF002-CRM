@@ -14,7 +14,7 @@ namespace Company.Crm.Web.Mvc.Controllers
 
         public IActionResult Index()
         {
-            var customers = _customerService.GetAllCustomers();
+            var customers = _customerService.GetAll();
             return View(customers);
         }
     }

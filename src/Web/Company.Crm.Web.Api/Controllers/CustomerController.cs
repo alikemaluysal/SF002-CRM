@@ -8,24 +8,45 @@ namespace Company.Crm.Web.Api.Controllers
     [ApiController]
     public class CustomerController : ControllerBase
     {
-        private readonly ICustomerService _customerService;
+        private readonly ICustomerService _service;
 
-        public CustomerController(ICustomerService customerService)
+        public CustomerController(ICustomerService service)
         {
-            _customerService = customerService;
+            _service = service;
         }
 
         [HttpGet]
-        public List<CustomerDto> Get()
+        public IActionResult Get()
         {
-            return _customerService.GetAllCustomers();
+            var data = _service.GetAll();
+            return Ok(data);
         }
 
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var data = _customerService.GetCustomerById(id);
+            var data = _service.GetById(id);
+            return Ok(data);
+        }
 
+        [HttpPost]
+        public IActionResult Post([FromBody] CreateOrUpdateCustomerDto dto)
+        {
+            var data = _service.Insert(dto);
+            return Ok(data);
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, [FromBody] CreateOrUpdateCustomerDto dto)
+        {
+            var data = _service.Update(dto);
+            return Ok(data);
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            var data = _service.DeleteById(id);
             return Ok(data);
         }
     }

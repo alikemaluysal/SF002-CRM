@@ -4,12 +4,12 @@ namespace Company.Crm.Application.Services.Abstracts
 {
     public interface ICustomerService
     {
-        public List<CustomerDto> GetAllCustomers();
-        public CustomerDto? GetCustomerById(int id);
-        public bool InsertCustomer(CreateOrUpdateCustomerDto customerDto);
-        public bool UpdateCustomer(CreateOrUpdateCustomerDto customerDto);
-        public bool DeleteCustomer(CustomerDto customerDto);
-        public bool DeleteCustomerById(int id);
-        public List<CustomerDto> GetAllCustomersByRegionId(int regionId);
+        public List<CustomerDto> GetAll();
+        public CustomerDto? GetById(int id);
+        public bool Insert(CreateOrUpdateCustomerDto dto);
+        public bool Update(CreateOrUpdateCustomerDto dto);
+        public bool Delete(CustomerDto dto);
+        public bool DeleteById(int id);
+        public List<CustomerDto> GetAllByRegionId(int regionId);
     }
 }

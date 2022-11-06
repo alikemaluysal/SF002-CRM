@@ -18,7 +18,7 @@ namespace Company.Crm.Application.Services
             _mapper = mapper;
         }
 
-        public List<CustomerDto> GetAllCustomers()
+        public List<CustomerDto> GetAll()
         {
             var entityList = _customerRepository.GetAll();
 
@@ -42,40 +42,40 @@ namespace Company.Crm.Application.Services
             return dtoList;
         }
 
-        public CustomerDto? GetCustomerById(int id)
+        public CustomerDto? GetById(int id)
         {
             var entity = _customerRepository.GetById(id);
             var dto = _mapper.Map<CustomerDto>(entity);
             return dto;
         }
 
-        public bool InsertCustomer(CreateOrUpdateCustomerDto customerDto)
+        public bool Insert(CreateOrUpdateCustomerDto dto)
         {
-            var customer = _mapper.Map<Customer>(customerDto);
+            var customer = _mapper.Map<Customer>(dto);
 
             return _customerRepository.Insert(customer);
         }
 
-        public bool UpdateCustomer(CreateOrUpdateCustomerDto customerDto)
+        public bool Update(CreateOrUpdateCustomerDto dto)
         {
-            var customer = _mapper.Map<Customer>(customerDto);
+            var customer = _mapper.Map<Customer>(dto);
 
             return _customerRepository.Update(customer);
         }
 
-        public bool DeleteCustomer(CustomerDto customerDto)
+        public bool Delete(CustomerDto dto)
         {
-            var customer = _mapper.Map<Customer>(customerDto);
+            var customer = _mapper.Map<Customer>(dto);
 
             return _customerRepository.Delete(customer);
         }
 
-        public bool DeleteCustomerById(int id)
+        public bool DeleteById(int id)
         {
             return _customerRepository.DeleteById(id);
         }
 
-        public List<CustomerDto> GetAllCustomersByRegionId(int regionId)
+        public List<CustomerDto> GetAllByRegionId(int regionId)
         {
             var entityList = _customerRepository.GetAllByRegionId(regionId);
             var dtoList = _mapper.Map<List<CustomerDto>>(entityList);
