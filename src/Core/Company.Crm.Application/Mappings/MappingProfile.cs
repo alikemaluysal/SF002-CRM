@@ -11,6 +11,10 @@ namespace Company.Crm.Application.Mappings
             // CreateMap: Customer nesnesini CustomerDto'ya dönüştürme ayarını yapar.
             // ReverseMap: CustomerDto nesnesini otomatik Customer'a dönüştürmeyi sağlar. İki satır yazmak yerine ReverseMap kullanılır.
             CreateMap<Customer, CustomerDto>().ReverseMap();
+            CreateMap<Customer, CreateOrUpdateCustomerDto>().ReverseMap();
+
+            CreateMap<Employee, EmployeeDto>().ReverseMap();
+            CreateMap<Employee, CreateOrUpdateEmployeeDto>().ReverseMap();
         }
     }
 }

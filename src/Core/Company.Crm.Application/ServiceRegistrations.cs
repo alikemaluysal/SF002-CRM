@@ -18,6 +18,7 @@ namespace Company.Crm.Application
             services.AddAutoMapper(assembly);
 
             services.AddTransient<ICustomerService, CustomerService>();
+            services.AddTransient<IEmployeeService, EmployeeService>();
         }
     }
 }
