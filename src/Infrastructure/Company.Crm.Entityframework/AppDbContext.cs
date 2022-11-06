@@ -14,18 +14,13 @@ namespace Company.Crm.Entityframework
         {
         }
 
-        public DbSet<Employee> Employees { get; set; }
         public DbSet<Customer> Customers { get; set; }
-        //public DbSet<User> Users { get; set; }
-        //public DbSet<Gender> Genders { get; set; }
-        //public DbSet<Department> Departments { get; set; }
-        //public DbSet<StatusType> StatusTypes { get; set; }
-        //public DbSet<Region> Regions { get; set; }
+        public DbSet<Employee> Employees { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder builder)
         {
             // Program.cs içerisinde DbContext tanımı aşağıdaki gibi olursa;
-            //     builder.Services.AddDbContext<AppDbContext>()
+            // builder.Services.AddDbContext<AppDbContext>()
             // Buradaki konfigrasyon çalışacaktır.
             if (!builder.IsConfigured)
             {
