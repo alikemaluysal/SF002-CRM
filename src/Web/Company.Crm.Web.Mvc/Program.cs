@@ -1,7 +1,13 @@
+using Company.Crm.Application;
+using Company.Crm.Entityframework;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddEntityFrameworkRegistration(builder.Configuration);
+builder.Services.AddApplicationRegistration(builder.Configuration);
 
 var app = builder.Build();
 
