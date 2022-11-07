@@ -16,7 +16,12 @@ namespace Company.Crm.Entityframework
 
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Employee> Employees { get; set; }
+
+        public DbSet<Notification> Notifications { get; set; }
+        public DbSet<Offer> Offers { get; set; }
+
         public DbSet<Address> Addresses { get; set; }
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder builder)
         {

@@ -2,11 +2,12 @@
 
 namespace Company.Crm.Domain.Entities
 {
-    public class Offers : BaseEntity
+    public class Offer : BaseEntity
     {
         public int RequestId { get; set; }
         public int EmployeeUserId { get; set; }
         public DateTime? OfferDate { get; set; }
-        public int? BidAmount { get; set; }
+        public decimal BidAmount { get; set; }
+        public int OfferStatusId { get; set; }
     }
 }

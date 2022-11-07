@@ -22,7 +22,11 @@ namespace Company.Crm.Entityframework
             services.AddTransient<ICustomerRepository, CustomerRepository>();
             services.AddTransient<IEmployeeRepository, EmployeeRepository>();
             services.AddTransient<IRequestRepository, RequestRepository>();
+
+            services.AddTransient<INotificationRepository, NotificationRepository>();
+
             services.AddTransient<IAddressRepository, AddressRepository>();
+
         }
     }
 }
