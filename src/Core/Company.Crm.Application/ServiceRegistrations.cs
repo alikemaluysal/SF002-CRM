@@ -19,6 +19,7 @@ namespace Company.Crm.Application
 
             services.AddTransient<ICustomerService, CustomerService>();
             services.AddTransient<IEmployeeService, EmployeeService>();
+            services.AddTransient<IAddressService, AddressService>();
         }
     }
 }
