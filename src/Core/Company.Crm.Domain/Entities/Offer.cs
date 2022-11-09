@@ -2,7 +2,7 @@
 
 namespace Company.Crm.Domain.Entities
 {
-    public class Offer : BaseEntity
+    public class Offer : BaseEntity , IEntity
     {
         public int RequestId { get; set; }
         public int EmployeeUserId { get; set; }
