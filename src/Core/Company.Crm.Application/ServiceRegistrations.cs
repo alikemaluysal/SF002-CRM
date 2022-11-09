@@ -22,6 +22,7 @@ namespace Company.Crm.Application
             services.AddTransient<IEmployeeService, EmployeeService>();
             services.AddTransient<INotificationService, NotificationService>();
             services.AddTransient<IAddressService, AddressService>();
+            services.AddTransient<IRegionService, RegionService>();
             services.AddTransient<IOfferService, OfferService>();
             services.AddTransient<ITaskService, TaskService>();
         }
