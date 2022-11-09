@@ -28,6 +28,8 @@ namespace Company.Crm.Entityframework
 
             services.AddTransient<ITaskRepository, TaskRepository>();
 
+
+            services.AddTransient<IRegionRepository, RegionRepository>();
         }
     }
 }
