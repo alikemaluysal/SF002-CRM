@@ -24,6 +24,8 @@ namespace Company.Crm.Application
 
             services.AddTransient<IAddressService, AddressService>();
 
+            services.AddTransient<ITaskService, TaskService>();
+
         }
     }
 }

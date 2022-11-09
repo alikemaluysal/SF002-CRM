@@ -1,5 +1,6 @@
 ﻿using Company.Crm.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using Task = Company.Crm.Domain.Entities.Task;
 
 namespace Company.Crm.Entityframework
 {
@@ -21,6 +22,8 @@ namespace Company.Crm.Entityframework
         public DbSet<Offer> Offers { get; set; }
 
         public DbSet<Address> Addresses { get; set; }
+
+        public DbSet<Task> Tasks { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder builder)

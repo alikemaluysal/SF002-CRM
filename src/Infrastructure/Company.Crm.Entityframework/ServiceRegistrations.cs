@@ -27,6 +27,8 @@ namespace Company.Crm.Entityframework
 
             services.AddTransient<IAddressRepository, AddressRepository>();
 
+            services.AddTransient<ITaskRepository, TaskRepository>();
+
         }
     }
 }
