@@ -8,8 +8,8 @@ namespace Company.Crm.Application.Services;
 
 public class OfferService : IOfferService
 {
-    private readonly IOfferRepository _offerRepository;
     private readonly IMapper _mapper;
+    private readonly IOfferRepository _offerRepository;
 
     public OfferService(IOfferRepository offerService, IMapper mapper)
     {
@@ -35,7 +35,6 @@ public class OfferService : IOfferService
     {
         var entity = _mapper.Map<Offer>(dto);
         return _offerRepository.Insert(entity);
-
     }
 
     public bool Update(OfferDto dto)

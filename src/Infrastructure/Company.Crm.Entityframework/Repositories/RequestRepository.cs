@@ -2,12 +2,11 @@
 using Company.Crm.Domain.Repositories;
 using Company.Framework.Repository;
 
-namespace Company.Crm.Entityframework.Repositories
+namespace Company.Crm.Entityframework.Repositories;
+
+public class RequestRepository : BaseRepository<AppDbContext, Request>, IRequestRepository
 {
-    public class RequestRepository : BaseRepository<AppDbContext, Request>, IRequestRepository
+    public RequestRepository(AppDbContext ctx) : base(ctx)
     {
-        public RequestRepository(AppDbContext ctx) : base(ctx)
-        {
-        }
     }
 }

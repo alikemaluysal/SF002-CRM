@@ -1,6 +1,5 @@
 ﻿using Company.Crm.Application.Dtos;
 using Company.Crm.Application.Services.Abstracts;
-using Company.Crm.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Company.Crm.Web.Api.Controllers;
@@ -9,50 +8,51 @@ namespace Company.Crm.Web.Api.Controllers;
 [ApiController]
 public class OfferController : ControllerBase
 {
-    private readonly IOfferService _service;
+    private readonly IOfferService _offerService;
 
-    public OfferController(IOfferService service)
+    public OfferController(IOfferService offerService)
     {
-        _service = service;
+        _offerService = offerService;
     }
-    
+
     [HttpGet]
     public IActionResult Get()
     {
-        var data = _service.GetAll();
+        var data = _offerService.GetAll();
         return Ok(data);
     }
+
     [HttpGet("{id}")]
     public IActionResult Get(int id)
     {
-        var offer = _service.GetById(id);
+        var offer = _offerService.GetById(id);
         return Ok(offer);
     }
 
     [HttpPost]
     public IActionResult Post([FromBody] OfferDto offers)
     {
-        var isAdded = _service.Insert(offers);
+        var isAdded = _offerService.Insert(offers);
         return Ok(isAdded);
     }
 
     [HttpPut("{id}")]
     public IActionResult Put(int id, [FromBody] OfferDto offers)
     {
-        var isUpdated = _service.Update(offers);
+        var isUpdated = _offerService.Update(offers);
         return Ok(isUpdated);
     }
-    
+
     [HttpDelete("{id}")]
     public IActionResult Delete(int id)
     {
-        var isDeleted = _service.DeleteById(id);
+        var isDeleted = _offerService.DeleteById(id);
         return Ok(isDeleted);
     }
 
-    public IActionResult Delete([FromBody]OfferDto entity)
+    public IActionResult Delete([FromBody] OfferDto entity)
     {
-        var isDeleted = _service.Delete(entity);
+        var isDeleted = _offerService.Delete(entity);
         return Ok(isDeleted);
     }
 }

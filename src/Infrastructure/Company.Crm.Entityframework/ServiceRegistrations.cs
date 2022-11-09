@@ -4,32 +4,27 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Company.Crm.Entityframework
+namespace Company.Crm.Entityframework;
+
+public static class ServiceRegistrations
 {
-    public static class ServiceRegistrations
+    public static void AddEntityFrameworkRegistration(this IServiceCollection services, IConfiguration configuration)
     {
-        public static void AddEntityFrameworkRegistration(this IServiceCollection services, IConfiguration configuration)
-        {
-            var connectionString = configuration.GetConnectionString("Default");
-            services.AddDbContext<AppDbContext>(options =>
-                options.UseSqlServer(connectionString)
-            );
+        var connectionString = configuration.GetConnectionString("Default");
+        services.AddDbContext<AppDbContext>(options =>
+            options.UseSqlServer(connectionString)
+        );
 
-            // Konfigrasyonu DbContext OnConfiguring içerisinde yapılabilir
-            //services.AddDbContext<AppDbContext>();
+        // Konfigrasyonu DbContext OnConfiguring içerisinde yapılabilir
+        //services.AddDbContext<AppDbContext>();
 
-
-            services.AddTransient<ICustomerRepository, CustomerRepository>();
-            services.AddTransient<IEmployeeRepository, EmployeeRepository>();
-            services.AddTransient<IRequestRepository, RequestRepository>();
-            services.AddTransient<INotificationRepository, NotificationRepository>();
-            services.AddTransient<IAddressRepository, AddressRepository>();
-            services.AddTransient<IOfferRepository, IOfferRepository>();
-
-            services.AddTransient<ITaskRepository, TaskRepository>();
-
-
-            services.AddTransient<IRegionRepository, RegionRepository>();
-        }
+        services.AddTransient<ICustomerRepository, CustomerRepository>();
+        services.AddTransient<IEmployeeRepository, EmployeeRepository>();
+        services.AddTransient<IRequestRepository, RequestRepository>();
+        services.AddTransient<INotificationRepository, NotificationRepository>();
+        services.AddTransient<IAddressRepository, AddressRepository>();
+        services.AddTransient<IOfferRepository, IOfferRepository>();
+        services.AddTransient<ITaskRepository, TaskRepository>();
+        services.AddTransient<IRegionRepository, RegionRepository>();
     }
 }

@@ -1,3 +1,5 @@
 ﻿namespace Company.Framework.Entity;
 
-public interface IEntity { }
+public interface IEntity
+{
+}

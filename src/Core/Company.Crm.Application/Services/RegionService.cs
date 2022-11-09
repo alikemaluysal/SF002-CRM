@@ -1,51 +1,45 @@
 ﻿using Company.Crm.Application.Services.Abstracts;
 using Company.Crm.Domain.Entities;
 using Company.Crm.Domain.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Company.Crm.Application.Services
+namespace Company.Crm.Application.Services;
+
+public class RegionService : IRegionService
 {
-    public class RegionService : IRegionService
+    private readonly IRegionRepository _regionRepository;
+
+    public RegionService(IRegionRepository regionRepository)
     {
-        private readonly IRegionRepository _regionRepository;
+        _regionRepository = regionRepository;
+    }
 
-        public RegionService(IRegionRepository regionRepository)
-        {
-            _regionRepository = regionRepository;
-        }
+    public List<Region> GetAll()
+    {
+        return _regionRepository.GetAll();
+    }
 
-        public List<Region> GetAll()
-        {
-            return _regionRepository.GetAll();
-        }
+    public Region? GetById(int id)
+    {
+        return _regionRepository.GetById(id);
+    }
 
-        public Region? GetById(int id)
-        {
-            return _regionRepository.GetById(id);
-        }
+    public bool Insert(Region entity)
+    {
+        return _regionRepository.Insert(entity);
+    }
 
-        public bool Insert(Region entity)
-        {
-            return _regionRepository.Insert(entity);
-        }
+    public bool Update(Region entity)
+    {
+        return _regionRepository.Update(entity);
+    }
 
-        public bool Update(Region entity)
-        {
-            return _regionRepository.Update(entity);
-        }
+    public bool Delete(Region entity)
+    {
+        return _regionRepository.Delete(entity);
+    }
 
-        public bool Delete(Region entity)
-        {
-            return _regionRepository.Delete(entity);
-        }
-
-        public bool DeleteById(int id)
-        {
-            return _regionRepository.DeleteById(id);
-        }
+    public bool DeleteById(int id)
+    {
+        return _regionRepository.DeleteById(id);
     }
 }

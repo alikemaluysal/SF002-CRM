@@ -1,5 +1,4 @@
 using Company.Crm.Application.Dtos;
-using Company.Crm.Domain.Entities;
 
 namespace Company.Crm.Application.Services.Abstracts;
 

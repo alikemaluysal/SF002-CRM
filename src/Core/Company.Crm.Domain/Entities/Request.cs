@@ -1,12 +1,11 @@
 ﻿using Company.Framework.Entity;
 
-namespace Company.Crm.Domain.Entities
+namespace Company.Crm.Domain.Entities;
+
+public class Request : BaseEntity
 {
-    public class Request : BaseEntity
-    {
-        public int CustomerUserId { get; set; }
-        public int EmployeeUserId { get; set; }
-        public int RequestStatusId { get; set; }
-        public string Description { get; set; }
-    }
+    public int CustomerUserId { get; set; }
+    public int EmployeeUserId { get; set; }
+    public int RequestStatusId { get; set; }
+    public string Description { get; set; }
 }

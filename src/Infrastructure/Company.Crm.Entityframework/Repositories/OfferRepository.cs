@@ -4,12 +4,12 @@ using Company.Framework.Repository;
 
 namespace Company.Crm.Entityframework.Repositories;
 
-public class OfferRepository : BaseRepository<AppDbContext, Offer> , IOfferRepository
+public class OfferRepository : BaseRepository<AppDbContext, Offer>, IOfferRepository
 {
     private readonly AppDbContext _ctx;
+
     public OfferRepository(AppDbContext ctx) : base(ctx)
     {
         _ctx = ctx;
     }
-    
 }
