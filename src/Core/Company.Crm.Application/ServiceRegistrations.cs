@@ -3,6 +3,7 @@ using Company.Crm.Application.Services.Abstracts;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
+using Company.Crm.Domain.Repositories;
 
 namespace Company.Crm.Application
 {
@@ -19,13 +20,10 @@ namespace Company.Crm.Application
 
             services.AddTransient<ICustomerService, CustomerService>();
             services.AddTransient<IEmployeeService, EmployeeService>();
-
             services.AddTransient<INotificationService, NotificationService>();
-
             services.AddTransient<IAddressService, AddressService>();
-
+            services.AddTransient<IOfferService, OfferService>();
             services.AddTransient<ITaskService, TaskService>();
-
         }
     }
 }
