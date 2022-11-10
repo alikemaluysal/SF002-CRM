@@ -24,5 +24,6 @@ public static class ServiceRegistrations
         services.AddTransient<IRegionService, RegionService>();
         services.AddTransient<IOfferService, OfferService>();
         services.AddTransient<ITaskService, TaskService>();
+        services.AddTransient<IDepartmentService, DepartmentService>();
     }
 }
