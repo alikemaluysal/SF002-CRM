@@ -26,6 +26,7 @@ public static class ServiceRegistrations
         services.AddTransient<IOfferRepository, IOfferRepository>();
         services.AddTransient<ITaskRepository, TaskRepository>();
         services.AddTransient<IRegionRepository, RegionRepository>();
+        services.AddTransient<IOfferStatusRepository, OfferStatusRepository>();
         services.AddTransient<IDepartmentRepository, DepartmentRepository>();
     }
 }

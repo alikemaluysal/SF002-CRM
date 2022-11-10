@@ -24,6 +24,8 @@ public class AppDbContext : DbContext
     public DbSet<Task> Tasks { get; set; }
     public DbSet<Department> Departments { get; set; }
 
+    public DbSet<OfferStatus> OfferStatuses { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder builder)
     {
         // Program.cs içerisinde DbContext tanımı aşağıdaki gibi olursa;
