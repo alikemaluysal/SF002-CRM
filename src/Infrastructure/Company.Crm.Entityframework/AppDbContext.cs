@@ -22,8 +22,8 @@ public class AppDbContext : DbContext
     public DbSet<Address> Addresses { get; set; }
     public DbSet<Region> Regions { get; set; }
     public DbSet<Task> Tasks { get; set; }
+    public DbSet<StatusType> StatusTypes { get; set; }
     public DbSet<Department> Departments { get; set; }
-
     public DbSet<OfferStatus> OfferStatuses { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder builder)
