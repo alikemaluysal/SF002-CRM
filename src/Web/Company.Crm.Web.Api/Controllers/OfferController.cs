@@ -50,6 +50,7 @@ public class OfferController : ControllerBase
         return Ok(isDeleted);
     }
 
+    [HttpPost("deleteByEntity")]
     public IActionResult Delete([FromBody] OfferDto entity)
     {
         var isDeleted = _offerService.Delete(entity);

@@ -50,7 +50,7 @@ public class NotificationController : ControllerBase
         return Ok(data);
     }
 
-    [HttpDelete]
+    [HttpPost("deleteByEntity")]
     public IActionResult Delete([FromBody] Notification entity)
     {
         var data = _notificationService.Delete(entity);

@@ -1,6 +1,5 @@
 ﻿using Company.Crm.Application.Services.Abstracts;
 using Company.Crm.Domain.Entities;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Company.Crm.Web.Api.Controllers
@@ -25,7 +24,7 @@ namespace Company.Crm.Web.Api.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var data=_service.GetById(id);
+            var data = _service.GetById(id);
             return Ok(data);
         }
 
@@ -33,21 +32,24 @@ namespace Company.Crm.Web.Api.Controllers
         public IActionResult Post([FromBody] Department department)
         {
             var data = _service.Insert(department);
-            return  Ok(data);
+            return Ok(data);
         }
+
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] Department department)
         {
             var data = _service.Update(department);
             return Ok(data);
         }
+
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
             var data = _service.DeleteById(id);
             return Ok(data);
         }
-        [HttpDelete]
+
+        [HttpPost("deleteByEntity")]
         public IActionResult Delete([FromBody] Department department)
         {
             var data = _service.Delete(department);

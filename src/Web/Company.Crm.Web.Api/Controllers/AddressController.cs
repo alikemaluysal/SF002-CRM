@@ -18,7 +18,9 @@ public class AddressController : ControllerBase
     [HttpGet]
     public IActionResult Get()
     {
+        //[FromServices] IAddressService addressService
         var address = _addressService.GetAll();
+        //var address2 = addressService.GetAll();
         return Ok(address);
     }
 
@@ -50,6 +52,7 @@ public class AddressController : ControllerBase
         return Ok(isDeleted);
     }
 
+    [HttpPost("deleteByEntity")]
     public IActionResult Delete([FromBody] Address entity)
     {
         var isDeleted = _addressService.Delete(entity);

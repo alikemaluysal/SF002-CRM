@@ -1,8 +1,5 @@
-﻿using Company.Crm.Application.Dtos;
-using Company.Crm.Application.Services;
-using Company.Crm.Application.Services.Abstracts;
+﻿using Company.Crm.Application.Services.Abstracts;
 using Company.Crm.Domain.Entities;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Company.Crm.Web.Api.Controllers
@@ -53,7 +50,7 @@ namespace Company.Crm.Web.Api.Controllers
             return Ok(data);
         }
 
-        [HttpDelete]
+        [HttpPost("deleteByEntity")]
         public IActionResult Delete([FromBody] StatusType statusType)
         {
             var data = _statusTypeService.Delete(statusType);

@@ -1,6 +1,5 @@
 ﻿using Company.Crm.Application.Services.Abstracts;
 using Company.Crm.Domain.Entities;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Company.Crm.Web.Api.Controllers
@@ -51,6 +50,7 @@ namespace Company.Crm.Web.Api.Controllers
             return Ok(isDeleted);
         }
 
+        [HttpPost("deleteByEntity")]
         public IActionResult DeleteById([FromBody] OfferStatus offerStatus)
         {
             var isDeleted = _offerStatusService.Delete(offerStatus);

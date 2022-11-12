@@ -3,7 +3,7 @@ using Company.Crm.Application.Services.Abstracts;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Company.Crm.Web.Api.Controllers
-{// gıthubdenemesı ıcın degıstırıldı deneme2
+{
     public class RequestController : ControllerBase
     {
         private readonly IRequestService _requestService;
@@ -48,6 +48,7 @@ namespace Company.Crm.Web.Api.Controllers
             return Ok(isDeleted);
         }
 
+        [HttpPost("deleteByEntity")]
         public IActionResult Delete([FromBody] RequestDto entity)
         {
             var isDeleted = _requestService.Delete(entity);

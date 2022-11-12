@@ -50,6 +50,7 @@ public class TaskController : ControllerBase
         return Ok(isDeleted);
     }
 
+    [HttpPost("deleteByEntity")]
     public IActionResult Delete([FromBody] Task entity)
     {
         var isDeleted = _taskService.Delete(entity);
