@@ -3,7 +3,7 @@ using Company.Crm.Application.Services.Abstracts;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Company.Crm.Web.Api.Controllers
-{// gıthubdenemesı ıcın degıstırıldı
+{// gıthubdenemesı ıcın degıstırıldı deneme2
     public class RequestController : ControllerBase
     {
         private readonly IRequestService _requestService;
