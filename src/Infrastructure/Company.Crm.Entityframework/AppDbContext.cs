@@ -26,6 +26,7 @@ public class AppDbContext : DbContext
     public DbSet<Department> Departments { get; set; }
     public DbSet<OfferStatus> OfferStatuses { get; set; }
     public DbSet<Request> Requests { get; set; }
+    public DbSet<Document> Documents { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder builder)
     {
@@ -34,13 +35,37 @@ public class AppDbContext : DbContext
         // Buradaki konfigrasyon çalışacaktır.
         if (!builder.IsConfigured)
         {
-            var connectionString = "Server=(localdb)\\MsSqlLocalDb; Database=SF2_CRM; Trusted_Connection=True;";
+            var connectionString = "Server=(localdb)\\MsSqlLocalDb; Database=SF2_CRM_Dev; Trusted_Connection=True;";
             builder.UseSqlServer(connectionString);
         }
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        // Fluent API ile entity configuration
+        //var customer = modelBuilder.Entity<Customer>();
+        //customer.Property(c => c.UserId).IsRequired();
+        //customer.Property(c => c.BirthDate).IsRequired();
+        //customer.Property(c => c.CompanyName)
+        //    .IsRequired()
+        //    .HasMaxLength(500);
+
+        // Tek tek configuration tanımlama
+        //modelBuilder.ApplyConfiguration(new CustomerConfiguration());
+
+        // Bir assembly içerisindeki tüm configuration sınıflarını otomatik tanımlama
+        //modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
+
+        // Singular Table Names
+        foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+        {
+            modelBuilder.Entity(entityType.ClrType).ToTable(entityType.ClrType.Name);
+        }
+
+        // Seeders (HasData)
+        //CustomerSeeder.Seed(modelBuilder);
+
         base.OnModelCreating(modelBuilder);
     }
 }

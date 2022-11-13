@@ -1,5 +1,6 @@
 ﻿using Company.Crm.Domain.Repositories;
 using Company.Crm.Entityframework.Repositories;
+using Company.Crm.Entityframework.Seeders;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,16 +19,18 @@ public static class ServiceRegistrations
         // Konfigrasyonu DbContext OnConfiguring içerisinde yapılabilir
         //services.AddDbContext<AppDbContext>();
 
-        services.AddTransient<ICustomerRepository, CustomerRepository>();
-        services.AddTransient<IEmployeeRepository, EmployeeRepository>();
-        services.AddTransient<IRequestRepository, RequestRepository>();
-        services.AddTransient<INotificationRepository, NotificationRepository>();
-        services.AddTransient<IAddressRepository, AddressRepository>();
-        services.AddTransient<IOfferRepository, IOfferRepository>();
-        services.AddTransient<ITaskRepository, TaskRepository>();
-        services.AddTransient<IRegionRepository, RegionRepository>();
-        services.AddTransient<IStatusTypeRepository, StatusTypeRepository>();
-        services.AddTransient<IOfferStatusRepository, OfferStatusRepository>();
-        services.AddTransient<IDepartmentRepository, DepartmentRepository>();
+        services.AddScoped<ICustomerRepository, CustomerRepository>();
+        services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+        services.AddScoped<IRequestRepository, RequestRepository>();
+        services.AddScoped<INotificationRepository, NotificationRepository>();
+        services.AddScoped<IAddressRepository, AddressRepository>();
+        services.AddScoped<IOfferRepository, OfferRepository>();
+        services.AddScoped<ITaskRepository, TaskRepository>();
+        services.AddScoped<IRegionRepository, RegionRepository>();
+        services.AddScoped<IStatusTypeRepository, StatusTypeRepository>();
+        services.AddScoped<IOfferStatusRepository, OfferStatusRepository>();
+        services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+
+        DbSeeder.Seed(services.BuildServiceProvider()).GetAwaiter().GetResult();
     }
 }
