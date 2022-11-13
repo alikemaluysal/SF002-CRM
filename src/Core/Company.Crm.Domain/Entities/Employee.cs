@@ -2,7 +2,7 @@
 
 namespace Company.Crm.Domain.Entities;
 
-public class Employee : BaseEntity, IEntity
+public class Employee : BaseEntity
 {
     public int UserId { get; set; }
     public string? IdentityNumber { get; set; }

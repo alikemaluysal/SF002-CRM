@@ -2,7 +2,7 @@
 
 namespace Company.Crm.Domain.Entities;
 
-public class Notification : BaseEntity, IEntity
+public class Notification : BaseEntity
 {
     public int UserId { get; set; }
     public string Title { get; set; }

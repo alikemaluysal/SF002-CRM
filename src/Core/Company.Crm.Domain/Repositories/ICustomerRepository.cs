@@ -5,5 +5,5 @@ namespace Company.Crm.Domain.Repositories;
 
 public interface ICustomerRepository : IRepository<Customer>
 {
-    public List<Customer> GetAllByRegionId(int regionId);
+    public IEnumerable<Customer> GetAllByRegionId(int regionId);
 }

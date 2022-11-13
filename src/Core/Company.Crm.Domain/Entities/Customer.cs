@@ -2,7 +2,8 @@
 
 namespace Company.Crm.Domain.Entities;
 
-public class Customer : BaseEntity, IEntity
+//[Table("Customer")]
+public class Customer : BaseEntity
 {
     public int UserId { get; set; }
     public string? IdentityNumber { get; set; }
