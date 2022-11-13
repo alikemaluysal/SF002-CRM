@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Company.Crm.Application.Services.Abstracts;
+﻿using Company.Crm.Application.Services.Abstracts;
 using Company.Crm.Domain.Entities;
 using Company.Crm.Domain.Repositories;
 
 namespace Company.Crm.Application.Services
 {
-    public class DepartmentService:IDepartmentService
+    public class DepartmentService : IDepartmentService
     {
         private readonly IDepartmentRepository _departmentRepository;
 
@@ -18,11 +13,11 @@ namespace Company.Crm.Application.Services
             _departmentRepository = departmentRepository;
         }
 
-        
+
 
         public List<Department> GetAll()
         {
-            return _departmentRepository.GetAll();
+            return _departmentRepository.GetAll().ToList();
         }
 
         public Department? GetById(int id)
@@ -42,7 +37,7 @@ namespace Company.Crm.Application.Services
 
         public bool Delete(Department entity)
         {
-           return _departmentRepository.Delete(entity);
+            return _departmentRepository.Delete(entity);
         }
 
         public bool DeleteById(int id)

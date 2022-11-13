@@ -15,7 +15,7 @@ public class TaskService : ITaskService
 
     public List<Task> GetAll()
     {
-        return _taskRepository.GetAll();
+        return _taskRepository.GetAll().ToList();
     }
 
     public Task? GetById(int id)

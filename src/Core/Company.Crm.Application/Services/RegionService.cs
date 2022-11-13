@@ -15,7 +15,7 @@ public class RegionService : IRegionService
 
     public List<Region> GetAll()
     {
-        return _regionRepository.GetAll();
+        return _regionRepository.GetAll().ToList();
     }
 
     public Region? GetById(int id)

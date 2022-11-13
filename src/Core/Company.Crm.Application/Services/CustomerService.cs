@@ -44,6 +44,16 @@ public class CustomerService : ICustomerService
         return dtoList;
     }
 
+    public List<CustomerDto> GetPaged(int page = 1)
+    {
+        var entityList = _customerRepository.GetAll();
+        var pagedList = entityList.Skip((page - 1) * 10).Take(10).ToList();
+
+        var dtoList = _mapper.Map<List<CustomerDto>>(pagedList);
+
+        return dtoList;
+    }
+
     public CustomerDto? GetById(int id)
     {
         var entity = _customerRepository.GetById(id);
@@ -80,7 +90,7 @@ public class CustomerService : ICustomerService
     public List<CustomerDto> GetAllByRegionId(int regionId)
     {
         var entityList = _customerRepository.GetAllByRegionId(regionId);
-        var dtoList = _mapper.Map<List<CustomerDto>>(entityList);
+        var dtoList = _mapper.Map<List<CustomerDto>>(entityList.ToList());
         return dtoList;
     }
 }

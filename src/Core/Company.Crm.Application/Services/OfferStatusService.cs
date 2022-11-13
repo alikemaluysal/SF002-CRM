@@ -1,11 +1,6 @@
 ﻿using Company.Crm.Application.Services.Abstracts;
 using Company.Crm.Domain.Entities;
 using Company.Crm.Domain.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Company.Crm.Application.Services
 {
@@ -30,7 +25,7 @@ namespace Company.Crm.Application.Services
 
         public List<OfferStatus> GetAll()
         {
-            return _offerStatusRepository.GetAll();
+            return _offerStatusRepository.GetAll().ToList();
         }
 
         public OfferStatus? GetById(int id)

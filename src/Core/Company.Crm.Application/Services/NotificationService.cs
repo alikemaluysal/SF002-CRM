@@ -15,7 +15,7 @@ public class NotificationService : INotificationService
 
     public List<Notification> GetAll()
     {
-        return _notificationRepository.GetAll();
+        return _notificationRepository.GetAll().ToList();
     }
 
     public Notification? GetById(int id)

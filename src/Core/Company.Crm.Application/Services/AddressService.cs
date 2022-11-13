@@ -15,7 +15,7 @@ public class AddressService : IAddressService
 
     public List<Address> GetAll()
     {
-        return _addressRepository.GetAll();
+        return _addressRepository.GetAll().ToList();
     }
 
     public Address? GetById(int id)
