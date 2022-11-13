@@ -13,8 +13,10 @@ public class CustomerRepository : BaseRepository<AppDbContext, Customer>, ICusto
         _ctx = ctx;
     }
 
-    public List<Customer> GetAllByRegionId(int regionId)
+    public IEnumerable<Customer> GetAllByRegionId(int regionId)
     {
-        return _ctx.Customers.Where(e => e.RegionId == regionId).ToList();
+        var query = _ctx.Customers.Where(e => e.RegionId == regionId);
+
+        return query;
     }
 }
