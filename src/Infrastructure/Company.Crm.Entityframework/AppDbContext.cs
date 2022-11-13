@@ -20,6 +20,7 @@ public class AppDbContext : DbContext
     public DbSet<Notification> Notifications { get; set; }
     public DbSet<Offer> Offers { get; set; }
     public DbSet<Address> Addresses { get; set; }
+    public DbSet<Email> Emails { get; set; }
     public DbSet<Region> Regions { get; set; }
     public DbSet<Task> Tasks { get; set; }
     public DbSet<StatusType> StatusTypes { get; set; }

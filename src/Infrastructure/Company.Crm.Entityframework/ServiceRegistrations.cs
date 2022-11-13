@@ -24,6 +24,7 @@ public static class ServiceRegistrations
         services.AddScoped<IRequestRepository, RequestRepository>();
         services.AddScoped<INotificationRepository, NotificationRepository>();
         services.AddScoped<IAddressRepository, AddressRepository>();
+        services.AddScoped<IEmailRepository, EmailRepository>();
         services.AddScoped<IOfferRepository, OfferRepository>();
         services.AddScoped<ITaskRepository, TaskRepository>();
         services.AddScoped<IRegionRepository, RegionRepository>();
