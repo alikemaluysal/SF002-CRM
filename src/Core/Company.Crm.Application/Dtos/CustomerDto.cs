@@ -9,5 +9,6 @@ public class CustomerDto : BaseDto
     public string? GenderName { get; set; }
     public int? TitleId { get; set; }
     public string? TitleName { get; set; }
-    public string? CompanyName { get; set; }
+    public string CompanyName { get; set; }
+    public DateTime BirthDate { get; set; }
 }
