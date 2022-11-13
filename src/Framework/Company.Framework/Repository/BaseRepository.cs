@@ -16,9 +16,9 @@ public abstract class BaseRepository<TContext, TEntity> : IRepository<TEntity>
         _table = _ctx.Set<TEntity>();
     }
 
-    public List<TEntity> GetAll()
+    public IEnumerable<TEntity> GetAll()
     {
-        return _table.ToList();
+        return _table;
     }
 
     public TEntity? GetById(int id)
