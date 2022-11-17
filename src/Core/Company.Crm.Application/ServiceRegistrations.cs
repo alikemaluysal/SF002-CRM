@@ -30,5 +30,6 @@ public static class ServiceRegistrations
         services.AddTransient<IDepartmentService, DepartmentService>();
         services.AddTransient<IRequestService, RequestService>();
         services.AddTransient<IEmailService, EmailService>();
+        services.AddTransient<ITitleService, TitleService>();
     }
 }
