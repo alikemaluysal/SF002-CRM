@@ -28,6 +28,7 @@ public class AppDbContext : DbContext
     public DbSet<OfferStatus> OfferStatuses { get; set; }
     public DbSet<Request> Requests { get; set; }
     public DbSet<Document> Documents { get; set; }
+    public DbSet<Phone> Phones { get; set; }
     public DbSet<Title> Titles { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder builder)
