@@ -1,12 +1,11 @@
 ﻿using Company.Crm.Domain.Enums;
 using Company.Framework.Entity;
 
-namespace Company.Crm.Domain.Entities
+namespace Company.Crm.Domain.Entities;
+
+public class Email : BaseEntity
 {
-    public class Email : BaseEntity, IEntity
-    {
-        public int? UserId { get; set; }
-        public string? EmailAddress { get; set; }
-        public EmailTypeEnum EmailType { get; set; }
-    }
+    public int? UserId { get; set; }
+    public string? EmailAddress { get; set; }
+    public EmailTypeEnum EmailType { get; set; }
 }

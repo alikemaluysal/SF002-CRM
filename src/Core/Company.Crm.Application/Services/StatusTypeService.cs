@@ -2,45 +2,44 @@
 using Company.Crm.Domain.Entities;
 using Company.Crm.Domain.Repositories;
 
-namespace Company.Crm.Application.Services
+namespace Company.Crm.Application.Services;
+
+public class StatusTypeService : IStatusTypeService
 {
-    public class StatusTypeService : IStatusTypeService
+    private readonly IStatusTypeRepository _statusTypeRepository;
+
+    public StatusTypeService(IStatusTypeRepository statusTypeRepository)
     {
-        private readonly IStatusTypeRepository _statusTypeRepository;
+        _statusTypeRepository = statusTypeRepository;
+    }
 
-        public StatusTypeService(IStatusTypeRepository statusTypeRepository)
-        {
-            _statusTypeRepository = statusTypeRepository;
-        }
+    public bool Delete(StatusType entity)
+    {
+        return _statusTypeRepository.Delete(entity);
+    }
 
-        public bool Delete(StatusType entity)
-        {
-            return _statusTypeRepository.Delete(entity);
-        }
+    public bool DeleteById(int id)
+    {
+        return _statusTypeRepository.DeleteById(id);
+    }
 
-        public bool DeleteById(int id)
-        {
-            return _statusTypeRepository.DeleteById(id);
-        }
+    public List<StatusType> GetAll()
+    {
+        return _statusTypeRepository.GetAll().ToList();
+    }
 
-        public List<StatusType> GetAll()
-        {
-            return _statusTypeRepository.GetAll().ToList();
-        }
+    public StatusType? GetById(int id)
+    {
+        return _statusTypeRepository.GetById(id);
+    }
 
-        public StatusType? GetById(int id)
-        {
-            return _statusTypeRepository.GetById(id);
-        }
+    public bool Insert(StatusType entity)
+    {
+        return _statusTypeRepository.Insert(entity);
+    }
 
-        public bool Insert(StatusType entity)
-        {
-            return _statusTypeRepository.Insert(entity);
-        }
-
-        public bool Update(StatusType entity)
-        {
-            return _statusTypeRepository.Update(entity);
-        }
+    public bool Update(StatusType entity)
+    {
+        return _statusTypeRepository.Update(entity);
     }
 }
