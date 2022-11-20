@@ -3,6 +3,7 @@ using Company.Crm.Application.Dtos;
 using Company.Crm.Application.Services.Abstracts;
 using Company.Crm.Domain.Entities;
 using Company.Crm.Domain.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace Company.Crm.Application.Services;
 
@@ -46,7 +47,10 @@ public class CustomerService : ICustomerService
 
     public List<CustomerDto> GetPaged(int page = 1)
     {
-        var entityList = _customerRepository.GetAll();
+        var entityList = _customerRepository.GetAll()
+            .Include(e => e.StatusTypeFk)
+            .OrderByDescending(c => c.Id);
+
         var pagedList = entityList.Skip((page - 1) * 10).Take(10).ToList();
 
         var dtoList = _mapper.Map<List<CustomerDto>>(pagedList);
@@ -58,6 +62,13 @@ public class CustomerService : ICustomerService
     {
         var entity = _customerRepository.GetById(id);
         var dto = _mapper.Map<CustomerDto>(entity);
+        return dto;
+    }
+
+    public CreateOrUpdateCustomerDto? GetForEditById(int id)
+    {
+        var entity = _customerRepository.GetById(id);
+        var dto = _mapper.Map<CreateOrUpdateCustomerDto>(entity);
         return dto;
     }
 

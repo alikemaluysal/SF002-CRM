@@ -16,7 +16,7 @@ public abstract class BaseRepository<TContext, TEntity> : IRepository<TEntity>
         _table = _ctx.Set<TEntity>();
     }
 
-    public IEnumerable<TEntity> GetAll()
+    public IQueryable<TEntity> GetAll()
     {
         return _table;
     }

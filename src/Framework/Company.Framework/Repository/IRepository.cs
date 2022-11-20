@@ -3,7 +3,7 @@
 public interface IRepository<TEntity>
     where TEntity : class
 {
-    public IEnumerable<TEntity> GetAll();
+    public IQueryable<TEntity> GetAll();
     public TEntity? GetById(int id);
     public bool Insert(TEntity entity);
     public bool Update(TEntity entity);

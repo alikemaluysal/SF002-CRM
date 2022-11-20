@@ -6,6 +6,7 @@ public interface ICustomerService
 {
     List<CustomerDto> GetAll();
     CustomerDto? GetById(int id);
+    CreateOrUpdateCustomerDto? GetForEditById(int id);
     bool Insert(CreateOrUpdateCustomerDto dto);
     bool Update(CreateOrUpdateCustomerDto dto);
     bool Delete(CustomerDto dto);

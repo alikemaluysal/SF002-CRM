@@ -45,13 +45,14 @@ public class AppDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        // Fluent API ile entity configuration
+        #region Fluent API ile entity configuration
         //var customer = modelBuilder.Entity<Customer>();
         //customer.Property(c => c.UserId).IsRequired();
         //customer.Property(c => c.BirthDate).IsRequired();
         //customer.Property(c => c.CompanyName)
         //    .IsRequired()
         //    .HasMaxLength(500);
+        #endregion
 
         // Tek tek configuration tanımlama
         //modelBuilder.ApplyConfiguration(new CustomerConfiguration());

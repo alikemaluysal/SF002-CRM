@@ -1,6 +1,7 @@
 ﻿using Company.Crm.Application.Services.Abstracts;
 using Company.Crm.Domain.Entities;
 using Company.Crm.Domain.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace Company.Crm.Application.Services;
 
@@ -13,19 +14,12 @@ public class StatusTypeService : IStatusTypeService
         _statusTypeRepository = statusTypeRepository;
     }
 
-    public bool Delete(StatusType entity)
-    {
-        return _statusTypeRepository.Delete(entity);
-    }
-
-    public bool DeleteById(int id)
-    {
-        return _statusTypeRepository.DeleteById(id);
-    }
-
     public List<StatusType> GetAll()
     {
-        return _statusTypeRepository.GetAll().ToList();
+        var statusTypes = _statusTypeRepository.GetAll()
+            .Include(e => e.Customers);
+
+        return statusTypes.ToList();
     }
 
     public StatusType? GetById(int id)
@@ -41,5 +35,15 @@ public class StatusTypeService : IStatusTypeService
     public bool Update(StatusType entity)
     {
         return _statusTypeRepository.Update(entity);
+    }
+
+    public bool Delete(StatusType entity)
+    {
+        return _statusTypeRepository.Delete(entity);
+    }
+
+    public bool DeleteById(int id)
+    {
+        return _statusTypeRepository.DeleteById(id);
     }
 }
