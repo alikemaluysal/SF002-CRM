@@ -33,6 +33,7 @@ public static class ServiceRegistrations
         services.AddScoped<IDepartmentRepository, DepartmentRepository>();
         services.AddScoped<IPhoneRepository, PhoneRepository>();
         services.AddTransient<ITitleRepository, TitleRepository>();
+        services.AddScoped<IDocumentRepository, DocumentRepository>();
 
         DbSeeder.Seed(services.BuildServiceProvider()).GetAwaiter().GetResult();
     }
