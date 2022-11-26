@@ -16,6 +16,21 @@ $(document).ready(function () {
         });
 
     // modal-action içerisindeki form elemanını submit yaptığımızda
+    /*
+     * Ajax ile yüklenen içeriklerde bind yapısı aşağıdaki gibi yapmak yerine document üzerinden yapılır.
+     **/
+    /*
+    $('.modal.action form')
+        .on('submit', function () {
+            alert(1);
+        });
+
+    document.querySelector(".modal-action form")
+        .addEventListener("submit", function () {
+            alert(2);
+        });
+        */
+
     $(document).on("submit", '.modal-action form', function (event) {
         // form'un otomatik gönderilmesini engelle
         event.preventDefault();
@@ -42,5 +57,4 @@ $(document).ready(function () {
                 toastr.error("An error occured", "Fail");
             });
     });
-
 });

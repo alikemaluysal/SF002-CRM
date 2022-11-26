@@ -11,5 +11,6 @@ public interface IUserService
     bool Update(User entity);
     bool Delete(User id);
     bool DeleteById(int id);
-    bool Login(LoginDto dto);
+    User Login(LoginDto dto);
+    User Register(RegisterDto dto);
 }

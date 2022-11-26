@@ -44,12 +44,30 @@ public class UserService : IUserService
         return _userRepository.DeleteById(id);
     }
 
-    public bool Login(LoginDto dto)
+    public User Login(LoginDto dto)
     {
         var user = _userRepository.GetAll()
             .Where(c => (c.Username == dto.EmailAddressOrUsername || c.Email == dto.EmailAddressOrUsername) && c.Password == dto.Password)
             .FirstOrDefault();
 
-        return user != null;
+        return user;
+    }
+
+    public User Register(RegisterDto dto)
+    {
+        var user = new User
+        {
+            Name = dto.Name,
+            Surname = dto.Surname,
+            Username = dto.Name.ToLower() + dto.Surname.ToLower(),
+            Email = dto.EmailAddress,
+            Password = dto.Password
+        };
+
+        var isCreated = _userRepository.Insert(user);
+        if (isCreated)
+            return user;
+
+        return null;
     }
 }
