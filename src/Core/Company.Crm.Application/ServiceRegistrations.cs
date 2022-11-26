@@ -1,5 +1,4 @@
-﻿using System.Reflection;
-using Company.Crm.Application.Services;
+﻿using Company.Crm.Application.Services;
 using Company.Crm.Application.Services.Abstracts;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,7 +24,7 @@ public static class ServiceRegistrations
         services.AddTransient<IRegionService, RegionService>();
         services.AddTransient<IOfferService, OfferService>();
         services.AddTransient<ITaskService, TaskService>();
-        services.AddTransient<IStatusTypeService, StatusTypeService>(); 
+        services.AddTransient<IStatusTypeService, StatusTypeService>();
         services.AddTransient<IOfferStatusService, OfferStatusService>();
         services.AddTransient<IDepartmentService, DepartmentService>();
         services.AddTransient<IRequestService, RequestService>();
@@ -33,5 +32,6 @@ public static class ServiceRegistrations
         services.AddTransient<IPhoneService, PhoneService>();
         services.AddTransient<ITitleService, TitleService>();
         services.AddTransient<IDocumentService, DocumentService>();
+        services.AddTransient<IUserService, UserService>();
     }
 }
