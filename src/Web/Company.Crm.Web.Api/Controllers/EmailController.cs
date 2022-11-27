@@ -8,9 +8,9 @@ namespace Company.Crm.Web.Api.Controllers;
 [ApiController]
 public class EmailController : ControllerBase
 {
-    private readonly IEmailService _service;
+    private readonly IPersonEmailService _service;
 
-    public EmailController(IEmailService service)
+    public EmailController(IPersonEmailService service)
     {
         _service = service;
     }

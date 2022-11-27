@@ -13,4 +13,5 @@ public interface IUserService
     bool DeleteById(int id);
     User Login(LoginDto dto);
     User Register(RegisterDto dto);
+    bool ActivateUserByEmail(string email, string activationKey);
 }

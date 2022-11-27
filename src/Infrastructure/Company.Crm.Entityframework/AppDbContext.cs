@@ -31,6 +31,7 @@ public class AppDbContext : DbContext
     public DbSet<Phone> Phones { get; set; }
     public DbSet<Title> Titles { get; set; }
     public DbSet<User> Users { get; set; }
+    public DbSet<Role> Roles { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder builder)
     {
@@ -65,11 +66,16 @@ public class AppDbContext : DbContext
         // Singular Table Names
         foreach (var entityType in modelBuilder.Model.GetEntityTypes())
         {
-            modelBuilder.Entity(entityType.ClrType).ToTable(entityType.ClrType.Name);
+            if (entityType != null)
+            {
+                //modelBuilder.Entity(entityType.ClrType).ToTable(entityType.ClrType.Name);
+            }
         }
 
         // Seeders (HasData)
         //CustomerSeeder.Seed(modelBuilder);
+
+        modelBuilder.Entity<User>().Property(c => c.Password).HasMaxLength(200);
 
         base.OnModelCreating(modelBuilder);
     }

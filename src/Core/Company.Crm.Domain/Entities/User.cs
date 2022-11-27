@@ -10,5 +10,7 @@ namespace Company.Crm.Domain.Entities
         public string Name { get; set; }
         public string Surname { get; set; }
         public int? UserStatusId { get; set; }
+
+        public ICollection<Role> Roles { get; set; }
     }
 }

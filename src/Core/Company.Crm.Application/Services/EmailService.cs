@@ -4,11 +4,11 @@ using Company.Crm.Domain.Repositories;
 
 namespace Company.Crm.Application.Services;
 
-public class EmailService : IEmailService
+public class PersonEmailService : IPersonEmailService
 {
     private readonly IEmailRepository _emailRepository;
 
-    public EmailService(IEmailRepository emailRepository)
+    public PersonEmailService(IEmailRepository emailRepository)
     {
         _emailRepository = emailRepository;
     }

@@ -4,7 +4,7 @@ namespace Company.Crm.Web.Mvc;
 
 public static class ServiceRegistrations
 {
-    public static void AddMvcRegistrations(this IServiceCollection services)
+    public static void AddMvcRegistration(this IServiceCollection services)
     {
         services
             .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

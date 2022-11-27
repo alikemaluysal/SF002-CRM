@@ -2,6 +2,7 @@
 using Company.Crm.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using ProtoNet.Framework.Authentication;
 using Task = System.Threading.Tasks.Task;
 
 namespace Company.Crm.Entityframework.Seeders;
@@ -14,6 +15,8 @@ public class DbSeeder
         var context = new AppDbContext(options);
 
         SeedCustomers(context);
+        SeedRoles(context);
+        SeedUsers(context);
 
         await context.SaveChangesAsync();
     }
@@ -43,6 +46,35 @@ public class DbSeeder
             //    new() { UserId = 1, RegionId = 1, IdentityNumber = "1234", GenderId = 1, StatusTypeId = 1, BirthDate = new DateTime(1990,1,1), CompanyName = "Test 1", TitleId = 1 },
             //    new() { UserId = 2, RegionId = 1, IdentityNumber = "4567", GenderId = 1, StatusTypeId = 1, BirthDate = new DateTime(1990,1,1), CompanyName = "Test 2", TitleId = 1 }
             //});
+        }
+    }
+
+    private static void SeedRoles(AppDbContext context)
+    {
+        if (!context.Roles.Any())
+        {
+            context.Roles.AddRange(new List<Role>()
+            {
+                new() { Name = "Administrator" },
+                new() { Name = "User" },
+                new() { Name = "SalesManager" },
+                new() { Name = "AccountManager" }
+            });
+        }
+    }
+
+    private static void SeedUsers(AppDbContext context)
+    {
+        if (!context.Users.Any())
+        {
+            context.Users.Add(new User()
+            {
+                Username = "admin",
+                Email = "admin@site.com",
+                Password = SecurityHelper.HashCreate("admin"),
+                Name = "admin",
+                Surname = "admin"
+            });
         }
     }
 }

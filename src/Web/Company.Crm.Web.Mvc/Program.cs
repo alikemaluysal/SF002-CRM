@@ -10,7 +10,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddEntityFrameworkRegistration(builder.Configuration);
 builder.Services.AddApplicationRegistration(builder.Configuration);
 
-builder.Services.AddMvcRegistrations();
+builder.Services.AddMvcRegistration();
 
 var app = builder.Build();
 

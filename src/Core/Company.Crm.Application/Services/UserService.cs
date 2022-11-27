@@ -1,17 +1,25 @@
 ﻿using Company.Crm.Application.Dtos;
 using Company.Crm.Application.Services.Abstracts;
+using Company.Crm.Application.UserEmail;
 using Company.Crm.Domain.Entities;
 using Company.Crm.Domain.Repositories;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using ProtoNet.Framework.Authentication;
 
 namespace Company.Crm.Application.Services;
 
 public class UserService : IUserService
 {
     private readonly IUserRepository _userRepository;
+    private readonly IUserEmailService _userEmailService;
+    private readonly IConfiguration _configuration;
 
-    public UserService(IUserRepository userRepository)
+    public UserService(IUserRepository userRepository, IUserEmailService userEmailService, IConfiguration configuration)
     {
         _userRepository = userRepository;
+        _userEmailService = userEmailService;
+        _configuration = configuration;
     }
 
     public List<User> GetAll()
@@ -47,10 +55,20 @@ public class UserService : IUserService
     public User Login(LoginDto dto)
     {
         var user = _userRepository.GetAll()
-            .Where(c => (c.Username == dto.EmailAddressOrUsername || c.Email == dto.EmailAddressOrUsername) && c.Password == dto.Password)
+            .Include(c => c.Roles)
+            .Where(c => (c.Username == dto.EmailAddressOrUsername || c.Email == dto.EmailAddressOrUsername))
+            .Where(c => c.UserStatusId == 1) // Email Activation
             .FirstOrDefault();
 
-        return user;
+        if (user != null)
+        {
+            if (SecurityHelper.HashValidate(user.Password, dto.Password))
+            {
+                return user;
+            }
+        }
+
+        return null;
     }
 
     public User Register(RegisterDto dto)
@@ -61,13 +79,41 @@ public class UserService : IUserService
             Surname = dto.Surname,
             Username = dto.Name.ToLower() + dto.Surname.ToLower(),
             Email = dto.EmailAddress,
-            Password = dto.Password
+            Password = SecurityHelper.HashCreate(dto.Password),
+            UserStatusId = 0 // Pasif
         };
 
         var isCreated = _userRepository.Insert(user);
         if (isCreated)
+        {
+            // Register Mail
+            _userEmailService.RegisterMailAsync(dto.EmailAddress, dto.Name).GetAwaiter().GetResult();
+
+            // Email Activation
+            var activationKey = SecurityHelper.CreateMd5(dto.EmailAddress);
+            var link = $"{_configuration["App:SiteUrl"]}/Auth/EmailActivation?email={dto.EmailAddress}&activationKey={activationKey}";
+
+            _userEmailService.ConfirmationMailAsync(link, dto.EmailAddress);
+
             return user;
+        }
 
         return null;
+    }
+
+    public bool ActivateUserByEmail(string email, string activationKey)
+    {
+        var emailMd5 = SecurityHelper.CreateMd5(email);
+        if (emailMd5 == activationKey)
+        {
+            var user = _userRepository.GetAll().Where(e => e.Email == email).FirstOrDefault();
+            if (user != null)
+            {
+                user.UserStatusId = 1;
+                return _userRepository.Update(user);
+            }
+        }
+
+        return false;
     }
 }

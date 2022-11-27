@@ -2,7 +2,7 @@
 
 namespace Company.Crm.Application.Services.Abstracts;
 
-public interface IEmailService
+public interface IPersonEmailService
 {
     public List<Email> GetAll();
     public Email? GetById(int id);

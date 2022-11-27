@@ -42,18 +42,20 @@ namespace Company.Crm.Web.Mvc.Controllers
                     {
                         new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                         new Claim(ClaimTypes.Name, user.Name),
+                        new Claim(ClaimTypes.GivenName, user.Name),
                         new Claim(ClaimTypes.Surname, user.Surname),
-                        new Claim(ClaimTypes.Email, user.Email)
+                        new Claim(ClaimTypes.Email, user.Email),
+                        new Claim(ClaimTypes.StreetAddress, ""),
+                        new Claim("OzelKey", "OzelValue")
                     };
 
-                    //if (!string.IsNullOrEmpty(user.Roles))
-                    //{
-                    //    string[] roles = user.Roles.Split(";");
-                    //    foreach (var role in roles)
-                    //    {
-                    //        claims.Add(new Claim(ClaimTypes.Role, role));
-                    //    }
-                    //}
+                    if (user.Roles.Any())
+                    {
+                        foreach (var role in user.Roles)
+                        {
+                            claims.Add(new Claim(ClaimTypes.Role, role.Name));
+                        }
+                    }
 
                     // ClaimsIdentity (Kimlik)
                     var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -104,15 +106,35 @@ namespace Company.Crm.Web.Mvc.Controllers
                 var user = userService.Register(model);
                 if (user != null)
                 {
-
-                    // Email Activation
-
-                    return RedirectToAction("Login");
+                    return RedirectToAction("RegisterSuccess");
                 }
             }
 
             ModelState.AddModelError(string.Empty, "Kayıt sırasında bir hata oluştu");
 
+            return View();
+        }
+
+        public IActionResult RegisterSuccess()
+        {
+            return View();
+        }
+
+        public IActionResult EmailActivation(string email, string activationKey)
+        {
+            var isSuccess = userService.ActivateUserByEmail(email, activationKey);
+            if (isSuccess)
+            {
+                return RedirectToAction("EmailActivationSuccess");
+            }
+            else
+            {
+                return RedirectToAction("Login");
+            }
+        }
+
+        public IActionResult EmailActivationSuccess()
+        {
             return View();
         }
 
