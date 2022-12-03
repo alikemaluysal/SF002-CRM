@@ -1,5 +1,6 @@
 ﻿using Bogus;
 using Company.Crm.Domain.Entities;
+using Company.Crm.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using ProtoNet.Framework.Authentication;
@@ -73,7 +74,8 @@ public class DbSeeder
                 Email = "admin@site.com",
                 Password = SecurityHelper.HashCreate("admin"),
                 Name = "admin",
-                Surname = "admin"
+                Surname = "admin",
+                UserStatusId = (int)UserStatusEnum.Active
             });
         }
     }
