@@ -1,4 +1,5 @@
-﻿using Company.Crm.Application.Services.Abstracts;
+﻿using Company.Crm.Application.Dtos.Notification;
+using Company.Crm.Application.Services.Abstracts;
 using Company.Crm.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -30,14 +31,14 @@ public class NotificationController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult Post([FromBody] Notification entity)
+    public IActionResult Post([FromBody] NotificationCreateOrUpdateDto entity)
     {
         var data = _notificationService.Insert(entity);
         return Ok(data);
     }
 
     [HttpPut("{id}")]
-    public IActionResult Put(int id, [FromBody] Notification entity)
+    public IActionResult Put(int id, [FromBody] NotificationCreateOrUpdateDto entity)
     {
         var data = _notificationService.Update(entity);
         return Ok(data);

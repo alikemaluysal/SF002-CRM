@@ -1,13 +1,17 @@
-﻿using Company.Crm.Domain.Entities;
+﻿using Company.Crm.Application.Dtos.Notification;
+using Company.Crm.Domain.Entities;
 
 namespace Company.Crm.Application.Services.Abstracts;
 
 public interface INotificationService
 {
-    public List<Notification> GetAll();
-    public Notification? GetById(int id);
-    public bool Insert(Notification entity);
-    public bool Update(Notification entity);
-    public bool Delete(Notification entity);
-    public bool DeleteById(int id);
+	List<NotificationDetailDto> GetPaged(int page = 1);
+	List<NotificationDetailDto> GetAll();
+	NotificationDetailDto? GetById(int id);
+	NotificationCreateOrUpdateDto GetForEditById(int id);
+	bool Insert(NotificationCreateOrUpdateDto entity);
+	bool Update(NotificationCreateOrUpdateDto entity);
+	bool Delete(Notification entity);
+	bool DeleteById(int id);
+	bool MarkAsRead(int id);
 }

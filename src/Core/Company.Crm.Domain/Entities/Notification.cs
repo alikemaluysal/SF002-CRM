@@ -8,6 +8,6 @@ public class Notification : BaseEntity
     public string Title { get; set; }
     public string Text { get; set; }
     public bool IsRead { get; set; }
-    public int CreatedBy { get; set; }
+    public int? CreatedBy { get; set; }
     public DateTime CreatedAt { get; set; }
 }
