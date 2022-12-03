@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using Company.Crm.Application.Validators;
+using FluentValidation;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 
@@ -26,5 +28,8 @@ public static class ServiceRegistrations
                 options.ClientSecret = configuration["Authentication:Google:ClientSecret"];
                 options.ClaimActions.MapJsonKey("urn:google:picture", "picture", "url");
             });
+
+        // Tüm validatorları servis olarak ekleme
+        services.AddValidatorsFromAssemblyContaining<CustomerValidator>();
     }
 }
