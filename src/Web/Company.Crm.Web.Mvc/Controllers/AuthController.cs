@@ -2,6 +2,7 @@
 using Company.Crm.Application.Services.Abstracts;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
@@ -146,6 +147,57 @@ namespace Company.Crm.Web.Mvc.Controllers
         public IActionResult RemindPassword()
         {
             return View();
+        }
+
+        public async Task GoogleLogin(string? returnUrl)
+        {
+            string redirectUri = Url.Action("GoogleResponse", new { ReturnUrl = returnUrl });
+
+            await HttpContext.ChallengeAsync(GoogleDefaults.AuthenticationScheme, new AuthenticationProperties()
+            {
+                RedirectUri = redirectUri
+            });
+        }
+
+        public async Task<IActionResult> GoogleResponse(string returnUrl = "/")
+        {
+            var result = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            if (result.Succeeded)
+            {
+                var claims = result.Principal.Identities.FirstOrDefault().Claims
+                    .Select(claim => new
+                    {
+                        claim.Issuer,
+                        claim.OriginalIssuer,
+                        claim.Type,
+                        claim.Value
+                    });
+
+                var photoUrl = result.Principal.FindFirst("urn:google:picture").Value;
+
+                var userDto = new RegisterDto
+                {
+                    EmailAddress = result.Principal.FindFirst(ClaimTypes.Email).Value,
+                    Name = result.Principal.FindFirst(ClaimTypes.GivenName).Value,
+                    Surname = result.Principal.FindFirst(ClaimTypes.Surname).Value,
+                    Password = Guid.NewGuid().ToString(),
+                };
+                var isUserExist = userService.GetAll().Where(e => e.Email == userDto.EmailAddress).Any();
+                if (!isUserExist)
+                {
+                    var user = userService.Register(userDto);
+
+                    if (user != null)
+                    {
+                        return Redirect(returnUrl);
+                    }
+                }
+                return Redirect(returnUrl);
+            }
+
+            return RedirectToAction("Login");
+
+            //return Json(claims);
         }
     }
 }
