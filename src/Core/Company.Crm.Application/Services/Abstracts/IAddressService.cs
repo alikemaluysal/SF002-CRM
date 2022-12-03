@@ -1,13 +1,15 @@
-﻿using Company.Crm.Domain.Entities;
+﻿using Company.Crm.Application.Dtos.Address;
 
 namespace Company.Crm.Application.Services.Abstracts;
 
 public interface IAddressService
 {
-    public List<Address> GetAll();
-    public Address? GetById(int id);
-    public bool Insert(Address entity);
-    public bool Update(Address entity);
-    public bool Delete(Address entity);
-    public bool DeleteById(int id);
+	public List<AddressDetailDto> GetAll();
+	public AddressDetailDto? GetById(int id);
+	public bool Insert(AddressCreateOrUpdateDto dto);
+	public bool Update(AddressCreateOrUpdateDto dto);
+	public bool Delete(AddressDetailDto dto);
+	public bool DeleteById(int id);
+	AddressCreateOrUpdateDto? GetForEditById(int id);
+	List<AddressDetailDto> GetPaged(int page = 1);
 }

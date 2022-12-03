@@ -1,0 +1,120 @@
+﻿using Company.Crm.Application.Dtos.Address;
+using Company.Crm.Application.Services.Abstracts;
+using Company.Crm.Domain.Enums;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+
+namespace Company.Crm.Web.Mvc.Areas.Admin.Controllers
+{
+    [Area("Admin")]
+    public class AddressController : Controller
+    {
+        readonly IAddressService _addressService;
+        public AddressController(IAddressService addressService, IStatusTypeService statusTypeService)
+        {
+            _addressService = addressService;
+        }
+
+        public IActionResult Index(int page = 1)
+        {
+            var addresses = _addressService.GetPaged(page);
+            return View(addresses);
+        }
+
+        public async Task<PartialViewResult> Detail(int id)
+        {
+            var address = _addressService.GetById(id);
+            return PartialView("_Detail", address);
+        }
+
+        [HttpGet]
+        public PartialViewResult Create()
+        {
+            AddressCreateOrUpdateDto dto = new();
+            FillDropdownItems(dto);
+            return PartialView("_Create", dto);
+        }
+
+        private void FillDropdownItems(AddressCreateOrUpdateDto dto)
+        {
+            dto.AddressTypes?.AddRange(new[]
+            {
+                new SelectListItem(){Text = AddressTypeEnum.Home.ToString(),Value = ((int)AddressTypeEnum.Home).ToString()},
+                 new SelectListItem(){Text = AddressTypeEnum.Job.ToString(),Value = ((int)AddressTypeEnum.Job).ToString()},
+            });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Create(AddressCreateOrUpdateDto item)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var isInserted = _addressService.Insert(item);
+                    if (isInserted)
+                        return Json(new { IsSuccess = true, Redirect = Url.Action("Index") });
+                }
+            }
+            catch
+            {
+                ModelState.AddModelError("", "Unable to save changes.");
+            }
+
+            FillDropdownItems(item);
+
+            return PartialView("_Create", item);
+        }
+
+        public async Task<PartialViewResult> Edit(int? id)
+        {
+            var dto = new AddressCreateOrUpdateDto();
+            if (id.HasValue)
+            {
+                dto = _addressService.GetForEditById(id.Value);
+            }
+
+            FillDropdownItems(dto);
+
+            return PartialView("_Edit", dto);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Edit(AddressCreateOrUpdateDto dto)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var isUpdated = _addressService.Update(dto);
+                    if (isUpdated)
+                        return Json(new { IsSuccess = true, Redirect = Url.Action("Index") });
+                }
+            }
+            catch
+            {
+                ModelState.AddModelError("", "Unable to save changes.");
+            }
+
+            FillDropdownItems(dto);
+
+            return PartialView("_Edit", dto);
+        }
+
+        [HttpGet]
+        public async Task<PartialViewResult> Delete(int id)
+        {
+            var serviceItem = _addressService.GetById(id);
+            return PartialView("_Delete", serviceItem);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> DeleteConfirmed(int id)
+        {
+            return Json(new { IsSuccess = _addressService.DeleteById(id), Redirect = Url.Action("Index") });
+        }
+    }
+}

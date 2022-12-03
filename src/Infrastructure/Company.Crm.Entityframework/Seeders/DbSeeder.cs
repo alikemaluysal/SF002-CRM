@@ -18,8 +18,31 @@ public class DbSeeder
         SeedCustomers(context);
         SeedRoles(context);
         SeedUsers(context);
-
+        SeedAddresses(context);
         await context.SaveChangesAsync();
+    }
+
+    private static void SeedAddresses(AppDbContext context)
+    {
+        if (!context.Addresses.Any())
+        {
+            var companySet = new Bogus.DataSets.Address("tr");
+
+            // Bogus ile Seed data oluşturma
+            var addressFaker = new Faker<Address>()
+                .RuleFor(e => e.Description, c => companySet.City())
+                .RuleFor(e => e.UserId, c => c.Random.Int(1, 100))
+                .RuleFor(e => e.AddressType, c => (AddressTypeEnum)c.Random.Int(1, 2))
+                .RuleFor(e => e.UserId, c => c.Random.Int(1, 10));
+
+            var addresses = Enumerable.Range(1, 200)
+                .Select(e => addressFaker.Generate())
+                .ToList();
+
+            context.Addresses.AddRange(addresses);
+
+
+        }
     }
 
     private static void SeedCustomers(AppDbContext context)

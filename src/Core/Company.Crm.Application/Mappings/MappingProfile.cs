@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Company.Crm.Application.Dtos;
+using Company.Crm.Application.Dtos.Address;
 using Company.Crm.Domain.Entities;
 
 namespace Company.Crm.Application.Mappings;
@@ -18,5 +19,8 @@ public class MappingProfile : Profile
 
 		CreateMap<Employee, EmployeeDto>().ReverseMap();
 		CreateMap<Employee, CreateOrUpdateEmployeeDto>().ReverseMap();
+
+		CreateMap<Address, AddressDetailDto>().ReverseMap();
+		CreateMap<Address, AddressCreateOrUpdateDto>().ReverseMap();
 	}
 }
