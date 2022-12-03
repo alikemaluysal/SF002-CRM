@@ -79,6 +79,7 @@ public class DbSeeder
                 Surname = "admin",
                 UserStatusId = (int)UserStatusEnum.Active
             });
+
         }
     }
 

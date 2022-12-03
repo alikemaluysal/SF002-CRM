@@ -33,6 +33,16 @@ public class OfferStatusService : IOfferStatusService
         return _offerStatusRepository.GetById(id);
     }
 
+    public List<OfferStatus> GetPaged(int page = 1)
+    {
+        var entityList = _offerStatusRepository.GetAll();
+            
+
+        var pagedList = entityList.Skip((page - 1) * 10).Take(10).ToList();
+
+        return pagedList;
+    }
+
     public bool Insert(OfferStatus entity)
     {
         return _offerStatusRepository.Insert(entity);

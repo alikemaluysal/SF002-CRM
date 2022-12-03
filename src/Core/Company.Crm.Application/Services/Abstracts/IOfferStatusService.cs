@@ -10,4 +10,6 @@ public interface IOfferStatusService
     public bool Update(OfferStatus entity);
     public bool Delete(OfferStatus entity);
     public bool DeleteById(int id);
+
+    List<OfferStatus> GetPaged(int page = 1);
 }
