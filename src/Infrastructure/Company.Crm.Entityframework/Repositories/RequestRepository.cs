@@ -6,10 +6,7 @@ namespace Company.Crm.Entityframework.Repositories;
 
 public class RequestRepository : BaseRepository<AppDbContext, Request>, IRequestRepository
 {
-    private readonly AppDbContext _ctx;
-
     public RequestRepository(AppDbContext ctx) : base(ctx)
     {
-        _ctx = ctx;
     }
 }

@@ -1,10 +1,10 @@
-﻿using Company.Crm.Application.Services;
+﻿using System.Reflection;
+using Company.Crm.Application.Services;
 using Company.Crm.Application.Services.Abstracts;
 using Company.Crm.Application.UserEmail;
 using Company.Framework.Email;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
 
 namespace Company.Crm.Application;
 

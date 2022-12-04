@@ -10,7 +10,8 @@ namespace Company.Crm.Application.Services;
 public class AddressService : IAddressService
 {
     private readonly IAddressRepository _addressRepository;
-    readonly IMapper _mapper;
+    private readonly IMapper _mapper;
+
     public AddressService(IAddressRepository addressRepository, IMapper mapper)
     {
         _addressRepository = addressRepository;
@@ -23,16 +24,19 @@ public class AddressService : IAddressService
 
         return _addressRepository.Delete(address);
     }
+
     public bool DeleteById(int id)
     {
         return _addressRepository.DeleteById(id);
     }
+
     public List<AddressDetailDto> GetAll()
     {
         var entityList = _addressRepository.GetAll();
         var dtoList = _mapper.Map<List<AddressDetailDto>>(entityList);
         return dtoList;
     }
+
     public AddressDetailDto? GetById(int id)
     {
         var entity = _addressRepository.GetById(id);
@@ -44,15 +48,16 @@ public class AddressService : IAddressService
     {
         var entity = _addressRepository.GetById(id);
         //var dto = _mapper.Map<AddressCreateOrUpdateDto>(entity);
-        var dto = new AddressCreateOrUpdateDto()
+        var dto = new AddressCreateOrUpdateDto
         {
             Id = entity.Id,
             AddressTypeEnumNumber = (int)entity.AddressType,
             Description = entity.Description,
-            UserId = entity.UserId,
+            UserId = entity.UserId
         };
         return dto;
     }
+
     public List<AddressDetailDto> GetPaged(int page = 1)
     {
         var entityList = _addressRepository.GetAll()
@@ -62,20 +67,22 @@ public class AddressService : IAddressService
         var dtoList = _mapper.Map<List<AddressDetailDto>>(pagedList);
         return dtoList;
     }
+
     public bool Insert(AddressCreateOrUpdateDto dto)
     {
         Address address = new()
         {
             Description = dto.Description,
             UserId = dto.UserId,
-            AddressType = (AddressTypeEnum)dto.AddressTypeEnumNumber,
+            AddressType = (AddressTypeEnum)dto.AddressTypeEnumNumber
         };
         //var address = _mapper.Map<Address>(dto);
         return _addressRepository.Insert(address);
     }
+
     public bool Update(AddressCreateOrUpdateDto dto)
     {
-        Address address = _addressRepository.GetById(dto.Id);
+        var address = _addressRepository.GetById(dto.Id);
         address.Description = dto.Description;
         address.UserId = dto.UserId;
         address.AddressType = (AddressTypeEnum)dto.AddressTypeEnumNumber;
@@ -83,4 +90,3 @@ public class AddressService : IAddressService
         return _addressRepository.Update(address);
     }
 }
-

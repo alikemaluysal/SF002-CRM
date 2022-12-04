@@ -6,7 +6,7 @@ namespace Company.Crm.Entityframework.Repositories;
 
 public class TaskRepository : BaseRepository<AppDbContext, Task>, ITaskRepository
 {
-    public TaskRepository(AppDbContext context) : base(context)
+    public TaskRepository(AppDbContext ctx) : base(ctx)
     {
     }
 }

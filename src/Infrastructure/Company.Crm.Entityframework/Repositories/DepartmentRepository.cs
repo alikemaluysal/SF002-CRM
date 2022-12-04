@@ -6,10 +6,7 @@ namespace Company.Crm.Entityframework.Repositories;
 
 public class DepartmentRepository : BaseRepository<AppDbContext, Department>, IDepartmentRepository
 {
-    private readonly AppDbContext _ctx;
-
     public DepartmentRepository(AppDbContext ctx) : base(ctx)
     {
-        _ctx = ctx;
     }
 }

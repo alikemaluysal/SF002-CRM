@@ -10,11 +10,11 @@ namespace Company.Crm.Web.Mvc.Controllers
 {
     public class AuthController : Controller
     {
-        private readonly IUserService userService;
+        private readonly IUserService _userService;
 
         public AuthController(IUserService userService)
         {
-            this.userService = userService;
+            _userService = userService;
         }
 
         public IActionResult Login()
@@ -33,11 +33,12 @@ namespace Company.Crm.Web.Mvc.Controllers
 
             if (ModelState.IsValid)
             {
-                var user = userService.Login(model);
+                var user = _userService.Login(model);
 
                 if (user != null)
                 {
                     #region Claim, Identity, Principle
+
                     // ClaimsIdentity içerisindeki bilgiler (Kimlik'te yazan bilgiler)
                     var claims = new List<Claim>()
                     {
@@ -104,7 +105,7 @@ namespace Company.Crm.Web.Mvc.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = userService.Register(model);
+                var user = _userService.Register(model);
                 if (user != null)
                 {
                     return RedirectToAction("RegisterSuccess");
@@ -123,7 +124,7 @@ namespace Company.Crm.Web.Mvc.Controllers
 
         public IActionResult EmailActivation(string email, string activationKey)
         {
-            var isSuccess = userService.ActivateUserByEmail(email, activationKey);
+            var isSuccess = _userService.ActivateUserByEmail(email, activationKey);
             if (isSuccess)
             {
                 return RedirectToAction("EmailActivationSuccess");
@@ -164,40 +165,71 @@ namespace Company.Crm.Web.Mvc.Controllers
             var result = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             if (result.Succeeded)
             {
-                var claims = result.Principal.Identities.FirstOrDefault().Claims
-                    .Select(claim => new
-                    {
-                        claim.Issuer,
-                        claim.OriginalIssuer,
-                        claim.Type,
-                        claim.Value
-                    });
-
-                var photoUrl = result.Principal.FindFirst("urn:google:picture").Value;
-
-                var userDto = new RegisterDto
-                {
-                    EmailAddress = result.Principal.FindFirst(ClaimTypes.Email).Value,
-                    Name = result.Principal.FindFirst(ClaimTypes.GivenName).Value,
-                    Surname = result.Principal.FindFirst(ClaimTypes.Surname).Value,
-                    Password = Guid.NewGuid().ToString(),
-                };
-                var isUserExist = userService.GetAll().Where(e => e.Email == userDto.EmailAddress).Any();
+                var principal = result.Principal;
+                var claims = principal.Identities.FirstOrDefault()?.Claims.ToList();
+                
+                var photoUrl = principal.FindFirst("urn:google:picture")?.Value;
+                var emailAddress = principal.FindFirst(ClaimTypes.Email)?.Value;
+                
+                var isUserExist = _userService.GetAll().Any(e => e.Email == emailAddress);
                 if (!isUserExist)
                 {
-                    var user = userService.Register(userDto);
-
-                    if (user != null)
+                    var userDto = new RegisterDto
                     {
+                        EmailAddress = emailAddress,
+                        Name = principal.FindFirst(ClaimTypes.GivenName)?.Value,
+                        Surname = principal.FindFirst(ClaimTypes.Surname)?.Value,
+                        Password = Guid.NewGuid().ToString(),
+                    };
+                    
+                    var registeredUser = _userService.Register(userDto);
+
+                    if (registeredUser != null)
+                    {
+                        await LoginWithClaims(emailAddress, claims);
+                        
                         return Redirect(returnUrl);
                     }
                 }
+                else
+                {
+                    await LoginWithClaims(emailAddress, claims);
+                }
+
                 return Redirect(returnUrl);
             }
 
             return RedirectToAction("Login");
+        }
 
-            //return Json(claims);
+        private async Task LoginWithClaims(string? emailAddress, List<Claim>? claims)
+        {
+            var activeUser = _userService.GetByEmail(emailAddress);
+            if (activeUser != null)
+            {
+                if (activeUser.Roles.Any())
+                {
+                    foreach (var role in activeUser.Roles)
+                    {
+                        claims.Add(new Claim(ClaimTypes.Role, role.Name));
+                    }
+
+                    var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                    var claimsPrinciple = new ClaimsPrincipal(claimsIdentity);
+
+                    var authProperties = new AuthenticationProperties()
+                    {
+                        IsPersistent = true,
+                        ExpiresUtc = DateTime.Now.AddDays(30)
+                    };
+
+                    await HttpContext.SignInAsync(
+                        CookieAuthenticationDefaults.AuthenticationScheme,
+                        claimsPrinciple,
+                        authProperties
+                    );
+                }
+            }
         }
     }
 }

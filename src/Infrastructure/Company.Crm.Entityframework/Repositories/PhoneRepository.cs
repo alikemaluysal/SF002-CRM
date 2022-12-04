@@ -6,10 +6,7 @@ namespace Company.Crm.Entityframework.Repositories;
 
 public class PhoneRepository : BaseRepository<AppDbContext, Phone>, IPhoneRepository
 {
-    private readonly AppDbContext _ctx;
-
     public PhoneRepository(AppDbContext ctx) : base(ctx)
     {
-        _ctx = ctx;
     }
 }

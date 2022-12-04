@@ -1,11 +1,8 @@
 ﻿using Company.Crm.Domain.Entities;
 using Company.Framework.Repository;
 
+namespace Company.Crm.Domain.Repositories;
 
-namespace Company.Crm.Domain.Repositories
+public interface IDocumentRepository : IRepository<Document>
 {
-    public interface IDocumentRepository : IRepository<Document>
-    {
-
-    }
 }

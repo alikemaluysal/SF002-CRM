@@ -2,16 +2,15 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Company.Crm.Web.Mvc.Areas.Admin.Controllers
+namespace Company.Crm.Web.Mvc.Areas.Admin.Controllers;
+
+//[Authorize(Roles = RoleNameConsts.Administrator + "," + RoleNameConsts.SalesManager)]
+[Authorize(Roles = RoleNameConsts.SalesManager)]
+[Area("Admin")]
+public class SaleController : Controller
 {
-    //[Authorize(Roles = RoleNameConsts.Administrator + "," + RoleNameConsts.SalesManager)]
-    [Authorize(Roles = RoleNameConsts.SalesManager)]
-    [Area("Admin")]
-    public class SaleController : Controller
+    public IActionResult Index()
     {
-        public IActionResult Index()
-        {
-            return View();
-        }
+        return View();
     }
 }

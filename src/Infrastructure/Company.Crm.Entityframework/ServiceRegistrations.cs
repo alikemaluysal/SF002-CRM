@@ -16,9 +16,6 @@ public static class ServiceRegistrations
             options.UseSqlServer(connectionString)
         );
 
-        // Konfigrasyonu DbContext OnConfiguring içerisinde yapılabilir
-        //services.AddDbContext<AppDbContext>();
-
         services.AddScoped<ICustomerRepository, CustomerRepository>();
         services.AddScoped<IEmployeeRepository, EmployeeRepository>();
         services.AddScoped<IRequestRepository, RequestRepository>();
@@ -37,7 +34,7 @@ public static class ServiceRegistrations
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IUserStatusRepository, UserStatusRepository>();
 
-
-        DbSeeder.Seed(services.BuildServiceProvider()).GetAwaiter().GetResult();
+        var provider = services.BuildServiceProvider();
+        DbSeeder.Seed(provider);
     }
 }

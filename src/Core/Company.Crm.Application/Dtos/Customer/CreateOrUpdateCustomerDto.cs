@@ -1,7 +1,7 @@
-﻿using Company.Framework.Dtos;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using Company.Framework.Dtos;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Company.Crm.Application.Dtos;
 
@@ -23,12 +23,15 @@ public class CreateOrUpdateCustomerDto : BaseDto
 
     public DateTime? BirthDate { get; set; }
 
-    [NotMapped, ValidateNever]
+    [NotMapped]
+    [ValidateNever]
     public List<SelectListItem> Genders { get; set; }
 
-    [NotMapped, ValidateNever]
+    [NotMapped]
+    [ValidateNever]
     public List<SelectListItem> Titles { get; set; }
 
-    [NotMapped, ValidateNever]
+    [NotMapped]
+    [ValidateNever]
     public List<SelectListItem> StatusTypes { get; set; }
 }

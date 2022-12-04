@@ -3,5 +3,5 @@
 public enum UserStatusEnum : short
 {
     Passive = 0,
-    Active = 1,
+    Active = 1
 }

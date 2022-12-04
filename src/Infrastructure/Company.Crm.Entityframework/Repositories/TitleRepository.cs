@@ -6,10 +6,7 @@ namespace Company.Crm.Entityframework.Repositories;
 
 public class TitleRepository : BaseRepository<AppDbContext, Title>, ITitleRepository
 {
-    private readonly AppDbContext _ctx;
-
-    public TitleRepository(AppDbContext context) : base(context)
+    public TitleRepository(AppDbContext ctx) : base(ctx)
     {
-        _ctx = context;
     }
 }

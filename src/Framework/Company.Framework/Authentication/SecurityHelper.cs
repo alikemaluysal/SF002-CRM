@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Cryptography.KeyDerivation;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
+using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 
-namespace ProtoNet.Framework.Authentication;
+namespace Company.Framework.Authentication;
 
 public static class SecurityHelper
 {

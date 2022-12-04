@@ -1,5 +1,5 @@
-﻿using Company.Crm.Application.Services.Abstracts;
-using Company.Crm.Domain.Entities;
+﻿using Company.Crm.Application.Dtos.Address;
+using Company.Crm.Application.Services.Abstracts;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Company.Crm.Web.Api.Controllers;
@@ -18,9 +18,7 @@ public class AddressController : ControllerBase
     [HttpGet]
     public IActionResult Get()
     {
-        //[FromServices] IAddressService addressService
         var address = _addressService.GetAll();
-        //var address2 = addressService.GetAll();
         return Ok(address);
     }
 
@@ -32,14 +30,14 @@ public class AddressController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult Post([FromBody] Address address)
+    public IActionResult Post([FromBody] AddressCreateOrUpdateDto address)
     {
         var isAdded = _addressService.Insert(address);
         return Ok(isAdded);
     }
 
     [HttpPut("{id}")]
-    public IActionResult Put(int id, [FromBody] Address address)
+    public IActionResult Put(int id, [FromBody] AddressCreateOrUpdateDto address)
     {
         var isUpdated = _addressService.Update(address);
         return Ok(isUpdated);
@@ -53,9 +51,9 @@ public class AddressController : ControllerBase
     }
 
     [HttpPost("deleteByEntity")]
-    public IActionResult Delete([FromBody] Address entity)
+    public IActionResult Delete([FromBody] AddressDetailDto address)
     {
-        var isDeleted = _addressService.Delete(entity);
+        var isDeleted = _addressService.Delete(address);
         return Ok(isDeleted);
     }
 }

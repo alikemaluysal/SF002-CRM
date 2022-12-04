@@ -6,7 +6,7 @@ namespace Company.Crm.Entityframework.Repositories;
 
 public class UserRepository : BaseRepository<AppDbContext, User>, IUserRepository
 {
-    public UserRepository(AppDbContext context) : base(context)
+    public UserRepository(AppDbContext ctx) : base(ctx)
     {
     }
 }

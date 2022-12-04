@@ -2,18 +2,19 @@
 using Company.Crm.Application.Services.Abstracts;
 using Company.Crm.Application.UserEmail;
 using Company.Crm.Domain.Entities;
+using Company.Crm.Domain.Enums;
 using Company.Crm.Domain.Repositories;
+using Company.Framework.Authentication;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using ProtoNet.Framework.Authentication;
 
 namespace Company.Crm.Application.Services;
 
 public class UserService : IUserService
 {
-    private readonly IUserRepository _userRepository;
-    private readonly IUserEmailService _userEmailService;
     private readonly IConfiguration _configuration;
+    private readonly IUserEmailService _userEmailService;
+    private readonly IUserRepository _userRepository;
 
     public UserService(IUserRepository userRepository, IUserEmailService userEmailService, IConfiguration configuration)
     {
@@ -52,26 +53,22 @@ public class UserService : IUserService
         return _userRepository.DeleteById(id);
     }
 
-    public User Login(LoginDto dto)
+    public User? Login(LoginDto dto)
     {
         var user = _userRepository.GetAll()
             .Include(c => c.Roles)
-            .Where(c => (c.Username == dto.EmailAddressOrUsername || c.Email == dto.EmailAddressOrUsername))
-            .Where(c => c.UserStatusId == 1) // Email Activation
+            .Where(c => c.Username == dto.EmailAddressOrUsername || c.Email == dto.EmailAddressOrUsername)
+            .Where(c => c.UserStatusId == (int)UserStatusEnum.Active) // Email Activation
             .FirstOrDefault();
 
         if (user != null)
-        {
             if (SecurityHelper.HashValidate(user.Password, dto.Password))
-            {
                 return user;
-            }
-        }
 
         return null;
     }
 
-    public User Register(RegisterDto dto)
+    public User? Register(RegisterDto dto)
     {
         var user = new User
         {
@@ -115,5 +112,14 @@ public class UserService : IUserService
         }
 
         return false;
+    }
+
+    public User? GetByEmail(string email)
+    {
+        var user = _userRepository.GetAll()
+            .Include(c => c.Roles)
+            .FirstOrDefault(c => c.Username == email || c.Email == email);
+
+        return user;
     }
 }

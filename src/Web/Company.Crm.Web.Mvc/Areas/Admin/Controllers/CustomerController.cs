@@ -14,8 +14,8 @@ namespace Company.Crm.Web.Mvc.Areas.Admin.Controllers;
 public class CustomerController : Controller
 {
     private readonly ICustomerService _customerService;
-    private readonly IStatusTypeService _statusTypeService;
     private readonly IValidator<CreateOrUpdateCustomerDto> _customerValidator;
+    private readonly IStatusTypeService _statusTypeService;
 
     public CustomerController(ICustomerService customerService, IStatusTypeService statusTypeService, IValidator<CreateOrUpdateCustomerDto> customerValidator)
     {
@@ -41,7 +41,7 @@ public class CustomerController : Controller
     {
         var dto = new CreateOrUpdateCustomerDto();
 
-        //item.Genders = _genderService.GetAll().Select(e=> new SelectListItem { Value = e.Id, Text = e.Name });
+        //dto.Genders = _genderService.GetAll().Select(e=> new SelectListItem { Value = e.Id, Text = e.Name });
 
         FillDropdownItems(dto);
 
@@ -52,14 +52,14 @@ public class CustomerController : Controller
     {
         dto.Genders = new List<SelectListItem>
         {
-            new SelectListItem { Value = "1", Text = "Erkek" },
-            new SelectListItem { Value = "2", Text = "Kadın" },
+            new() { Value = "1", Text = "Erkek" },
+            new() { Value = "2", Text = "Kadın" }
         };
 
         dto.Titles = new List<SelectListItem>
         {
-            new SelectListItem { Value = "1", Text = "Mühendis" },
-            new SelectListItem { Value = "2", Text = "Yazılım Geliştirici" },
+            new() { Value = "1", Text = "Mühendis" },
+            new() { Value = "2", Text = "Yazılım Geliştirici" }
         };
 
         dto.StatusTypes = _statusTypeService.GetAll()
@@ -103,10 +103,7 @@ public class CustomerController : Controller
     public async Task<PartialViewResult> Edit(int? id)
     {
         var dto = new CreateOrUpdateCustomerDto();
-        if (id.HasValue)
-        {
-            dto = _customerService.GetForEditById(id.Value);
-        }
+        if (id.HasValue) dto = _customerService.GetForEditById(id.Value);
 
         FillDropdownItems(dto);
 

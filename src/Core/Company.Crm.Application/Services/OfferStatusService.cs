@@ -36,7 +36,7 @@ public class OfferStatusService : IOfferStatusService
     public List<OfferStatus> GetPaged(int page = 1)
     {
         var entityList = _offerStatusRepository.GetAll();
-            
+
 
         var pagedList = entityList.Skip((page - 1) * 10).Take(10).ToList();
 

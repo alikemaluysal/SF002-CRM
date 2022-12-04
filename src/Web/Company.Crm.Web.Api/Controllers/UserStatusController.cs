@@ -2,61 +2,59 @@
 using Company.Crm.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Company.Crm.Web.Api.Controllers
+namespace Company.Crm.Web.Api.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class UserStatusController : Controller
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class UserStatusController : Controller
+    private readonly IUserStatusService _userStatusService;
+
+    public UserStatusController(IUserStatusService userStatusService)
     {
-        private readonly IUserStatusService _userStatusService;
-        public UserStatusController(IUserStatusService userStatusService)
-        {
-            _userStatusService = userStatusService;
-        }
+        _userStatusService = userStatusService;
+    }
 
-        [HttpGet]
-        public IActionResult GetAll()
-        {
-            var data=_userStatusService.GetAll();
-            return Ok(data);
-            
-        }
+    [HttpGet]
+    public IActionResult GetAll()
+    {
+        var data = _userStatusService.GetAll();
+        return Ok(data);
+    }
 
-        
-        [HttpGet("{id}")]
-        public IActionResult GetById(int id)
-        {
-            var data = _userStatusService.GetById(id);
-            return Ok(data);
-        }
 
-        [HttpPost]
-        public IActionResult Insert([FromBody] UserStatus userStatus)
-        {
-            var isAdded = _userStatusService.Insert(userStatus);
-            return Ok(isAdded);
-        }
+    [HttpGet("{id}")]
+    public IActionResult GetById(int id)
+    {
+        var data = _userStatusService.GetById(id);
+        return Ok(data);
+    }
 
-        [HttpPut("{id}")]
-        public IActionResult Update(int id, [FromBody] UserStatus userStatus)
-        {
-            var isUpdated = _userStatusService.Update(userStatus);
-            return Ok(isUpdated);
-        }
+    [HttpPost]
+    public IActionResult Insert([FromBody] UserStatus userStatus)
+    {
+        var isAdded = _userStatusService.Insert(userStatus);
+        return Ok(isAdded);
+    }
 
-        [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
-        {
-            var isDeleted = _userStatusService.DeleteById(id);
-            return Ok(isDeleted);
-        }
+    [HttpPut("{id}")]
+    public IActionResult Update(int id, [FromBody] UserStatus userStatus)
+    {
+        var isUpdated = _userStatusService.Update(userStatus);
+        return Ok(isUpdated);
+    }
 
-        [HttpPost("deleteByEntity")]
-        public IActionResult DeleteById([FromBody] UserStatus userStatus)
-        {
-            var isDeleted = _userStatusService.Delete(userStatus);
-            return Ok(isDeleted);
-        }
+    [HttpDelete("{id}")]
+    public IActionResult Delete(int id)
+    {
+        var isDeleted = _userStatusService.DeleteById(id);
+        return Ok(isDeleted);
+    }
 
+    [HttpPost("deleteByEntity")]
+    public IActionResult DeleteById([FromBody] UserStatus userStatus)
+    {
+        var isDeleted = _userStatusService.Delete(userStatus);
+        return Ok(isDeleted);
     }
 }

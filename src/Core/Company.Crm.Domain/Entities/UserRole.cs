@@ -1,9 +1,8 @@
 ﻿using Company.Framework.Entity;
 
-namespace Company.Crm.Domain.Entities
+namespace Company.Crm.Domain.Entities;
+
+public class UserRole : BaseEntity
 {
-    public class UserRole : BaseEntity
-    {
-        public string Name { get; set; }
-    }
+    public string Name { get; set; }
 }

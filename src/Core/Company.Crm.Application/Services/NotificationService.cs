@@ -8,14 +8,15 @@ namespace Company.Crm.Application.Services;
 
 public class NotificationService : INotificationService
 {
+    private readonly IMapper _mapper;
     private readonly INotificationRepository _notificationRepository;
-    readonly IMapper _mapper;
 
     public NotificationService(INotificationRepository notificationRepository, IMapper mapper)
     {
         _notificationRepository = notificationRepository;
         _mapper = mapper;
     }
+
     public NotificationCreateOrUpdateDto GetForEditById(int id)
     {
         var notification = _notificationRepository.GetById(id);
@@ -23,6 +24,7 @@ public class NotificationService : INotificationService
         var dto = _mapper.Map<NotificationCreateOrUpdateDto>(notification);
         return dto;
     }
+
     public List<NotificationDetailDto> GetPaged(int page = 1)
     {
         var entityList = _notificationRepository.GetAll().OrderBy(c => c.IsRead);
@@ -48,7 +50,7 @@ public class NotificationService : INotificationService
             CreatedAt = x.CreatedAt,
             Text = x.Text,
             Title = x.Title,
-            UserId = x.UserId,
+            UserId = x.UserId
         }).ToList();
     }
 
@@ -60,7 +62,7 @@ public class NotificationService : INotificationService
 
     public bool Insert(NotificationCreateOrUpdateDto entity)
     {
-        return _notificationRepository.Insert(new()
+        return _notificationRepository.Insert(new Notification
         {
             Title = entity.Title,
             Text = entity.Text,
@@ -78,7 +80,6 @@ public class NotificationService : INotificationService
         notification.CreatedBy = dto.UserId;
         //notification = _mapper.Map<Notification>(dto); // save için repository çağırıldı.update ile mapper aynı anda kullanıldığında dtodan gelmeyen fieldları null yapıyor.
         return _notificationRepository.Update(notification);
-
     }
 
     public bool Delete(Notification entity)
@@ -93,12 +94,13 @@ public class NotificationService : INotificationService
 
     public bool MarkAsRead(int id)
     {
-        Notification notification = _notificationRepository.GetById(id);
+        var notification = _notificationRepository.GetById(id);
         if (notification != null)
         {
             notification.IsRead = !notification.IsRead;
             return _notificationRepository.Update(notification); //save yapabilmek için /servislerden çağırmak için repositorye save methodu eklenebilir ? 
         }
+
         return false;
     }
 }
