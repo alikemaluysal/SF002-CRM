@@ -15,4 +15,6 @@ public interface IUserService
     User? Register(RegisterDto dto);
     bool ActivateUserByEmail(string email, string activationKey);
     User? GetByEmail(string email);
+    void RemindPassword(RemindPasswordDto dto);
+    void ResetPassword(ResetPasswordDto dto);
 }

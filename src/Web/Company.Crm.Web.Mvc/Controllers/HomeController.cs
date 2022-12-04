@@ -1,6 +1,6 @@
-﻿using System.Diagnostics;
-using Company.Crm.Web.Mvc.Models;
+﻿using Company.Crm.Web.Mvc.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 
 namespace Company.Crm.Web.Mvc.Controllers;
 
@@ -27,5 +27,13 @@ public class HomeController : Controller
     public IActionResult Error()
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+    }
+
+    [HttpGet("/Error/{errorCode}")]
+    public IActionResult StatusError(string errorCode)
+    {
+        ViewBag.ErrorCode = errorCode;
+
+        return View();
     }
 }

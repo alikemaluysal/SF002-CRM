@@ -29,9 +29,9 @@ public class UserEmailService : EmailService, IUserEmailService
         await SendAsync(email, subject, body);
     }
 
-    public async Task ForgetPasswordMailAsync(string link, string email)
+    public async Task RemindPasswordMailAsync(string link, string email)
     {
-        var subject = "Company.Crm - Confirmation Email";
+        var subject = "Company.Crm - Reset Password";
         var body = @$"
             <h2>Please click this link for reset password</h2><hr/>
             <a href='{link}'>Reset Password</a>

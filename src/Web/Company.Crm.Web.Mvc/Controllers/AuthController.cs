@@ -43,7 +43,7 @@ namespace Company.Crm.Web.Mvc.Controllers
                     var claims = new List<Claim>()
                     {
                         new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                        new Claim(ClaimTypes.Name, user.Name),
+                        new Claim(ClaimTypes.Name, user.Name + " " + user.Surname),
                         new Claim(ClaimTypes.GivenName, user.Name),
                         new Claim(ClaimTypes.Surname, user.Surname),
                         new Claim(ClaimTypes.Email, user.Email),
@@ -147,6 +147,51 @@ namespace Company.Crm.Web.Mvc.Controllers
 
         public IActionResult RemindPassword()
         {
+            // RemindPassword view içerisinde bir email alanı içeren bir form oluştur.
+
+            // Formdan gelen email adresine UserService->RemindPassword metodu üzerinden şifre sıfırlama maili gönder
+
+            // RemindPasswordSuccess View'ine yönlendir. Burada da şifre sıfırlama maili gönderilmiştir.
+
+            // Email den gelen bağlantıya tıkladığımızda Auth/ResetPassword metodunda şifre sıfırlama formunu göstereceğiz. Form içerisinde Yeni Şifre ve Yeni Şifre tekrarı alanları olacak.
+
+            // ResetPassword formundan gelen şifreye göre şifre sıfırlama işlemi yapılacak. Şifre sıfırlama işlemini UserService->ResetPassword metodunda yapalım ve Şifre sıfırlama
+
+            // ResetPasswordSuccess View'ine yönlendir. Burada da Şifreniz başarıyla değiştirilmiştir.
+
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult RemindPassword(RemindPasswordDto dto)
+        {
+            _userService.RemindPassword(dto);
+
+            return RedirectToAction("RemindPasswordSuccess");
+        }
+
+        public IActionResult RemindPasswordSuccess()
+        {
+            return View();
+        }
+
+        public IActionResult ResetPassword(string email, string resetKey)
+        {
+            var dto = new ResetPasswordDto() { EmailAddress = email };
+
+            return View(dto);
+        }
+
+        [HttpPost]
+        public IActionResult ResetPassword(ResetPasswordDto dto)
+        {
+            _userService.ResetPassword(dto);
+
+            return RedirectToAction("ResetPasswordSuccess");
+        }
+
+        public IActionResult ResetPasswordSuccess()
+        {
             return View();
         }
 
@@ -167,10 +212,10 @@ namespace Company.Crm.Web.Mvc.Controllers
             {
                 var principal = result.Principal;
                 var claims = principal.Identities.FirstOrDefault()?.Claims.ToList();
-                
+
                 var photoUrl = principal.FindFirst("urn:google:picture")?.Value;
                 var emailAddress = principal.FindFirst(ClaimTypes.Email)?.Value;
-                
+
                 var isUserExist = _userService.GetAll().Any(e => e.Email == emailAddress);
                 if (!isUserExist)
                 {
@@ -181,13 +226,13 @@ namespace Company.Crm.Web.Mvc.Controllers
                         Surname = principal.FindFirst(ClaimTypes.Surname)?.Value,
                         Password = Guid.NewGuid().ToString(),
                     };
-                    
+
                     var registeredUser = _userService.Register(userDto);
 
                     if (registeredUser != null)
                     {
                         await LoginWithClaims(emailAddress, claims);
-                        
+
                         return Redirect(returnUrl);
                     }
                 }

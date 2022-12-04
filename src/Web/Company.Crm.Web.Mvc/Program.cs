@@ -1,6 +1,8 @@
 using Company.Crm.Application;
 using Company.Crm.Entityframework;
 using Company.Crm.Web.Mvc;
+using Microsoft.AspNetCore.Diagnostics;
+using System.ComponentModel.DataAnnotations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +14,8 @@ builder.Services.AddApplicationRegistration(builder.Configuration);
 
 builder.Services.AddMvcRegistration(builder.Configuration);
 
+builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -21,6 +25,50 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
+app.UseExceptionHandler(errorApp =>
+{
+    errorApp.Run(async context =>
+    {
+        context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+        context.Response.ContentType = "text/html";
+        //context.Response.ContentType = "application/json";
+
+        var errorMessage = "Error!";
+
+        var error = context.Features.Get<IExceptionHandlerPathFeature>();
+
+        var exception = error?.Error;
+
+        if (exception is FileNotFoundException)
+        {
+            errorMessage = "File Not Found!";
+        }
+        else if (exception is UnauthorizedAccessException)
+        {
+            //context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+            context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+            errorMessage = "Unauthorized Access to resource!";
+        }
+        else if (exception is ValidationException)
+        {
+            context.Response.StatusCode = StatusCodes.Status422UnprocessableEntity;
+            errorMessage = "Validation error!";
+        }
+        else
+        {
+            context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+            errorMessage = "Internal error!";
+        }
+
+        await context.Response.WriteAsync(errorMessage);
+
+    });
+});
+
+
+//app.UseStatusCodePages();
+app.UseStatusCodePagesWithRedirects("/Error/{0}"); // {0} hata kodunu ifade eder
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

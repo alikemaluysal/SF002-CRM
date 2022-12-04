@@ -122,4 +122,27 @@ public class UserService : IUserService
 
         return user;
     }
+
+    public void RemindPassword(RemindPasswordDto dto)
+    {
+        var user = GetByEmail(dto.EmailAddress);
+        if (user != null)
+        {
+            var resetKey = SecurityHelper.CreateMd5(dto.EmailAddress);
+            var link = $"{_configuration["App:SiteUrl"]}/Auth/ResetPassword?email={dto.EmailAddress}&resetKey={resetKey}";
+
+            _userEmailService.RemindPasswordMailAsync(link, dto.EmailAddress);
+        }
+    }
+
+    public void ResetPassword(ResetPasswordDto dto)
+    {
+        var user = _userRepository.GetAll().FirstOrDefault(e => e.Email == dto.EmailAddress);
+        if (user != null && dto.Password == dto.PasswordRepeat)
+        {
+            user.Password = SecurityHelper.HashCreate(dto.Password);
+
+            _userRepository.Update(user);
+        }
+    }
 }

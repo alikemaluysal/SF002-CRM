@@ -2,7 +2,7 @@
 
 namespace Company.Crm.Application.Dtos;
 
-public class RegisterDto
+public class ResetPasswordDto
 {
     [Required(ErrorMessage = "Bu alan gerekli")]
     [StringLength(150)]
@@ -12,20 +12,13 @@ public class RegisterDto
     [Required(ErrorMessage = "Bu alan gerekli")]
     [StringLength(50)]
     [DataType(DataType.Password)]
-    [Display(Name = "Şifre")]
+    [Display(Name = "Yeni Şifre")]
     public string? Password { get; set; }
 
     [Required(ErrorMessage = "Bu alan gerekli")]
     [StringLength(50)]
     [DataType(DataType.Password)]
-    [Display(Name = "Şifre Tekrarı")]
+    [Display(Name = "Yeni Şifre Tekrarı")]
     [Compare("Password")]
     public string? PasswordRepeat { get; set; }
-
-
-    [Display(Name = "Ad")]
-    public string? Name { get; set; }
-
-    [Display(Name = "Soyad")]
-    public string? Surname { get; set; }
 }
