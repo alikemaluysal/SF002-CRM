@@ -18,6 +18,8 @@ public class MappingProfile : Profile
         CreateMap<CustomerDto, Customer>();
         CreateMap<Customer, CreateOrUpdateCustomerDto>().ReverseMap();
 
+		    CreateMap<Gender, GenderDto>().ReverseMap();
+	
         CreateMap<Employee, EmployeeDto>().ReverseMap();
         CreateMap<Employee, CreateOrUpdateEmployeeDto>().ReverseMap();
 
