@@ -3,6 +3,6 @@ using Company.Framework.Repository;
 
 namespace Company.Crm.Domain.Repositories;
 
-public interface IPhoneRepository : IRepository<Phone>
+public interface IPhoneRepository : IRepository<UserPhone>
 {
 }

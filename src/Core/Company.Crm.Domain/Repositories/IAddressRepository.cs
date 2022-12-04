@@ -3,6 +3,6 @@ using Company.Framework.Repository;
 
 namespace Company.Crm.Domain.Repositories;
 
-public interface IAddressRepository : IRepository<Address>
+public interface IAddressRepository : IRepository<UserAddress>
 {
 }

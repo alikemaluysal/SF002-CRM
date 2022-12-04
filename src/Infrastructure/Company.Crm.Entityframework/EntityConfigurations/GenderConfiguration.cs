@@ -1,11 +1,6 @@
-﻿using Company.Crm.Domain.Entities;
+﻿using Company.Crm.Domain.Entities.Lst;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Company.Crm.Entityframework.EntityConfigurations
 {
@@ -13,6 +8,7 @@ namespace Company.Crm.Entityframework.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<Gender> builder)
         {
+            builder.ToTable(nameof(Gender), "LST");
             builder.HasKey(e => e.Id);
             builder.Property(x => x.Id).UseIdentityColumn();
             builder.Property(x => x.Name).HasMaxLength(50);

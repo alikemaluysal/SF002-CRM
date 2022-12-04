@@ -13,7 +13,10 @@ public static class ServiceRegistrations
     {
         var connectionString = configuration.GetConnectionString("Default");
         services.AddDbContext<AppDbContext>(options =>
-            options.UseSqlServer(connectionString)
+            options.UseSqlServer(connectionString, builder =>
+            {
+                builder.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null);
+            })
         );
 
         services.AddScoped<ICustomerRepository, CustomerRepository>();

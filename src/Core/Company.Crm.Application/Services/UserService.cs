@@ -1,7 +1,7 @@
 ﻿using Company.Crm.Application.Dtos;
+using Company.Crm.Application.Email;
 using Company.Crm.Application.Services.Abstracts;
-using Company.Crm.Application.UserEmail;
-using Company.Crm.Domain.Entities;
+using Company.Crm.Domain.Entities.Usr;
 using Company.Crm.Domain.Enums;
 using Company.Crm.Domain.Repositories;
 using Company.Framework.Authentication;
@@ -13,13 +13,13 @@ namespace Company.Crm.Application.Services;
 public class UserService : IUserService
 {
     private readonly IConfiguration _configuration;
-    private readonly IUserEmailService _userEmailService;
+    private readonly IUserEmailerService _userEmailerService;
     private readonly IUserRepository _userRepository;
 
-    public UserService(IUserRepository userRepository, IUserEmailService userEmailService, IConfiguration configuration)
+    public UserService(IUserRepository userRepository, IUserEmailerService userEmailerService, IConfiguration configuration)
     {
         _userRepository = userRepository;
-        _userEmailService = userEmailService;
+        _userEmailerService = userEmailerService;
         _configuration = configuration;
     }
 
@@ -84,13 +84,13 @@ public class UserService : IUserService
         if (isCreated)
         {
             // Register Mail
-            _userEmailService.RegisterMailAsync(dto.EmailAddress, dto.Name).GetAwaiter().GetResult();
+            _userEmailerService.RegisterMailAsync(dto.EmailAddress, dto.Name).GetAwaiter().GetResult();
 
             // Email Activation
             var activationKey = SecurityHelper.CreateMd5(dto.EmailAddress);
             var link = $"{_configuration["App:SiteUrl"]}/Auth/EmailActivation?email={dto.EmailAddress}&activationKey={activationKey}";
 
-            _userEmailService.ConfirmationMailAsync(link, dto.EmailAddress);
+            _userEmailerService.ConfirmationMailAsync(link, dto.EmailAddress);
 
             return user;
         }
@@ -131,7 +131,7 @@ public class UserService : IUserService
             var resetKey = SecurityHelper.CreateMd5(dto.EmailAddress);
             var link = $"{_configuration["App:SiteUrl"]}/Auth/ResetPassword?email={dto.EmailAddress}&resetKey={resetKey}";
 
-            _userEmailService.RemindPasswordMailAsync(link, dto.EmailAddress);
+            _userEmailerService.RemindPasswordMailAsync(link, dto.EmailAddress);
         }
     }
 

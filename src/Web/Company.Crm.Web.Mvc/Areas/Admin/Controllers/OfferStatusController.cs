@@ -1,6 +1,6 @@
 ﻿using Company.Crm.Application.Constants;
 using Company.Crm.Application.Services.Abstracts;
-using Company.Crm.Domain.Entities;
+using Company.Crm.Domain.Entities.Lst;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

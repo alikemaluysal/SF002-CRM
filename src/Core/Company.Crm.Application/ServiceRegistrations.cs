@@ -1,10 +1,10 @@
-﻿using System.Reflection;
+﻿using Company.Crm.Application.Email;
 using Company.Crm.Application.Services;
 using Company.Crm.Application.Services.Abstracts;
-using Company.Crm.Application.UserEmail;
 using Company.Framework.Email;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 
 namespace Company.Crm.Application;
 
@@ -22,7 +22,7 @@ public static class ServiceRegistrations
         services.AddTransient<ICustomerService, CustomerService>();
         services.AddTransient<IEmployeeService, EmployeeService>();
         services.AddTransient<INotificationService, NotificationService>();
-        services.AddTransient<IAddressService, AddressService>();
+        services.AddTransient<IUserAddressService, UserAddressService>();
         services.AddTransient<IRegionService, RegionService>();
         services.AddTransient<IOfferService, OfferService>();
         services.AddTransient<ITaskService, TaskService>();
@@ -30,8 +30,8 @@ public static class ServiceRegistrations
         services.AddTransient<IOfferStatusService, OfferStatusService>();
         services.AddTransient<IDepartmentService, DepartmentService>();
         services.AddTransient<IRequestService, RequestService>();
-        services.AddTransient<IPersonEmailService, PersonEmailService>();
-        services.AddTransient<IPhoneService, PhoneService>();
+        services.AddTransient<IUserEmailService, UserEmailService>();
+        services.AddTransient<IUserPhoneService, UserPhoneService>();
         services.AddTransient<ITitleService, TitleService>();
         services.AddTransient<IDocumentService, DocumentService>();
         services.AddTransient<IUserService, UserService>();
@@ -39,6 +39,6 @@ public static class ServiceRegistrations
 
         services.Configure<EmailSettings>(configuration.GetSection("Email"));
         services.AddTransient<IEmailService, EmailService>();
-        services.AddTransient<IUserEmailService, UserEmailService>();
+        services.AddTransient<IUserEmailerService, UserEmailerService>();
     }
 }

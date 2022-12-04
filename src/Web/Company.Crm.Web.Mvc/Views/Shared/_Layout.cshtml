@@ -1,4 +1,5 @@
 ﻿@using System.Security.Claims;
+@using Company.Crm.Application.Constants;
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,9 +27,6 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="Admin" asp-controller="Home" asp-action="Index">Admin Panel</a>
-                        </li>
                     </ul>
                     @if (!User.Identity.IsAuthenticated)
                     {
@@ -49,8 +47,13 @@
                                     @User.Identity.Name
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end">
-                                    <li><a class="dropdown-item text-dark" href="#">Profile</a></li>
-                                    <li><a class="dropdown-item text-dark" href="#">Settings</a></li>
+                                    @if (User.IsInRole(RoleNameConsts.Administrator))
+                                    {
+                                        <li><a class="dropdown-item text-dark" asp-area="Admin" asp-controller="Home">Admin Panel</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                    }
+                                    <li><a class="dropdown-item text-dark" asp-controller="User" asp-action="Profile">Profile</a></li>
+                                    <li><a class="dropdown-item text-dark" asp-controller="User" asp-action="Settings">Settings</a></li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li><a class="dropdown-item text-dark" asp-controller="Auth" asp-action="Logout">Logout</a></li>
                                 </ul>

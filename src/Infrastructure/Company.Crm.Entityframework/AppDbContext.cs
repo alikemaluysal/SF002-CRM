@@ -1,4 +1,6 @@
 ﻿using Company.Crm.Domain.Entities;
+using Company.Crm.Domain.Entities.Lst;
+using Company.Crm.Domain.Entities.Usr;
 using Microsoft.EntityFrameworkCore;
 using Task = Company.Crm.Domain.Entities.Task;
 
@@ -17,24 +19,34 @@ public class AppDbContext : DbContext
 
     public DbSet<Customer> Customers { get; set; }
     public DbSet<Employee> Employees { get; set; }
-    public DbSet<Notification> Notifications { get; set; }
+    public DbSet<UserAddress> UserAddresses { get; set; }
+    public DbSet<UserEmail> UserEmails { get; set; }
+    public DbSet<UserPhone> UserPhones { get; set; }
+    public DbSet<Request> Requests { get; set; }
     public DbSet<Offer> Offers { get; set; }
-    public DbSet<Address> Addresses { get; set; }
-    public DbSet<Email> Emails { get; set; }
     public DbSet<Region> Regions { get; set; }
     public DbSet<Task> Tasks { get; set; }
-    public DbSet<StatusType> StatusTypes { get; set; }
-    public DbSet<Department> Departments { get; set; }
-    public DbSet<OfferStatus> OfferStatuses { get; set; }
-    public DbSet<Request> Requests { get; set; }
+    public DbSet<Notification> Notifications { get; set; }
     public DbSet<Document> Documents { get; set; }
-    public DbSet<Phone> Phones { get; set; }
-    public DbSet<Title> Titles { get; set; }
+
+    #region USR Tables
+
     public DbSet<User> Users { get; set; }
     public DbSet<Role> Roles { get; set; }
-    public DbSet<Gender> Genders { get; set; }
+    public DbSet<Permission> Permissions { get; set; }
 
+    #endregion
+
+    #region LST Tables
+
+    public DbSet<Title> Titles { get; set; }
+    public DbSet<Department> Departments { get; set; }
+    public DbSet<Gender> Genders { get; set; }
     public DbSet<UserStatus> UserStatuses { get; set; }
+    public DbSet<StatusType> StatusTypes { get; set; }
+    public DbSet<OfferStatus> OfferStatuses { get; set; }
+
+    #endregion
 
     protected override void OnConfiguring(DbContextOptionsBuilder builder)
     {
@@ -51,12 +63,14 @@ public class AppDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         #region Fluent API ile entity configuration
+
         //var customer = modelBuilder.Entity<Customer>();
         //customer.Property(c => c.UserId).IsRequired();
         //customer.Property(c => c.BirthDate).IsRequired();
         //customer.Property(c => c.CompanyName)
         //    .IsRequired()
         //    .HasMaxLength(500);
+
         #endregion
 
         // Tek tek configuration tanımlama
@@ -67,18 +81,19 @@ public class AppDbContext : DbContext
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
 
         // Singular Table Names
+        //https://www.meziantou.net/entity-framework-core-naming-convention.htm
         foreach (var entityType in modelBuilder.Model.GetEntityTypes())
         {
-            if (entityType != null)
+            if (entityType != null && !entityType.HasSharedClrType)
             {
-                //modelBuilder.Entity(entityType.ClrType).ToTable(entityType.ClrType.Name);
+                modelBuilder.Entity(entityType.ClrType).ToTable(entityType.ClrType.Name, entityType.GetSchema());
             }
         }
 
+        modelBuilder.Entity<Offer>().Property(e => e.BidAmount).HasPrecision(12, 2);
+
         // Seeders (HasData)
         //CustomerSeeder.Seed(modelBuilder);
-
-        modelBuilder.Entity<User>().Property(c => c.Password).HasMaxLength(200);
 
         base.OnModelCreating(modelBuilder);
     }

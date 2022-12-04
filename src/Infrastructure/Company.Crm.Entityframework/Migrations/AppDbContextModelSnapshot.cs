@@ -22,29 +22,6 @@ namespace Company.Crm.Entityframework.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("Company.Crm.Domain.Entities.Address", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<short>("AddressType")
-                        .HasColumnType("smallint");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Addresses");
-                });
-
             modelBuilder.Entity("Company.Crm.Domain.Entities.Customer", b =>
                 {
                     b.Property<int>("Id")
@@ -60,6 +37,9 @@ namespace Company.Crm.Entityframework.Migrations
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
+
+                    b.Property<short>("CustomerType")
+                        .HasColumnType("smallint");
 
                     b.Property<int?>("GenderId")
                         .HasColumnType("int");
@@ -83,7 +63,7 @@ namespace Company.Crm.Entityframework.Migrations
 
                     b.HasIndex("StatusTypeId");
 
-                    b.ToTable("Customers");
+                    b.ToTable("Customer", (string)null);
                 });
 
             modelBuilder.Entity("Company.Crm.Domain.Entities.Department", b =>
@@ -99,7 +79,7 @@ namespace Company.Crm.Entityframework.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Departments");
+                    b.ToTable("Department", "LST");
                 });
 
             modelBuilder.Entity("Company.Crm.Domain.Entities.Document", b =>
@@ -125,29 +105,7 @@ namespace Company.Crm.Entityframework.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Documents");
-                });
-
-            modelBuilder.Entity("Company.Crm.Domain.Entities.Email", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("EmailAddress")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("EmailType")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Emails");
+                    b.ToTable("Document", (string)null);
                 });
 
             modelBuilder.Entity("Company.Crm.Domain.Entities.Employee", b =>
@@ -170,6 +128,9 @@ namespace Company.Crm.Entityframework.Migrations
                     b.Property<string>("IdentityNumber")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("ParentEmployeeId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("RegionId")
                         .HasColumnType("int");
 
@@ -184,7 +145,7 @@ namespace Company.Crm.Entityframework.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Employees");
+                    b.ToTable("Employee", (string)null);
                 });
 
             modelBuilder.Entity("Company.Crm.Domain.Entities.Gender", b =>
@@ -202,7 +163,7 @@ namespace Company.Crm.Entityframework.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Genders");
+                    b.ToTable("Gender", "LST");
                 });
 
             modelBuilder.Entity("Company.Crm.Domain.Entities.Notification", b =>
@@ -214,17 +175,21 @@ namespace Company.Crm.Entityframework.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(2022, 12, 4, 20, 30, 59, 91, DateTimeKind.Utc).AddTicks(9991));
 
                     b.Property<int>("CreatedBy")
                         .HasColumnType("int");
 
-                    b.Property<bool>("IsRead")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Text")
+                    b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsRead")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -235,7 +200,7 @@ namespace Company.Crm.Entityframework.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Notifications");
+                    b.ToTable("Notification", (string)null);
                 });
 
             modelBuilder.Entity("Company.Crm.Domain.Entities.Offer", b =>
@@ -247,7 +212,8 @@ namespace Company.Crm.Entityframework.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<decimal>("BidAmount")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(12, 2)
+                        .HasColumnType("decimal(12,2)");
 
                     b.Property<int>("EmployeeUserId")
                         .HasColumnType("int");
@@ -263,7 +229,7 @@ namespace Company.Crm.Entityframework.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Offers");
+                    b.ToTable("Offer", (string)null);
                 });
 
             modelBuilder.Entity("Company.Crm.Domain.Entities.OfferStatus", b =>
@@ -284,7 +250,7 @@ namespace Company.Crm.Entityframework.Migrations
                     b.ToTable("OfferStatus", "LST");
                 });
 
-            modelBuilder.Entity("Company.Crm.Domain.Entities.Phone", b =>
+            modelBuilder.Entity("Company.Crm.Domain.Entities.Permission", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -292,18 +258,13 @@ namespace Company.Crm.Entityframework.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("PhoneNumber")
+                    b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("PhoneType")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Phones");
+                    b.ToTable("Permission", (string)null);
                 });
 
             modelBuilder.Entity("Company.Crm.Domain.Entities.Region", b =>
@@ -323,7 +284,7 @@ namespace Company.Crm.Entityframework.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Regions");
+                    b.ToTable("Region", "LST");
                 });
 
             modelBuilder.Entity("Company.Crm.Domain.Entities.Request", b =>
@@ -349,7 +310,7 @@ namespace Company.Crm.Entityframework.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Requests");
+                    b.ToTable("Request", (string)null);
                 });
 
             modelBuilder.Entity("Company.Crm.Domain.Entities.Role", b =>
@@ -366,7 +327,7 @@ namespace Company.Crm.Entityframework.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Roles");
+                    b.ToTable("Role", (string)null);
                 });
 
             modelBuilder.Entity("Company.Crm.Domain.Entities.StatusType", b =>
@@ -415,7 +376,7 @@ namespace Company.Crm.Entityframework.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Tasks");
+                    b.ToTable("Task", (string)null);
                 });
 
             modelBuilder.Entity("Company.Crm.Domain.Entities.Title", b =>
@@ -469,7 +430,74 @@ namespace Company.Crm.Entityframework.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("User", (string)null);
+                });
+
+            modelBuilder.Entity("Company.Crm.Domain.Entities.UserAddress", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<short>("AddressType")
+                        .HasColumnType("smallint");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UserAddress", (string)null);
+                });
+
+            modelBuilder.Entity("Company.Crm.Domain.Entities.UserEmail", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("EmailAddress")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("EmailType")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UserEmail", (string)null);
+                });
+
+            modelBuilder.Entity("Company.Crm.Domain.Entities.UserPhone", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PhoneType")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UserPhone", (string)null);
                 });
 
             modelBuilder.Entity("Company.Crm.Domain.Entities.UserStatus", b =>
@@ -486,22 +514,37 @@ namespace Company.Crm.Entityframework.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("UserStatuses");
+                    b.ToTable("UserStatus", "LST");
                 });
 
-            modelBuilder.Entity("RoleUser", b =>
+            modelBuilder.Entity("RolePermission", b =>
                 {
-                    b.Property<int>("RolesId")
+                    b.Property<int>("RoleId")
                         .HasColumnType("int");
 
-                    b.Property<int>("UsersId")
+                    b.Property<int>("PermissionId")
                         .HasColumnType("int");
 
-                    b.HasKey("RolesId", "UsersId");
+                    b.HasKey("RoleId", "PermissionId");
 
-                    b.HasIndex("UsersId");
+                    b.HasIndex("PermissionId");
 
-                    b.ToTable("RoleUser");
+                    b.ToTable("RolePermission");
+                });
+
+            modelBuilder.Entity("UserRole", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex(new[] { "RoleId" }, "IX_UserRole_RoleId");
+
+                    b.ToTable("UserRole", (string)null);
                 });
 
             modelBuilder.Entity("Company.Crm.Domain.Entities.Customer", b =>
@@ -513,17 +556,32 @@ namespace Company.Crm.Entityframework.Migrations
                     b.Navigation("StatusTypeFk");
                 });
 
-            modelBuilder.Entity("RoleUser", b =>
+            modelBuilder.Entity("RolePermission", b =>
+                {
+                    b.HasOne("Company.Crm.Domain.Entities.Permission", null)
+                        .WithMany()
+                        .HasForeignKey("PermissionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Company.Crm.Domain.Entities.Role", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("UserRole", b =>
                 {
                     b.HasOne("Company.Crm.Domain.Entities.Role", null)
                         .WithMany()
-                        .HasForeignKey("RolesId")
+                        .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Company.Crm.Domain.Entities.User", null)
                         .WithMany()
-                        .HasForeignKey("UsersId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

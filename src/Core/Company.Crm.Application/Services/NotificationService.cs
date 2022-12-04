@@ -35,7 +35,7 @@ public class NotificationService : INotificationService
             Title = x.Title,
             CreatedAt = x.CreatedAt,
             CreatedBy = x.CreatedBy,
-            Text = x.Text,
+            Text = x.Description,
             IsRead = x.IsRead
         }).ToList();
         return pagedList;
@@ -48,7 +48,7 @@ public class NotificationService : INotificationService
             Id = x.Id,
             IsRead = x.IsRead,
             CreatedAt = x.CreatedAt,
-            Text = x.Text,
+            Text = x.Description,
             Title = x.Title,
             UserId = x.UserId
         }).ToList();
@@ -65,7 +65,7 @@ public class NotificationService : INotificationService
         return _notificationRepository.Insert(new Notification
         {
             Title = entity.Title,
-            Text = entity.Text,
+            Description = entity.Text,
             UserId = entity.UserId,
             CreatedBy = entity.UserId
         });
@@ -75,7 +75,7 @@ public class NotificationService : INotificationService
     {
         var notification = _notificationRepository.GetById(dto.Id);
         notification.UserId = dto.UserId;
-        notification.Text = dto.Text;
+        notification.Description = dto.Text;
         notification.Title = dto.Title;
         notification.CreatedBy = dto.UserId;
         //notification = _mapper.Map<Notification>(dto); // save için repository çağırıldı.update ile mapper aynı anda kullanıldığında dtodan gelmeyen fieldları null yapıyor.

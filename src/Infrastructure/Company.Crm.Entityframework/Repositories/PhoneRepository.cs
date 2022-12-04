@@ -4,7 +4,7 @@ using Company.Framework.Repository;
 
 namespace Company.Crm.Entityframework.Repositories;
 
-public class PhoneRepository : BaseRepository<AppDbContext, Phone>, IPhoneRepository
+public class PhoneRepository : BaseRepository<AppDbContext, UserPhone>, IPhoneRepository
 {
     public PhoneRepository(AppDbContext ctx) : base(ctx)
     {

@@ -12,4 +12,5 @@ public class Employee : BaseEntity
     public int? StatusTypeId { get; set; }
     public int? RegionId { get; set; }
     public DateTime? BirthDate { get; set; }
+    public int? ParentEmployeeId { get; set; }
 }

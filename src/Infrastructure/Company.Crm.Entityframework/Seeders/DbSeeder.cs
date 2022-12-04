@@ -1,11 +1,12 @@
 ﻿using Bogus;
 using Bogus.DataSets;
 using Company.Crm.Domain.Entities;
+using Company.Crm.Domain.Entities.Lst;
+using Company.Crm.Domain.Entities.Usr;
 using Company.Crm.Domain.Enums;
 using Company.Framework.Authentication;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Address = Bogus.DataSets.Address;
 
 namespace Company.Crm.Entityframework.Seeders;
 
@@ -20,7 +21,8 @@ public static class DbSeeder
         SeedRoles(context);
         SeedUsers(context);
         SeedAddresses(context);
-        //SeedNotifications(context);
+        SeedNotifications(context);
+        SeedLstTables(context);
 
         context.SaveChanges();
     }
@@ -74,11 +76,11 @@ public static class DbSeeder
 
     private static void SeedAddresses(AppDbContext context)
     {
-        if (!context.Addresses.Any())
+        if (!context.UserAddresses.Any())
         {
             var companySet = new Address("tr");
 
-            var addressFaker = new Faker<Domain.Entities.Address>()
+            var addressFaker = new Faker<Domain.Entities.UserAddress>()
                 .RuleFor(e => e.Description, c => companySet.City())
                 .RuleFor(e => e.UserId, c => c.Random.Int(1, 100))
                 .RuleFor(e => e.AddressType, c => (AddressTypeEnum)c.Random.Int(1, 2))
@@ -88,7 +90,7 @@ public static class DbSeeder
                 .Select(e => addressFaker.Generate())
                 .ToList();
 
-            context.Addresses.AddRange(addresses);
+            context.UserAddresses.AddRange(addresses);
         }
     }
 
@@ -102,7 +104,7 @@ public static class DbSeeder
             notificationFaker
                 .RuleFor(x => x.IsRead, f => f.Random.Bool())
                 .RuleFor(x => x.Title, f => randomSet.Slug())
-                .RuleFor(x => x.Text, f => randomSet.Word());
+                .RuleFor(x => x.Description, f => randomSet.Word());
 
             var notifications = Enumerable.Range(1, 10).Select(e => notificationFaker.Generate()).ToList();
 
@@ -115,6 +117,79 @@ public static class DbSeeder
             }
 
             context.Notifications.AddRange(notifications);
+        }
+    }
+
+    private static void SeedLstTables(AppDbContext context)
+    {
+        if (!context.Departments.Any())
+        {
+            context.Departments.AddRange(new List<Department>
+            {
+                new() { Name = "Administration" },
+                new() { Name = "Sale" },
+                new() { Name = "Marketing" },
+                new() { Name = "Accounting" },
+                new() { Name = "Technical" }
+            });
+        }
+
+        if (!context.Genders.Any())
+        {
+            context.Genders.AddRange(new List<Gender>
+            {
+                new() { Name = "Male" },
+                new() { Name = "Female" }
+            });
+        }
+
+        if (!context.OfferStatuses.Any())
+        {
+            context.OfferStatuses.AddRange(new List<OfferStatus>
+            {
+                new() { Name = "Active" },
+                new() { Name = "In Progress" },
+                new() { Name = "Closed" }
+            });
+        }
+
+        if (!context.Regions.Any())
+        {
+            context.Regions.AddRange(new List<Region>
+            {
+                new() { Name = "Istanbul-Avrupa" },
+                new() { Name = "Istanbul-Anadolu" },
+                new() { Name = "Ankara" }
+            });
+        }
+
+        if (!context.StatusTypes.Any())
+        {
+            context.StatusTypes.AddRange(new List<StatusType>
+            {
+                new() { Name = "Active" },
+                new() { Name = "Archive" },
+                new() { Name = "Black Listed" }
+            });
+        }
+
+        if (!context.UserStatuses.Any())
+        {
+            context.UserStatuses.AddRange(new List<UserStatus>
+            {
+                new() { Name = "Active" },
+                new() { Name = "Not Activated" },
+                new() { Name = "Passive" }
+            });
+        }
+
+        if (!context.Titles.Any())
+        {
+            context.Titles.AddRange(new List<Title>
+            {
+                new() { Name = "Software Developer" },
+                new() { Name = "Engineer" }
+            });
         }
     }
 }

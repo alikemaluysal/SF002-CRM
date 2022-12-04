@@ -1,4 +1,4 @@
-﻿using Company.Crm.Domain.Entities;
+﻿using Company.Crm.Domain.Entities.Usr;
 using Company.Crm.Domain.Repositories;
 using Company.Framework.Repository;
 

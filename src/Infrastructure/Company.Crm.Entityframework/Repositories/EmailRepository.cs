@@ -4,7 +4,7 @@ using Company.Framework.Repository;
 
 namespace Company.Crm.Entityframework.Repositories;
 
-public class EmailRepository : BaseRepository<AppDbContext, Email>, IEmailRepository
+public class EmailRepository : BaseRepository<AppDbContext, UserEmail>, IEmailRepository
 {
     public EmailRepository(AppDbContext ctx) : base(ctx)
     {

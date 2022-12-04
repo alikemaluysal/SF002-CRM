@@ -5,7 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace Company.Crm.Web.Mvc.Areas.Admin.Controllers;
 
 //[Authorize(Roles = RoleNameConsts.Administrator + "," + RoleNameConsts.SalesManager)]
-[Authorize(Roles = RoleNameConsts.SalesManager)]
+//[Authorize(Roles = RoleNameConsts.SalesManager)]
+[Authorize(Roles = RoleNameConsts.Administrator)]
 [Area("Admin")]
 public class SaleController : Controller
 {

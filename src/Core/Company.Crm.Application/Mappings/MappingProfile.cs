@@ -1,8 +1,11 @@
 ﻿using AutoMapper;
 using Company.Crm.Application.Dtos;
 using Company.Crm.Application.Dtos.Address;
+using Company.Crm.Application.Dtos.List;
 using Company.Crm.Application.Dtos.Notification;
+using Company.Crm.Application.Dtos.UserAddress;
 using Company.Crm.Domain.Entities;
+using Company.Crm.Domain.Entities.Lst;
 
 namespace Company.Crm.Application.Mappings;
 
@@ -26,7 +29,7 @@ public class MappingProfile : Profile
         CreateMap<Notification, NotificationCreateOrUpdateDto>().ReverseMap();
         CreateMap<Notification, NotificationDetailDto>().ReverseMap();
 
-        CreateMap<Address, AddressDetailDto>().ReverseMap();
-        CreateMap<Address, AddressCreateOrUpdateDto>().ReverseMap();
+        CreateMap<UserAddress, AddressDetailDto>().ReverseMap();
+        CreateMap<UserAddress, AddressCreateOrUpdateDto>().ReverseMap();
     }
 }
