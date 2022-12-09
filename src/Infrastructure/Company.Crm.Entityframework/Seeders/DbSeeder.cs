@@ -38,7 +38,8 @@ public static class DbSeeder
                 .RuleFor(e => e.IdentityNumber, c => c.Random.AlphaNumeric(11))
                 .RuleFor(e => e.BirthDate, c =>
                     c.Date.Between(new DateTime(1960, 1, 1), DateTime.Now))
-                .RuleFor(e => e.UserId, c => c.Random.Int(1, 10));
+                .RuleFor(e => e.UserId, c => c.Random.Int(1, 10))
+                .RuleFor(e => e.StatusTypeId, c => c.Random.Int(1,2));
 
             var customers = Enumerable.Range(1, 200)
                 .Select(e => customerFaker.Generate())

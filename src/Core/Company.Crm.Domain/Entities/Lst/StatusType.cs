@@ -8,5 +8,5 @@ public class StatusType : BaseEntity
 {
     public string Name { get; set; }
 
-    public List<Customer> Customers { get; set; }
+    public List<Customer>? Customers { get; set; }
 }
