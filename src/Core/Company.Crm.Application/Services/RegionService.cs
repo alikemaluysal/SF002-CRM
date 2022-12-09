@@ -1,6 +1,9 @@
-﻿using Company.Crm.Application.Services.Abstracts;
+﻿using Company.Crm.Application.Dtos;
+using Company.Crm.Application.Services.Abstracts;
 using Company.Crm.Domain.Entities.Lst;
 using Company.Crm.Domain.Repositories;
+using Company.Crm.Entityframework.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace Company.Crm.Application.Services;
 
@@ -41,5 +44,22 @@ public class RegionService : IRegionService
     public bool DeleteById(int id)
     {
         return _regionRepository.DeleteById(id);
+    }
+
+    public List<Region> GetPaged(int page = 1)
+    {
+        var entityList = _regionRepository.GetAll().OrderByDescending(c => c.Id);
+
+        var pagedList = entityList.Skip((page - 1) * 10).Take(10).ToList();
+
+        return pagedList;
+    }
+
+
+    public Region GetForEditById(int id)
+    {
+        var region = _regionRepository.GetById(id);
+
+        return region;
     }
 }

@@ -10,4 +10,6 @@ public interface IRegionService
     public bool Update(Region entity);
     public bool Delete(Region entity);
     public bool DeleteById(int id);
+    List<Region> GetPaged(int page = 1);
+    Region GetForEditById(int id);
 }
