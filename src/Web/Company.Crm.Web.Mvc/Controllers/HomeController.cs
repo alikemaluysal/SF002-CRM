@@ -4,6 +4,7 @@ using System.Diagnostics;
 
 namespace Company.Crm.Web.Mvc.Controllers;
 
+//[SampleActionFilter("Cem")]
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
@@ -13,7 +14,10 @@ public class HomeController : Controller
         _logger = logger;
     }
 
-    public IActionResult Index()
+    //[ResponseHeader("Egitim", "Filter yapisi")]
+    //[SampleActionFilter("Cem")]
+    //[AuthorizePermission("Permission.Create.Sale")]
+    public async Task<IActionResult> Index()
     {
         return View();
     }
