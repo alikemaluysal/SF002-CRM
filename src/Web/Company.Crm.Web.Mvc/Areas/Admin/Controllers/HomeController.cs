@@ -1,9 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Company.Crm.Application.Constants;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Company.Crm.Web.Mvc.Areas.Admin.Controllers;
 
-[Authorize]
+[Authorize(Roles = RoleNameConsts.Administrator)]
 [Area("Admin")]
 public class HomeController : Controller
 {

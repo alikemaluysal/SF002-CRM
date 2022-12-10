@@ -34,7 +34,6 @@ public class OfferStatusController : Controller
     public PartialViewResult Create()
     {
         var data = new OfferStatus();
-
         return PartialView("_Create", data);
     }
 
@@ -92,7 +91,6 @@ public class OfferStatusController : Controller
     public async Task<PartialViewResult> Delete(int id)
     {
         var data = _service.GetById(id);
-
         return PartialView("_Delete", data);
     }
 

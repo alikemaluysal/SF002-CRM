@@ -14,20 +14,24 @@
     <li class="nav-item">
         <a class="nav-link text-white" asp-area="Admin" asp-controller="UserAddress" asp-action="Index">Addresses</a>
     </li>
-
-    <li class="nav-item">
-        <a class="nav-link text-white" asp-area="Admin" asp-controller="Region" asp-action="Index">Regions</a>
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            User Management
+        </a>
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item" asp-area="Admin" asp-controller="Home" asp-action="Index">Users</a></li>
+            <li><a class="dropdown-item" asp-area="Admin" asp-controller="Home" asp-action="Index">Roles</a></li>
+            <li><a class="dropdown-item" asp-area="Admin" asp-controller="Home" asp-action="Index">Permissions</a></li>
+        </ul>
     </li>
-
     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Lists
         </a>
         <ul class="dropdown-menu">
-            <li>
-                <a class="dropdown-item" asp-area="Admin" asp-controller="OfferStatus" asp-action="Index">Offer Status</a>
-                <a class="dropdown-item" asp-area="Admin" asp-controller="StatusType" asp-action="Index">Status Type</a>
-            </li>
+            <li><a class="dropdown-item" asp-area="Admin" asp-controller="OfferStatus" asp-action="Index">Offer Statuses</a></li>
+            <li><a class="dropdown-item" asp-area="Admin" asp-controller="StatusType" asp-action="Index">Status Types</a></li>
+            <li><a class="dropdown-item" asp-area="Admin" asp-controller="Region" asp-action="Index">Regions</a></li>
         </ul>
     </li>
 </ul>

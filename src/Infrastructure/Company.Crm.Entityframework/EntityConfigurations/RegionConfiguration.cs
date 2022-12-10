@@ -1,24 +1,15 @@
 ﻿using Company.Crm.Domain.Entities.Lst;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Company.Crm.Entityframework.EntityConfigurations
 {
-
     public class RegionConfiguration : IEntityTypeConfiguration<Region>
     {
-
         public void Configure(EntityTypeBuilder<Region> builder)
         {
+            builder.ToTable(nameof(Region), "LST");
             builder.Property(c => c.Name).IsRequired().HasMaxLength(150);
-            builder.Property(c => c.ParentId).UseIdentityColumn();
-
         }
     }
-
 }
