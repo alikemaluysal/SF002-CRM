@@ -1,8 +1,7 @@
 using Company.Crm.Application;
 using Company.Crm.Entityframework;
 using Company.Crm.Web.Mvc;
-using Microsoft.AspNetCore.Diagnostics;
-using System.ComponentModel.DataAnnotations;
+using Company.Crm.Web.Mvc.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,6 +25,7 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+/*
 app.UseExceptionHandler(errorApp =>
 {
     errorApp.Run(async context =>
@@ -62,10 +62,13 @@ app.UseExceptionHandler(errorApp =>
         }
 
         await context.Response.WriteAsync(errorMessage);
-
     });
 });
+*/
 
+app.UseIpLogging();
+app.UseGlobalExceptionHandling();
+//app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 //app.UseStatusCodePages();
 app.UseStatusCodePagesWithRedirects("/Error/{0}"); // {0} hata kodunu ifade eder
