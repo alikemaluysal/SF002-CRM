@@ -36,6 +36,7 @@ public static class ServiceRegistrations
         services.AddTransient<IDocumentService, DocumentService>();
         services.AddTransient<IUserService, UserService>();
         services.AddTransient<IUserStatusService, UserStatusService>();
+        services.AddTransient<ISettingService, SettingService>();
 
         services.Configure<EmailSettings>(configuration.GetSection("Email"));
         services.AddTransient<IEmailService, EmailService>();

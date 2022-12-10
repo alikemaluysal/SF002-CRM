@@ -28,6 +28,7 @@ public class AppDbContext : DbContext
     public DbSet<Task> Tasks { get; set; }
     public DbSet<Notification> Notifications { get; set; }
     public DbSet<Document> Documents { get; set; }
+    public DbSet<Setting> Settings { get; set; }
 
     #region USR Tables
 
