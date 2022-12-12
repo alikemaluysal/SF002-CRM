@@ -10,6 +10,7 @@ namespace Company.Crm.Entityframework.EntityConfigurations
         {
             builder.ToTable(nameof(Region), "LST");
             builder.Property(c => c.Name).IsRequired().HasMaxLength(150);
+            builder.Property(c => c.ParentId).IsRequired(false);
         }
     }
 }

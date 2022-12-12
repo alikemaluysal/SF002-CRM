@@ -4,6 +4,7 @@ using Company.Crm.Entityframework;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Company.Crm.Entityframework.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221209223428_Task_Config")]
+    partial class Task_Config
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -268,7 +270,7 @@ namespace Company.Crm.Entityframework.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2022, 12, 10, 11, 6, 12, 50, DateTimeKind.Utc).AddTicks(9464));
+                        .HasDefaultValue(new DateTime(2022, 12, 9, 22, 34, 28, 631, DateTimeKind.Utc).AddTicks(6996));
 
                     b.Property<int>("CreatedBy")
                         .HasColumnType("int");
@@ -347,30 +349,6 @@ namespace Company.Crm.Entityframework.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Request", (string)null);
-                });
-
-            modelBuilder.Entity("Company.Crm.Domain.Entities.Setting", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("SettingKey")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SettingValue")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Setting", (string)null);
                 });
 
             modelBuilder.Entity("Company.Crm.Domain.Entities.Task", b =>
