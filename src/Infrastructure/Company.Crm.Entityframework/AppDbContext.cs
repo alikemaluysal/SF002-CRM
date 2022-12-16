@@ -46,6 +46,9 @@ public class AppDbContext : DbContext
     public DbSet<UserStatus> UserStatuses { get; set; }
     public DbSet<StatusType> StatusTypes { get; set; }
     public DbSet<OfferStatus> OfferStatuses { get; set; }
+    public DbSet<Sale> Sales { get; set; }
+
+
 
     #endregion
 

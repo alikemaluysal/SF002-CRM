@@ -37,6 +37,7 @@ public static class ServiceRegistrations
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IUserStatusRepository, UserStatusRepository>();
         services.AddScoped<ISettingRepository, SettingRepository>();
+        services.AddScoped<ISaleRepository, SaleRepository>();
 
         var provider = services.BuildServiceProvider();
         DbSeeder.Seed(provider);

@@ -41,5 +41,6 @@ public static class ServiceRegistrations
         services.Configure<EmailSettings>(configuration.GetSection("Email"));
         services.AddTransient<IEmailService, EmailService>();
         services.AddTransient<IUserEmailerService, UserEmailerService>();
+        services.AddTransient<ISaleService, SaleService>();
     }
 }
