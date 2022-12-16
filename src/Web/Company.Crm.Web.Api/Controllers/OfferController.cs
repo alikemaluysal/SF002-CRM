@@ -1,5 +1,6 @@
 ﻿using Company.Crm.Application.Dtos;
 using Company.Crm.Application.Services.Abstracts;
+using Company.Crm.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Company.Crm.Web.Api.Controllers;
