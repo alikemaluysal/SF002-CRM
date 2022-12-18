@@ -5,11 +5,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Company.Crm.Application.Dtos.UserAddress;
 
-public class AddressCreateOrUpdateDto : BaseDto
+public class UserPhoneCreateOrUpdateDto : BaseDto
 {
-    public AddressCreateOrUpdateDto()
+    public UserPhoneCreateOrUpdateDto()
     {
-        AddressTypes = new List<SelectListItem>();
+        UserPhoneTypes = new List<SelectListItem>();
     }
 
     public int UserId { get; set; }
@@ -18,5 +18,5 @@ public class AddressCreateOrUpdateDto : BaseDto
 
     [NotMapped]
     [ValidateNever]
-    public List<SelectListItem>? AddressTypes { get; set; }
+    public List<SelectListItem>? UserPhoneTypes { get; set; }
 }
