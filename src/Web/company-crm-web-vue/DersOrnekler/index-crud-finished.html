@@ -22,11 +22,12 @@
 				<i class="bi-plus-circle-fill"></i> New
 			</button>
 
-			<table class="table table-striped table-hover">
+			<table class="table table-striped table-hover" :class="tableClass">
 				<thead>
 					<tr>
 						<th scope="col">Id</th>
 						<th scope="col">Name</th>
+						<th scope="col">Stock Amount</th>
 						<th scope="col">Price</th>
 						<th scope="col">TAX</th>
 						<th scope="col">Total Price</th>
@@ -34,9 +35,12 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr v-for="(item, index) in products">
+					<tr v-for="(item, index) in products" :class="getRowClass(item)">
 						<th scope="row">{{ item.id }}</th>
 						<td>{{ item.name }}</td>
+						<td :style="stockStyle">
+							<span :class="{ 'fw-bold text-danger': item.stockAmount==0 }">{{ item.stockAmount }}</span>
+						</td>
 						<td>{{ item.price }}</td>
 						<td>{{ (item.price * 0.18).toFixed(2) }}</td>
 						<td>{{ (parseFloat(item.price) + (item.price * 0.18)).toFixed(2) }}</td>
@@ -74,6 +78,10 @@
 									<label for="price" class="form-label">Price</label>
 									<input type="text" class="form-control" id="price" v-model="product.price">
 								</div>
+								<div class="mb-3">
+									<label for="amount" class="form-label">Stock Amount</label>
+									<input type="text" class="form-control" id="amount" v-model="product.stockAmount">
+								</div>
 							</form>
 
 						</div>
@@ -102,10 +110,14 @@
 			data: {
 				product: {},
 				products: [
-					{ id: 1, name: 'Cep Telefonu', price: 19599 },
-					{ id: 2, name: 'Klavye', price: 98 },
-					{ id: 3, name: 'Monitor', price: 4799 },
-				]
+					{ id: 1, name: 'Cep Telefonu', price: 19599, stockAmount: 0 },
+					{ id: 2, name: 'Klavye', price: 98, stockAmount: 0 },
+					{ id: 3, name: 'Monitor', price: 4799, stockAmount: 35 },
+				],
+				tableClass: 'text-primary',
+				//tableClass: ['table-success', 'text-danger']
+				//stockStyle: { color: 'red', fontSize: '14px', fontWeight: 'bold' }
+				stockStyle: { color: 'black' }
 			},
 			mounted() {
 				crudModal = new bootstrap.Modal('#crudModal', {
@@ -113,6 +125,14 @@
 				});
 			},
 			methods: {
+				getRowClass(item) {
+					if ('stockAmount' in item) {
+						return {
+							'table-success': item.stockAmount > 0,
+							'table-danger': item.stockAmount == 0
+						}
+					}
+				},
 				newProduct() {
 					crudModal.show();
 
@@ -129,12 +149,14 @@
 						this.products.push({
 							id: this.products.length + 1,
 							name: this.product.name,
-							price: this.product.price
+							price: this.product.price,
+							stockAmount: this.product.stockAmount,
 						});
 					} else {
 						var updateProduct = this.products.find(e => e.id == this.product.id);
 						updateProduct.name = this.product.name;
 						updateProduct.price = this.product.price;
+						updateProduct.stockAmount = this.product.stockAmount;
 					}
 					crudModal.hide();
 					this.product = {};
