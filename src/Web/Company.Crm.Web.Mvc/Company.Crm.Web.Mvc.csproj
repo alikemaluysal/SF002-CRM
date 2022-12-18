@@ -25,4 +25,8 @@
     <ProjectReference Include="..\..\Infrastructure\Company.Crm.Entityframework\Company.Crm.Entityframework.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Areas\Admin\Views\Document - Copy\" />
+  </ItemGroup>
+
 </Project>
