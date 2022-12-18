@@ -4,7 +4,7 @@ using Company.Crm.Domain.Repositories;
 
 namespace Company.Crm.Application.Services;
 
-internal class DocumentService : IDocumentService
+public class DocumentService : IDocumentService
 {
     private readonly IDocumentRepository _documentRepository;
 

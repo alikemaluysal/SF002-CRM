@@ -37,6 +37,9 @@ public static class ServiceRegistrations
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IUserStatusRepository, UserStatusRepository>();
         services.AddScoped<ISettingRepository, SettingRepository>();
+        services.AddScoped<IRequestStatusRepository, RequestStatusRepository>();
+        services.AddScoped<ITaskStatusRepository, TaskStatusRepository>();
+        services.AddScoped<IDocumentTypeRepository, DocumentTypeRepository>();
         services.AddScoped<ISaleRepository, SaleRepository>();
 
         var provider = services.BuildServiceProvider();
