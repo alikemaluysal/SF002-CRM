@@ -15,9 +15,6 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
                 "RolePermission",
                 l => l.HasOne<Permission>().WithMany().HasForeignKey("PermissionId"),
                 r => r.HasOne<Role>().WithMany().HasForeignKey("RoleId"),
-                j =>
-                {
-                    j.HasKey("RoleId", "PermissionId");
-                });
+                j => { j.HasKey("RoleId", "PermissionId"); });
     }
 }

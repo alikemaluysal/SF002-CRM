@@ -2,16 +2,15 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Company.Crm.Entityframework.EntityConfigurations
+namespace Company.Crm.Entityframework.EntityConfigurations;
+
+internal class DocumentConfiguration : IEntityTypeConfiguration<Document>
 {
-    internal class DocumentConfiguration : IEntityTypeConfiguration<Document>
+    public void Configure(EntityTypeBuilder<Document> builder)
     {
-        public void Configure(EntityTypeBuilder<Document> builder)
-        {
-            builder.Property(a => a.UserId).IsRequired();
-            builder.Property(a => a.RequestId).IsRequired();
-            builder.Property(a => a.DocumentTypeId).IsRequired();
-            builder.Property(a => a.DocumentFileName).IsRequired();
-        }
+        builder.Property(a => a.UserId).IsRequired();
+        builder.Property(a => a.RequestId).IsRequired();
+        builder.Property(a => a.DocumentTypeId).IsRequired();
+        builder.Property(a => a.DocumentFileName).IsRequired();
     }
 }

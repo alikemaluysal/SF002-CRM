@@ -1,7 +1,6 @@
 ﻿using Company.Crm.Application.Dtos.Task;
 using Company.Crm.Application.Services.Abstracts;
 using Microsoft.AspNetCore.Mvc;
-using Task = Company.Crm.Domain.Entities.Task;
 
 namespace Company.Crm.Web.Api.Controllers;
 

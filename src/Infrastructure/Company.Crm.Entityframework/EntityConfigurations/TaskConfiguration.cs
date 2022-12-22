@@ -1,5 +1,4 @@
-﻿using Company.Crm.Domain.Entities;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Task = Company.Crm.Domain.Entities.Task;
 

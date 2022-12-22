@@ -18,14 +18,14 @@ public class RequestStatusController : Controller
     [HttpGet]
     public IActionResult GetAll()
     {
-       var requestStatus= _requestStatusService.GetAll();
+        var requestStatus = _requestStatusService.GetAll();
         return Ok(requestStatus);
     }
 
     [HttpGet("{id}")]
     public IActionResult GetById(int id)
     {
-        var requestStatus= _requestStatusService.GetById(id);
+        var requestStatus = _requestStatusService.GetById(id);
         return Ok(requestStatus);
     }
 
@@ -42,21 +42,19 @@ public class RequestStatusController : Controller
         var isUpdated = _requestStatusService.Update(requestStatus);
         return Ok(isUpdated);
     }
+
     [HttpDelete("{id}")]
     public IActionResult Delete(int id)
     {
-        var isDeleted =_requestStatusService.DeleteById(id);
+        var isDeleted = _requestStatusService.DeleteById(id);
 
         return Ok(isDeleted);
     }
 
     [HttpPost("deleteByEntity")]
-    public IActionResult DeleteById([FromBody], RequestStatus requestStatus)
+    public IActionResult DeleteById([FromBody] RequestStatus requestStatus)
     {
         var isDeleted = _requestStatusService.Delete(requestStatus);
         return Ok(isDeleted);
     }
-
-
-
 }

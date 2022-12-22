@@ -3,6 +3,7 @@ using Company.Crm.Domain.Entities.Lst;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Company.Crm.Web.Api.Controllers;
+
 [Route("api/[controller]")]
 [ApiController]
 public class DocumentTypeController : ControllerBase

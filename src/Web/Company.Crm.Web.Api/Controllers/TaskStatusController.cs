@@ -1,12 +1,11 @@
 ﻿using Company.Crm.Application.Services.Abstracts;
-using Company.Crm.Domain.Entities.Lst;
 using Microsoft.AspNetCore.Mvc;
 using TaskStatus = Company.Crm.Domain.Entities.Lst.TaskStatus;
 
 namespace Company.Crm.Web.Api.Controllers;
+
 [Route("api/[controller]")]
 [ApiController]
-
 public class TaskStatusController : ControllerBase
 {
     private readonly ITaskStatusService _taskStatusService;
