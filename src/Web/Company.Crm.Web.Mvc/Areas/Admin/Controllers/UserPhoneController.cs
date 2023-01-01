@@ -1,12 +1,8 @@
-﻿using Company.Crm.Application.Dtos;
-using Company.Crm.Application.Dtos.UserPhone;
-using Company.Crm.Application.Services;
+﻿using Company.Crm.Application.Dtos.UserPhone;
 using Company.Crm.Application.Services.Abstracts;
-using Company.Crm.Application.Validators;
 using Company.Framework.Validators;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Company.Crm.Web.Mvc.Areas.Admin.Controllers
 {
@@ -21,8 +17,6 @@ namespace Company.Crm.Web.Mvc.Areas.Admin.Controllers
             _userPhoneValidator = userPhoneValidator;
         }
 
-        
-
         public IActionResult Index(int page = 1)
         {
             var userPhones = _userPhoneService.GetPaged(page);
@@ -31,19 +25,15 @@ namespace Company.Crm.Web.Mvc.Areas.Admin.Controllers
         public async Task<PartialViewResult> Detail(int id)
         {
             var userPhone = _userPhoneService.GetById(id);
-            return PartialView("_Detail",userPhone);
+            return PartialView("_Detail", userPhone);
         }
 
         [HttpGet]
         public PartialViewResult Create()
         {
             var dto = new CreateOrUpdateUserPhoneDto();
-
-           
-
             return PartialView("_Create", dto);
         }
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -51,9 +41,7 @@ namespace Company.Crm.Web.Mvc.Areas.Admin.Controllers
         {
             try
             {
-                
                 var validationResult = _userPhoneValidator.Validate(item);
-
                 if (!validationResult.IsValid)
                 {
                     validationResult.AddToModelState(ModelState);
@@ -61,7 +49,7 @@ namespace Company.Crm.Web.Mvc.Areas.Admin.Controllers
                     return PartialView("_Create", item);
                 }
 
-                
+
                 if (validationResult.IsValid)
                 {
                     var isInserted = _userPhoneService.Insert(item);
@@ -83,8 +71,6 @@ namespace Company.Crm.Web.Mvc.Areas.Admin.Controllers
             var dto = new CreateOrUpdateUserPhoneDto();
             if (id.HasValue) dto = _userPhoneService.GetForEditById(id.Value);
 
-
-
             return PartialView("_Edit", dto);
         }
 
@@ -105,9 +91,6 @@ namespace Company.Crm.Web.Mvc.Areas.Admin.Controllers
             {
                 ModelState.AddModelError("", "Unable to save changes.");
             }
-
-
-
             return PartialView("_Edit", dto);
         }
 

@@ -3,6 +3,7 @@ using Company.Crm.Application.Dtos;
 using Company.Crm.Application.Dtos.Address;
 using Company.Crm.Application.Dtos.List;
 using Company.Crm.Application.Dtos.Notification;
+using Company.Crm.Application.Dtos.Sale;
 using Company.Crm.Application.Dtos.UserAddress;
 using Company.Crm.Application.Dtos.UserPhone;
 using Company.Crm.Domain.Entities;
@@ -22,8 +23,8 @@ public class MappingProfile : Profile
         CreateMap<CustomerDto, Customer>();
         CreateMap<Customer, CreateOrUpdateCustomerDto>().ReverseMap();
 
-		    CreateMap<Gender, GenderDto>().ReverseMap();
-	
+        CreateMap<Gender, GenderDto>().ReverseMap();
+
         CreateMap<Employee, EmployeeDto>().ReverseMap();
         CreateMap<Employee, CreateOrUpdateEmployeeDto>().ReverseMap();
 
@@ -31,10 +32,14 @@ public class MappingProfile : Profile
         CreateMap<Notification, NotificationDetailDto>().ReverseMap();
 
         CreateMap<UserAddress, AddressDetailDto>().ReverseMap();
-        CreateMap<UserAddress, UserPhoneCreateOrUpdateDto>().ReverseMap();
+        CreateMap<UserAddress, AddressCreateOrUpdateDto>().ReverseMap();
 
         CreateMap<UserPhone, UserPhoneDto>().ReverseMap();
-        CreateMap<UserPhone, UserPhoneCreateOrUpdateDto>().ReverseMap();
+        CreateMap<UserPhone, CreateOrUpdateUserPhoneDto>().ReverseMap();
+
+
+        CreateMap<Sale, SaleDetailDto>().ReverseMap();
+        CreateMap<Sale, CreateOrUpdateSaleDto>().ReverseMap();
 
     }
 }

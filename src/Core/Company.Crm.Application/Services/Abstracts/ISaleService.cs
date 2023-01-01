@@ -1,16 +1,16 @@
-﻿using Company.Crm.Domain.Entities;
+﻿using Company.Crm.Application.Dtos.Sale;
 
 namespace Company.Crm.Application.Services.Abstracts
 {
     public interface ISaleService
     {
-        public List<Sale> GetAll();
-        public List<Sale> GetPaged(int page, int size);
-
-        public Sale? GetById(int id);
-        public bool Insert(Sale entity);
-        public bool Update(Sale entity);
-        public bool Delete(Sale entity);
-        public bool DeleteById(int id);
+        List<SaleDetailDto> GetAll();
+        List<SaleDetailDto> GetPaged(int page);
+        SaleDetailDto? GetById(int id);
+        bool Insert(CreateOrUpdateSaleDto entity);
+        bool Update(CreateOrUpdateSaleDto entity);
+        bool Delete(SaleDetailDto entity);
+        bool DeleteById(int id);
+        CreateOrUpdateSaleDto GetForEditById(int id);
     }
 }

@@ -1,60 +1,82 @@
-﻿using Company.Crm.Application.Services.Abstracts;
+﻿using AutoMapper;
+using Company.Crm.Application.Dtos.Sale;
+using Company.Crm.Application.Services.Abstracts;
 using Company.Crm.Domain.Entities;
 using Company.Crm.Domain.Repositories;
 
 namespace Company.Crm.Application.Services
 {
-    public class SaleService : ISaleService
-    {
-        readonly ISaleRepository _saleRepository;
+	public class SaleService : ISaleService
+	{
+		readonly ISaleRepository _saleRepository;
+		readonly IMapper _mapper;
+		public SaleService(ISaleRepository saleRepository, IMapper mapper)
+		{
+			_saleRepository = saleRepository;
+			_mapper = mapper;
+		}
 
-        public SaleService(ISaleRepository saleRepository)
-        {
+		public bool Insert(CreateOrUpdateSaleDto entity)
+		{
+			var sale = _mapper.Map<Sale>(entity);
+			return _saleRepository.Insert(sale);
+		}
 
-            _saleRepository = saleRepository;
-        }
+		public bool Delete(SaleDetailDto entity)
+		{
+			var sale = _mapper.Map<Sale>(entity);
+			return _saleRepository.Delete(sale);
+		}
 
-        public bool Insert(Sale entity)
-        {
-            return _saleRepository.Insert(entity);
-        }
+		public bool DeleteById(int id)
+		{
+			return _saleRepository.DeleteById(id);
+		}
 
-        public bool Delete(Sale entity)
-        {
-            return _saleRepository.Delete(entity);
-        }
+		public List<SaleDetailDto> GetAll()
+		{
+			var entityList = _saleRepository.GetAll();
+			return entityList.Select(x => new SaleDetailDto
+			{
+				Id = x.Id,
+				Description = x.Description,
+				EmployeeUserId = x.EmployeeUserId,
+				RequestId = x.RequestId,
+				SaleAmount = x.SaleAmount,
+				SaleDate = x.SaleDate,
+			}).ToList();
+		}
 
-        public bool DeleteById(int id)
-        {
-            return _saleRepository.DeleteById(id);
-        }
+		public SaleDetailDto? GetById(int id)
+		{
+			var entity = _saleRepository.GetById(id);
+			return _mapper.Map<SaleDetailDto>(entity);
+		}
 
-        public List<Sale> GetAll()
-        {
-            return _saleRepository.GetAll().ToList();
-        }
+		public List<SaleDetailDto> GetPaged(int page)
+		{
+			var entityList = _saleRepository.GetAll()
+		   .OrderByDescending(c => c.Id);
 
-        public Sale? GetById(int id)
-        {
-            return _saleRepository.GetById(id);
-        }
+			var pagedList = entityList.Skip((page - 1) * 10).Take(10).ToList();
+			return _mapper.Map<List<SaleDetailDto>>(pagedList);
+		}
 
-        public List<Sale> GetPaged(int page, int size)
-        {
-            return _saleRepository.GetAll().Skip(page * size).Take(size).ToList();
-        }
+		public bool Update(CreateOrUpdateSaleDto entity)
+		{
+			var sale = _saleRepository.GetById(entity.Id);
+			sale.RequestId = entity.RequestId;
+			sale.EmployeeUserId = entity.EmployeeUserId;
+			sale.SaleDate = entity.SaleDate;
+			sale.SaleAmount = entity.SaleAmount;
+			sale.Description = entity.Description;
+			return _saleRepository.Update(sale);
+		}
 
-        public bool Update(Sale entity)
-        {
-            var sale = _saleRepository.GetById(entity.Id);
-            sale.CustomerId = entity.CustomerId;
-            sale.Price = entity.Price;
-            sale.EmployeeId = entity.EmployeeId;
-            sale.Price = entity.Price;
-            sale.OfferId = entity.OfferId;
-            sale.IsCompleted = entity.IsCompleted;
-            //notification = _mapper.Map<Notification>(dto); // save için repository çağırıldı.update ile mapper aynı anda kullanıldığında dtodan gelmeyen fieldları null yapıyor.
-            return _saleRepository.Update(sale);
-        }
-    }
+		public CreateOrUpdateSaleDto GetForEditById(int id)
+		{
+			var sale = _saleRepository.GetById(id);
+			return _mapper.Map<CreateOrUpdateSaleDto>(sale);
+		}
+	}
 }

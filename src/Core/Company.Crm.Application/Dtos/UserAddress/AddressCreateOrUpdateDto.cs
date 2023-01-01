@@ -1,15 +1,15 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using Company.Framework.Dtos;
+﻿using Company.Framework.Dtos;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Company.Crm.Application.Dtos.UserAddress;
 
-public class UserPhoneCreateOrUpdateDto : BaseDto
+public class AddressCreateOrUpdateDto : BaseDto
 {
-    public UserPhoneCreateOrUpdateDto()
+    public AddressCreateOrUpdateDto()
     {
-        UserPhoneTypes = new List<SelectListItem>();
+        AddressTypes = new List<SelectListItem>();
     }
 
     public int UserId { get; set; }
@@ -18,5 +18,5 @@ public class UserPhoneCreateOrUpdateDto : BaseDto
 
     [NotMapped]
     [ValidateNever]
-    public List<SelectListItem>? UserPhoneTypes { get; set; }
+    public List<SelectListItem>? AddressTypes { get; set; }
 }

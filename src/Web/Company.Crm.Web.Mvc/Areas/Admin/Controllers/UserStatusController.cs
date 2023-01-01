@@ -1,5 +1,5 @@
 ﻿using Company.Crm.Application.Services.Abstracts;
-using Company.Crm.Domain.Entities;
+using Company.Crm.Domain.Entities.Lst;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Company.Crm.Web.Mvc.Areas.Admin.Controllers
@@ -12,7 +12,7 @@ namespace Company.Crm.Web.Mvc.Areas.Admin.Controllers
         {
             _UsService = usService;
         }
-        
+
         public IActionResult Index()
         {
             var data = _UsService.GetAll().ToList();
@@ -36,7 +36,7 @@ namespace Company.Crm.Web.Mvc.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult>Create(UserStatus userStatus)
+        public async Task<ActionResult> Create(UserStatus userStatus)
         {
             try
             {
@@ -49,7 +49,7 @@ namespace Company.Crm.Web.Mvc.Areas.Admin.Controllers
                     }
                 }
             }
-            catch 
+            catch
             {
 
                 ModelState.AddModelError("", "Unable to save changes");
@@ -62,17 +62,17 @@ namespace Company.Crm.Web.Mvc.Areas.Admin.Controllers
         [HttpGet]
         public async Task<PartialViewResult> Edit(int? id)
         {
-            var model=new UserStatus();
+            var model = new UserStatus();
             if (id.HasValue) model = _UsService.GetById(id.Value);
 
             return PartialView("_Edit", model);
-            
+
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        public async Task <ActionResult>Edit(UserStatus userStatus)
+        public async Task<ActionResult> Edit(UserStatus userStatus)
         {
             try
             {
@@ -91,7 +91,7 @@ namespace Company.Crm.Web.Mvc.Areas.Admin.Controllers
                 ModelState.AddModelError("", "Unable to save changes.");
             }
 
-            return PartialView("_Edit",userStatus);
+            return PartialView("_Edit", userStatus);
         }
 
         [HttpGet]

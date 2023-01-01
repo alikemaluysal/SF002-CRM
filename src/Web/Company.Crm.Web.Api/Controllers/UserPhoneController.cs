@@ -1,5 +1,5 @@
-﻿using Company.Crm.Application.Services.Abstracts;
-using Company.Crm.Domain.Entities;
+﻿using Company.Crm.Application.Dtos.UserPhone;
+using Company.Crm.Application.Services.Abstracts;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Company.Crm.Web.Api.Controllers;
@@ -30,14 +30,14 @@ public class UserPhoneController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult Post([FromBody] UserPhone userPhone)
+    public IActionResult Post([FromBody] CreateOrUpdateUserPhoneDto userPhone)
     {
         var isAdded = _service.Insert(userPhone);
         return Ok(isAdded);
     }
 
     [HttpPut("{id}")]
-    public IActionResult Put(int id, [FromBody] UserPhone userPhone)
+    public IActionResult Put(int id, [FromBody] CreateOrUpdateUserPhoneDto userPhone)
     {
         var isUpdated = _service.Update(userPhone);
         return Ok(isUpdated);
@@ -50,7 +50,7 @@ public class UserPhoneController : ControllerBase
         return Ok(isDeleted);
     }
 
-    public IActionResult Delete([FromBody] UserPhone entity)
+    public IActionResult Delete([FromBody] UserPhoneDto entity)
     {
         var isDeleted = _service.Delete(entity);
         return Ok(isDeleted);

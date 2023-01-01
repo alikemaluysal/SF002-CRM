@@ -22,6 +22,7 @@ public static class DbSeeder
         SeedUsers(context);
         SeedAddresses(context);
         SeedNotifications(context);
+        SeedSales(context);
         SeedLstTables(context);
 
         context.SaveChanges();
@@ -39,7 +40,7 @@ public static class DbSeeder
                 .RuleFor(e => e.BirthDate, c =>
                     c.Date.Between(new DateTime(1960, 1, 1), DateTime.Now))
                 .RuleFor(e => e.UserId, c => c.Random.Int(1, 10))
-                .RuleFor(e => e.StatusTypeId, c => c.Random.Int(1,2));
+                .RuleFor(e => e.StatusTypeId, c => c.Random.Int(1, 2));
 
             var customers = Enumerable.Range(1, 200)
                 .Select(e => customerFaker.Generate())
@@ -120,6 +121,27 @@ public static class DbSeeder
             context.Notifications.AddRange(notifications);
         }
     }
+    private static void SeedSales(AppDbContext context)
+    {
+        if (!context.Sales.Any())
+        {
+            var randomSet = new Lorem("tr");
+            var saleFaker = new Faker<Sale>();
+
+            saleFaker
+                .RuleFor(x => x.EmployeeUserId, f => f.Random.Int(1, 100))
+                .RuleFor(x => x.RequestId, f => f.Random.Int(1, 100))
+                .RuleFor(x => x.SaleAmount, f => f.Random.Int(1, 10000))
+                .RuleFor(x => x.Description, f => randomSet.Word())
+                .RuleFor(x => x.SaleDate, f => f.Date.Past());
+
+
+            var sales = Enumerable.Range(1, 10).Select(e => saleFaker.Generate()).ToList();
+
+            context.Sales.AddRange(sales);
+        }
+    }
+
 
     private static void SeedLstTables(AppDbContext context)
     {
