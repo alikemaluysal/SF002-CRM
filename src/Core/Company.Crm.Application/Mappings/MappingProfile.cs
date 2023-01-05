@@ -36,8 +36,7 @@ public class MappingProfile : Profile
 
         CreateMap<UserPhone, UserPhoneDto>().ReverseMap();
         CreateMap<UserPhone, CreateOrUpdateUserPhoneDto>().ReverseMap();
-
-
+        
         CreateMap<Sale, SaleDetailDto>().ReverseMap();
         CreateMap<Sale, CreateOrUpdateSaleDto>().ReverseMap();
 

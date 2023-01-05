@@ -54,6 +54,4 @@ public class TitleService : ITitleService
         var pagedList = entityList.Skip((page - 1) * 10).Take(10).ToList();
         return pagedList;
     }
-
-
 }

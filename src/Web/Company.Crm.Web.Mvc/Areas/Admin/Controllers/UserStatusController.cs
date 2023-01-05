@@ -2,111 +2,107 @@
 using Company.Crm.Domain.Entities.Lst;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Company.Crm.Web.Mvc.Areas.Admin.Controllers
+namespace Company.Crm.Web.Mvc.Areas.Admin.Controllers;
+
+public class UserStatusController : Controller
 {
-    public class UserStatusController : Controller
+    private readonly IUserStatusService _userStatusService;
+
+    public UserStatusController(IUserStatusService userStatusService)
     {
-        private readonly IUserStatusService _UsService;
+        _userStatusService = userStatusService;
+    }
 
-        public UserStatusController(IUserStatusService usService)
+    public IActionResult Index()
+    {
+        var data = _userStatusService.GetAll().ToList();
+        return View(data);
+    }
+
+    public async Task<PartialViewResult> Detail(int id)
+    {
+        var data = _userStatusService.GetById(id);
+        return PartialView("_Detail", data);
+    }
+
+    [HttpGet]
+    public PartialViewResult Create()
+    {
+        var data = new UserStatus();
+
+        return PartialView("_Create", data);
+    }
+    
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<ActionResult> Create(UserStatus userStatus)
+    {
+        try
         {
-            _UsService = usService;
-        }
-
-        public IActionResult Index()
-        {
-            var data = _UsService.GetAll().ToList();
-            return View(data);
-        }
-
-        public async Task<PartialViewResult> Detail(int id)
-        {
-            var data = _UsService.GetById(id);
-            return PartialView("_Detail", data);
-        }
-
-        [HttpGet]
-        public PartialViewResult Create()
-        {
-            var data = new UserStatus();
-
-            return PartialView("_Create", data);
-        }
-
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(UserStatus userStatus)
-        {
-            try
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
+                var data = _userStatusService.Insert(userStatus);
+                if (data)
                 {
-                    var data = _UsService.Insert(userStatus);
-                    if (data)
-                    {
-                        return Json(new { IsSuccess = true, Redirect = Url.Action("Index") });
-                    }
+                    return Json(new { IsSuccess = true, Redirect = Url.Action("Index") });
                 }
             }
-            catch
-            {
+        }
+        catch
+        {
 
-                ModelState.AddModelError("", "Unable to save changes");
-            }
-
-            return PartialView("_Create", userStatus);
+            ModelState.AddModelError("", "Unable to save changes");
         }
 
+        return PartialView("_Create", userStatus);
+    }
 
-        [HttpGet]
-        public async Task<PartialViewResult> Edit(int? id)
+
+    [HttpGet]
+    public async Task<PartialViewResult> Edit(int? id)
+    {
+        var model = new UserStatus();
+        if (id.HasValue) model = _userStatusService.GetById(id.Value);
+
+        return PartialView("_Edit", model);
+
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<ActionResult> Edit(UserStatus userStatus)
+    {
+        try
         {
-            var model = new UserStatus();
-            if (id.HasValue) model = _UsService.GetById(id.Value);
-
-            return PartialView("_Edit", model);
-
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-
-        public async Task<ActionResult> Edit(UserStatus userStatus)
-        {
-            try
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
+                var İsUpdate = _userStatusService.Update(userStatus);
+                if (İsUpdate)
                 {
-                    var İsUpdate = _UsService.Update(userStatus);
-                    if (İsUpdate)
-                    {
-                        return Json(new { IsSucces = true, Redirect = Url.Action("Index") });
-                    }
+                    return Json(new { IsSucces = true, Redirect = Url.Action("Index") });
                 }
             }
-            catch
-            {
-
-                ModelState.AddModelError("", "Unable to save changes.");
-            }
-
-            return PartialView("_Edit", userStatus);
         }
-
-        [HttpGet]
-        public async Task<PartialViewResult> Delete(int id)
+        catch
         {
-            var data = _UsService.GetById(id);
-            return PartialView("_Delete", data);
+
+            ModelState.AddModelError("", "Unable to save changes.");
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(int id)
-        {
-            return Json(new { IsSuccess = _UsService.DeleteById(id), Redirect = Url.Action("Index") });
-        }
+        return PartialView("_Edit", userStatus);
+    }
 
+    [HttpGet]
+    public async Task<PartialViewResult> Delete(int id)
+    {
+        var data = _userStatusService.GetById(id);
+        return PartialView("_Delete", data);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<ActionResult> DeleteConfirmed(int id)
+    {
+        return Json(new { IsSuccess = _userStatusService.DeleteById(id), Redirect = Url.Action("Index") });
     }
 }

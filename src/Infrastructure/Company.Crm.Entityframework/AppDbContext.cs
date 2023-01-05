@@ -31,7 +31,6 @@ public class AppDbContext : DbContext
     public DbSet<Document> Documents { get; set; }
     public DbSet<Setting> Settings { get; set; }
     public DbSet<Sale> Sales { get; set; }
-   
 
     #region USR Tables
 

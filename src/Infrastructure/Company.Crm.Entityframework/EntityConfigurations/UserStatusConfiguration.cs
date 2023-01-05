@@ -8,11 +8,6 @@ public class UserStatusConfiguration : IEntityTypeConfiguration<UserStatus>
 {
     public void Configure(EntityTypeBuilder<UserStatus> builder)
     {
-        public void Configure(EntityTypeBuilder<UserStatus> builder)
-        {
-
-            builder.Property(z => z.Id).IsRequired();
-            builder.Property(z => z.Name).IsRequired().HasMaxLength(50);
-        }
+        builder.Property(z => z.Name).IsRequired().HasMaxLength(50);
     }
 }

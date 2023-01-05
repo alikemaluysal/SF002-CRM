@@ -1,4 +1,5 @@
-﻿using Company.Crm.Domain.Entities.Lst;
+﻿using Company.Crm.Domain.Entities;
+using Company.Crm.Domain.Entities.Lst;
 
 namespace Company.Crm.Application.Services.Abstracts;
 
@@ -10,4 +11,6 @@ public interface IDepartmentService
     public bool Update(Department entity);
     public bool Delete(Department entity);
     public bool DeleteById(int id);
+    List<Department> GetPaged(int page = 1);
+    Department GetForEditById(int id);
 }

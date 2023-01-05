@@ -82,7 +82,7 @@ public static class DbSeeder
         {
             var companySet = new Address("tr");
 
-            var addressFaker = new Faker<Domain.Entities.UserAddress>()
+            var addressFaker = new Faker<UserAddress>()
                 .RuleFor(e => e.Description, c => companySet.City())
                 .RuleFor(e => e.UserId, c => c.Random.Int(1, 100))
                 .RuleFor(e => e.AddressType, c => (AddressTypeEnum)c.Random.Int(1, 2))
@@ -121,6 +121,7 @@ public static class DbSeeder
             context.Notifications.AddRange(notifications);
         }
     }
+
     private static void SeedSales(AppDbContext context)
     {
         if (!context.Sales.Any())

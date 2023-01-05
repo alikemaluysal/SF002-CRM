@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Company.Crm.Entityframework.EntityConfigurations;
 
-internal class StatusTypeConfiguration : IEntityTypeConfiguration<StatusType>
+public class StatusTypeConfiguration : IEntityTypeConfiguration<StatusType>
 {
     public void Configure(EntityTypeBuilder<StatusType> builder)
     {

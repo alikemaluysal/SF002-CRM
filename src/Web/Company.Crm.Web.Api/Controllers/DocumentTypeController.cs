@@ -36,14 +36,7 @@ public class DocumentTypeController : ControllerBase
         var isAdded = _documentTypeService.Insert(documentType);
         return Ok(isAdded);
     }
-
-    [HttpPost("deleteByEntity")]
-    public IActionResult Delete([FromBody] DocumentType entity)
-    {
-        var isDeleted = _documentTypeService.Delete(entity);
-        return Ok(isDeleted);
-    }
-
+    
     [HttpPut("{id}")]
     public IActionResult Put(int id, [FromBody] DocumentType documentType)
     {
@@ -55,6 +48,13 @@ public class DocumentTypeController : ControllerBase
     public IActionResult Delete(int id)
     {
         var isDeleted = _documentTypeService.DeleteById(id);
+        return Ok(isDeleted);
+    }
+    
+    [HttpPost("deleteByEntity")]
+    public IActionResult Delete([FromBody] DocumentType entity)
+    {
+        var isDeleted = _documentTypeService.Delete(entity);
         return Ok(isDeleted);
     }
 }

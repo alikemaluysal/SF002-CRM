@@ -10,7 +10,7 @@ namespace Company.Crm.Web.Mvc.Areas.Admin.Controllers;
 [Area("Admin")]
 public class SaleController : Controller
 {
-    readonly ISaleService _saleService;
+    private readonly ISaleService _saleService;
 
     public SaleController(ISaleService saleService)
     {
@@ -22,6 +22,7 @@ public class SaleController : Controller
         var sales = _saleService.GetAll();
         return View(sales);
     }
+
     public async Task<PartialViewResult> Detail(int id)
     {
         var customer = _saleService.GetById(id);
@@ -41,7 +42,6 @@ public class SaleController : Controller
     {
         try
         {
-
             if (ModelState.IsValid)
             {
                 var isInserted = _saleService.Insert(item);
@@ -53,8 +53,10 @@ public class SaleController : Controller
         {
             ModelState.AddModelError("", "Unable to save changes.");
         }
+
         return PartialView("_Create", item);
     }
+
     public async Task<PartialViewResult> Delete(int id)
     {
         var serviceItem = _saleService.GetById(id);
@@ -68,6 +70,7 @@ public class SaleController : Controller
     {
         return Json(new { IsSuccess = _saleService.DeleteById(id), Redirect = Url.Action("Index") });
     }
+
     public async Task<PartialViewResult> Edit(int? id)
     {
         var dto = new CreateOrUpdateSaleDto();
@@ -92,10 +95,7 @@ public class SaleController : Controller
         {
             ModelState.AddModelError("", "Unable to save changes.");
         }
-
-
+        
         return PartialView("_Edit", dto);
     }
-
-
 }

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Company.Crm.Entityframework.EntityConfigurations;
 
-internal class DocumentConfiguration : IEntityTypeConfiguration<Document>
+public class DocumentConfiguration : IEntityTypeConfiguration<Document>
 {
     public void Configure(EntityTypeBuilder<Document> builder)
     {
