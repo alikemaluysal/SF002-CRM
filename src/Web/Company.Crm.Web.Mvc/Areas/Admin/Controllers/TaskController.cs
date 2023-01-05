@@ -1,12 +1,10 @@
 ﻿using Company.Crm.Application.Constants;
-using Company.Crm.Application.Dtos;
 using Company.Crm.Application.Dtos.Task;
 using Company.Crm.Application.Services.Abstracts;
-using Company.Framework.Validators;
+using Company.Crm.Application.Validators;
 using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Company.Crm.Web.Mvc.Areas.Admin.Controllers;
 
@@ -14,9 +12,9 @@ namespace Company.Crm.Web.Mvc.Areas.Admin.Controllers;
 [Area("Admin")]
 public class TaskController : Controller
 {
+    private readonly IStatusTypeService _statusTypeService;
     private readonly ITaskService _taskService;
     private readonly IValidator<CreateOrUpdateTaskDto> _taskValidator;
-    private readonly IStatusTypeService _statusTypeService;
 
     public TaskController(ITaskService taskService, IStatusTypeService statusTypeService, IValidator<CreateOrUpdateTaskDto> taskValidator)
     {

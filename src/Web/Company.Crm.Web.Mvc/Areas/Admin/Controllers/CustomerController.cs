@@ -1,7 +1,7 @@
 ﻿using Company.Crm.Application.Constants;
 using Company.Crm.Application.Dtos;
 using Company.Crm.Application.Services.Abstracts;
-using Company.Framework.Validators;
+using Company.Crm.Application.Validators;
 using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

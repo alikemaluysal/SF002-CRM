@@ -1,5 +1,4 @@
-﻿using Company.Crm.Application.Dtos;
-using Company.Crm.Application.Dtos.Task;
+﻿using Company.Crm.Application.Dtos.Task;
 using FluentValidation;
 
 namespace Company.Crm.Application.Validators;

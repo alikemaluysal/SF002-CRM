@@ -1,6 +1,6 @@
 ﻿using Company.Crm.Application.Dtos.UserPhone;
 using Company.Crm.Application.Services.Abstracts;
-using Company.Framework.Validators;
+using Company.Crm.Application.Validators;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 
