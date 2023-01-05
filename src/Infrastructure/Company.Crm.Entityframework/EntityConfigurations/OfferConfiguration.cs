@@ -11,6 +11,6 @@ public class OfferConfiguration : IEntityTypeConfiguration<Offer>
         builder.Property(t => t.RequestId).IsRequired();
         builder.Property(t => t.EmployeeUserId).IsRequired();
         builder.Property(t => t.OfferStatusId).IsRequired();
-        builder.Property(t => t.BidAmount).IsRequired();
+        builder.Property(t => t.BidAmount).HasPrecision(12, 2).IsRequired();
     }
 }

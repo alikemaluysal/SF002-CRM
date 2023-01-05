@@ -96,8 +96,6 @@ public class AppDbContext : DbContext
             }
         }
 
-        modelBuilder.Entity<Offer>().Property(e => e.BidAmount).HasPrecision(12, 2);
-
         // Seeders (HasData)
         //CustomerSeeder.Seed(modelBuilder);
 
