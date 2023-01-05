@@ -6,40 +6,40 @@ namespace Company.Crm.Application.Services;
 
 public class UserEmailService : IUserEmailService
 {
-    private readonly IEmailRepository _emailRepository;
+    private readonly IUserEmailRepository _userEmailRepository;
 
-    public UserEmailService(IEmailRepository emailRepository)
+    public UserEmailService(IUserEmailRepository userEmailRepository)
     {
-        _emailRepository = emailRepository;
+        _userEmailRepository = userEmailRepository;
     }
 
     public List<UserEmail> GetAll()
     {
-        return _emailRepository.GetAll().ToList();
+        return _userEmailRepository.GetAll().ToList();
     }
 
     public UserEmail? GetById(int id)
     {
-        return _emailRepository.GetById(id);
+        return _userEmailRepository.GetById(id);
     }
 
     public bool Insert(UserEmail entity)
     {
-        return _emailRepository.Insert(entity);
+        return _userEmailRepository.Insert(entity);
     }
 
     public bool Update(UserEmail entity)
     {
-        return _emailRepository.Update(entity);
+        return _userEmailRepository.Update(entity);
     }
 
     public bool Delete(UserEmail entity)
     {
-        return _emailRepository.Delete(entity);
+        return _userEmailRepository.Delete(entity);
     }
 
     public bool DeleteById(int id)
     {
-        return _emailRepository.DeleteById(id);
+        return _userEmailRepository.DeleteById(id);
     }
 }

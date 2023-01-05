@@ -1,7 +1,8 @@
-﻿using Company.Framework.Entity;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using Company.Framework.Entity;
 
 namespace Company.Crm.Domain.Entities.Lst;
+
 [Table("DocumentType", Schema = "LST")]
 public class DocumentType : BaseEntity
 {

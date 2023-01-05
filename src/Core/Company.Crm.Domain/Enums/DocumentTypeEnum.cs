@@ -2,6 +2,6 @@
 
 public enum DocumentTypeEnum : short
 {
-    WrittenDocument=0,
-    ElectronicDocument=1
+    WrittenDocument = 0,
+    ElectronicDocument = 1
 }

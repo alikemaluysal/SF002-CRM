@@ -1,5 +1,4 @@
-﻿using Company.Crm.Domain.Entities.Lst;
-using Company.Framework.Repository;
+﻿using Company.Framework.Repository;
 using TaskStatus = Company.Crm.Domain.Entities.Lst.TaskStatus;
 
 namespace Company.Crm.Domain.Repositories;

@@ -5,5 +5,4 @@ namespace Company.Crm.Domain.Repositories;
 
 public interface IRequestStatusRepository : IRepository<RequestStatus>
 {
-
 }

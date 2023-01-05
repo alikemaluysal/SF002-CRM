@@ -23,15 +23,15 @@ public static class ServiceRegistrations
         services.AddScoped<IEmployeeRepository, EmployeeRepository>();
         services.AddScoped<IRequestRepository, RequestRepository>();
         services.AddScoped<INotificationRepository, NotificationRepository>();
-        services.AddScoped<IAddressRepository, AddressRepository>();
-        services.AddScoped<IEmailRepository, EmailRepository>();
+        services.AddScoped<IUserAddressRepository, UserAddressRepository>();
+        services.AddScoped<IUserEmailRepository, UserEmailRepository>();
         services.AddScoped<IOfferRepository, OfferRepository>();
         services.AddScoped<ITaskRepository, TaskRepository>();
         services.AddScoped<IRegionRepository, RegionRepository>();
         services.AddScoped<IStatusTypeRepository, StatusTypeRepository>();
         services.AddScoped<IOfferStatusRepository, OfferStatusRepository>();
         services.AddScoped<IDepartmentRepository, DepartmentRepository>();
-        services.AddScoped<IPhoneRepository, PhoneRepository>();
+        services.AddScoped<IUserPhoneRepository, UserPhoneRepository>();
         services.AddScoped<ITitleRepository, TitleRepository>();
         services.AddScoped<IDocumentRepository, DocumentRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
