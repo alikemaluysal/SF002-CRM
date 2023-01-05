@@ -4,11 +4,11 @@ namespace Company.Crm.Application.Services.Abstracts;
 
 public interface IEmployeeService
 {
-    public List<EmployeeDto> GetAll();
-    public EmployeeDto? GetById(int id);
-    public bool Insert(CreateOrUpdateEmployeeDto dto);
-    public bool Update(CreateOrUpdateEmployeeDto dto);
-    public bool Delete(EmployeeDto dto);
-    public bool DeleteById(int id);
-    public List<EmployeeDto> GetAllByRegionId(int regionId);
+    List<EmployeeDto> GetAll();
+    EmployeeDto? GetById(int id);
+    bool Insert(CreateOrUpdateEmployeeDto dto);
+    bool Update(CreateOrUpdateEmployeeDto dto);
+    bool Delete(EmployeeDto dto);
+    bool DeleteById(int id);
+    List<EmployeeDto> GetAllByRegionId(int regionId);
 }

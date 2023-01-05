@@ -4,12 +4,11 @@ namespace Company.Crm.Application.Services.Abstracts;
 
 public interface IOfferStatusService
 {
-    public List<OfferStatus> GetAll();
-    public OfferStatus? GetById(int id);
-    public bool Insert(OfferStatus entity);
-    public bool Update(OfferStatus entity);
-    public bool Delete(OfferStatus entity);
-    public bool DeleteById(int id);
-
+    List<OfferStatus> GetAll();
+    OfferStatus? GetById(int id);
+    bool Insert(OfferStatus entity);
+    bool Update(OfferStatus entity);
+    bool Delete(OfferStatus entity);
+    bool DeleteById(int id);
     List<OfferStatus> GetPaged(int page = 1);
 }

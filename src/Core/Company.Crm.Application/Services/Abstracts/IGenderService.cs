@@ -1,21 +1,18 @@
-﻿using Company.Crm.Application.Dtos;
-using Company.Crm.Application.Dtos.List;
-using Company.Crm.Domain.Entities;
+﻿using Company.Crm.Application.Dtos.List;
 
-namespace Company.Crm.Application.Services.Abstracts
+namespace Company.Crm.Application.Services.Abstracts;
+
+public interface IGenderService
 {
-    public interface IGenderService
-    {
-        public List<GenderDto> GetAll();
+    List<GenderDto> GetAll();
 
-        public GenderDto? GetById(int id);
+    GenderDto? GetById(int id);
 
-        public bool Insert(GenderDto entity);
+    bool Insert(GenderDto entity);
 
-        public bool Update(GenderDto entity);
+    bool Update(GenderDto entity);
 
-        public bool Delete(GenderDto entity);
+    bool Delete(GenderDto entity);
 
-        public bool DeleteById(int id);
-    }
+    bool DeleteById(int id);
 }

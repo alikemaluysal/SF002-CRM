@@ -5,12 +5,12 @@ namespace Company.Crm.Application.Services.Abstracts;
 
 public interface IUserAddressService
 {
-    public List<AddressDetailDto> GetAll();
-    public AddressDetailDto? GetById(int id);
-    public bool Insert(AddressCreateOrUpdateDto dto);
-    public bool Update(AddressCreateOrUpdateDto dto);
-    public bool Delete(AddressDetailDto dto);
-    public bool DeleteById(int id);
+    List<AddressDetailDto> GetAll();
+    AddressDetailDto? GetById(int id);
+    bool Insert(AddressCreateOrUpdateDto dto);
+    bool Update(AddressCreateOrUpdateDto dto);
+    bool Delete(AddressDetailDto dto);
+    bool DeleteById(int id);
     AddressCreateOrUpdateDto? GetForEditById(int id);
     List<AddressDetailDto> GetPaged(int page = 1);
 }

@@ -4,10 +4,10 @@ namespace Company.Crm.Application.Services.Abstracts;
 
 public interface IUserStatusService
 {
-    public List<UserStatus> GetAll();
-    public UserStatus? GetById(int id);
-    public bool Insert(UserStatus entity);
-    public bool Update(UserStatus entity);
-    public bool Delete(UserStatus entity);
-    public bool DeleteById(int id);
+    List<UserStatus> GetAll();
+    UserStatus? GetById(int id);
+    bool Insert(UserStatus entity);
+    bool Update(UserStatus entity);
+    bool Delete(UserStatus entity);
+    bool DeleteById(int id);
 }

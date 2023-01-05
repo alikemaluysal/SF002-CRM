@@ -4,10 +4,10 @@ namespace Company.Crm.Application.Services.Abstracts;
 
 public interface IRequestService
 {
-    public List<RequestDto> GetAll();
-    public RequestDto? GetById(int id);
-    public bool Insert(RequestDto entity);
-    public bool Update(RequestDto entity);
-    public bool Delete(RequestDto entity);
-    public bool DeleteById(int id);
+    List<RequestDto> GetAll();
+    RequestDto? GetById(int id);
+    bool Insert(RequestDto entity);
+    bool Update(RequestDto entity);
+    bool Delete(RequestDto entity);
+    bool DeleteById(int id);
 }

@@ -4,10 +4,10 @@ namespace Company.Crm.Application.Services.Abstracts;
 
 public interface IStatusTypeService
 {
-    public List<StatusType> GetAll();
-    public StatusType? GetById(int id);
-    public bool Insert(StatusType entity);
-    public bool Update(StatusType entity);
-    public bool Delete(StatusType entity);
-    public bool DeleteById(int id);
+    List<StatusType> GetAll();
+    StatusType? GetById(int id);
+    bool Insert(StatusType entity);
+    bool Update(StatusType entity);
+    bool Delete(StatusType entity);
+    bool DeleteById(int id);
 }

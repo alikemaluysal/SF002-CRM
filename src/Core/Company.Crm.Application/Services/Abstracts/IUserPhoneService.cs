@@ -5,13 +5,12 @@ namespace Company.Crm.Application.Services.Abstracts;
 
 public interface IUserPhoneService
 {
-    public List<UserPhoneDto> GetPaged(int page = 1);
-    public List<UserPhone> GetAll();
-    public UserPhone? GetById(int id);
-    public bool Insert(CreateOrUpdateUserPhoneDto dto);
-    public bool Update(CreateOrUpdateUserPhoneDto dto);
-    public bool Delete(UserPhoneDto dto);
-    public bool DeleteById(int id);
-    public CreateOrUpdateUserPhoneDto? GetForEditById(int id);
-    //object GetPaged(int page);
+    List<UserPhoneDto> GetPaged(int page = 1);
+    List<UserPhone> GetAll();
+    UserPhone? GetById(int id);
+    bool Insert(CreateOrUpdateUserPhoneDto dto);
+    bool Update(CreateOrUpdateUserPhoneDto dto);
+    bool Delete(UserPhoneDto dto);
+    bool DeleteById(int id);
+    CreateOrUpdateUserPhoneDto? GetForEditById(int id);
 }

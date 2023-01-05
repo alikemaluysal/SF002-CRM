@@ -1,6 +1,4 @@
-﻿using Company.Crm.Application.Dtos;
-using Company.Crm.Application.Dtos.Task;
-using Task = Company.Crm.Domain.Entities.Task;
+﻿using Company.Crm.Application.Dtos.Task;
 
 namespace Company.Crm.Application.Services.Abstracts;
 
