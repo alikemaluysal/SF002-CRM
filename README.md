@@ -22,10 +22,17 @@
 
 ### Features
 - ASP.NET Core N-Layer Architecture
-- Entityframework Core
+- EntityFramework Core
   - Code First Approach
   - Fluent API Entity Configuration
   - Migration
   - Seeding Database
-- Generic Repository
+  - Generic Repository
 - AutoMapper
+- Fluent Validation
+- ASP.NET MVC
+  - Global Exception Middleware
+  - IP Logging Middleware
+  - Ajax CRUD Views
+- ASP.NET Web API
+- Email Service
