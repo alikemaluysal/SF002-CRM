@@ -1,7 +1,5 @@
 ﻿using Company.Crm.Application.Services.Abstracts;
-using Company.Crm.Domain.Entities.Lst;
 using Company.Crm.Domain.Repositories;
-using Company.Crm.Entityframework.Repositories;
 using TaskStatus = Company.Crm.Domain.Entities.Lst.TaskStatus;
 
 namespace Company.Crm.Application.Services;
@@ -34,6 +32,7 @@ public class TaskStatusService : ITaskStatusService
     {
         return _taskStatusRepository.Update(entity);
     }
+
     public bool Delete(TaskStatus entity)
     {
         return _taskStatusRepository.Delete(entity);
@@ -43,6 +42,4 @@ public class TaskStatusService : ITaskStatusService
     {
         return _taskStatusRepository.DeleteById(id);
     }
-
-
 }
