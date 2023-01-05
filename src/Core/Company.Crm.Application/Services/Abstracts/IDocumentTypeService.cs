@@ -10,5 +10,6 @@ public interface IDocumentTypeService
     bool Update(DocumentType entity);
     bool Delete(DocumentType entity);
     bool DeleteById(int id);
+    List<DocumentType> GetPaged(int page = 1);
 }
 

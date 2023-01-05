@@ -2,6 +2,7 @@
 using Company.Crm.Domain.Entities;
 using Company.Crm.Domain.Entities.Lst;
 using Company.Crm.Domain.Repositories;
+using Company.Crm.Entityframework.Repositories;
 
 namespace Company.Crm.Application.Services;
 
@@ -43,4 +44,15 @@ public class DocumentTypeService : IDocumentTypeService
     {
         return _documentTypeRepository.Update(entity);
     }
+
+    public List<DocumentType> GetPaged(int page = 1)
+    {
+        var entityList = _documentTypeRepository.GetAll();
+
+
+        var pagedList = entityList.Skip((page - 1) * 10).Take(10).ToList();
+
+        return pagedList;
+    }
+
 }
