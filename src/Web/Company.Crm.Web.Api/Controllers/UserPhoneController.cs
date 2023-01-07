@@ -50,6 +50,8 @@ public class UserPhoneController : ControllerBase
         return Ok(isDeleted);
     }
 
+    
+    [HttpPost("deleteByEntity")]
     public IActionResult Delete([FromBody] UserPhoneDto entity)
     {
         var isDeleted = _service.Delete(entity);
