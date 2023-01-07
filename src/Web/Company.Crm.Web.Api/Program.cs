@@ -17,6 +17,20 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddEntityFrameworkRegistration(builder.Configuration);
 builder.Services.AddApplicationRegistration(builder.Configuration);
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: "CorsAyari", policy =>
+    {
+        policy
+            .WithOrigins(builder.Configuration["App:ClientUrls"].Split(','))
+            .AllowAnyHeader().AllowAnyMethod().AllowCredentials();
+
+        // Tüm adreslere izin verme
+        //policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowCredentials();
+    });
+});
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -69,6 +83,8 @@ app.UseExceptionHandler(errorApp =>
 });
 
 app.UseHttpsRedirection();
+
+app.UseCors("CorsAyari");
 
 app.UseAuthorization();
 
