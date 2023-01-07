@@ -7,6 +7,7 @@ using Company.Crm.Domain.Enums;
 using Company.Framework.Authentication;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using TaskStatus = Company.Crm.Domain.Entities.Lst.TaskStatus;
 
 namespace Company.Crm.Entityframework.Seeders;
 
@@ -213,6 +214,50 @@ public static class DbSeeder
             {
                 new() { Name = "Software Developer" },
                 new() { Name = "Engineer" }
+            });
+        }
+
+        if (!context.TaskStatuses.Any())
+        {
+            context.TaskStatuses.AddRange(new List<TaskStatus>
+            {
+                new() { Name = "Open" },
+                new() { Name = "In Progress" },
+                new() { Name = "Resolved" },
+                new() { Name = "Closed" }
+            });
+        }
+
+        if (!context.DocumentTypes.Any())
+        {
+            context.DocumentTypes.AddRange(new List<DocumentType>
+            {
+                new() { Name = "Word" },
+                new() { Name = "PDF" },
+                new() { Name = "Video" },
+                new() { Name = "Audio" }
+            });
+        }
+
+        if (!context.OfferStatuses.Any())
+        {
+            context.OfferStatuses.AddRange(new List<OfferStatus>
+            {
+                new() { Name = "Open" },
+                new() { Name = "In Progress" },
+                new() { Name = "Resolved" },
+                new() { Name = "Closed" }
+            });
+        }
+
+        if (!context.RequestStatuses.Any())
+        {
+            context.RequestStatuses.AddRange(new List<RequestStatus>
+            {
+                new() { Name = "Open" },
+                new() { Name = "In Progress" },
+                new() { Name = "Resolved" },
+                new() { Name = "Closed" }
             });
         }
     }
