@@ -1,4 +1,4 @@
-﻿using Company.Crm.Application.Dtos;
+﻿using Company.Framework.Dtos;
 using System.Net;
 
 namespace Company.Crm.Web.Mvc.Middlewares
@@ -31,7 +31,7 @@ namespace Company.Crm.Web.Mvc.Middlewares
             context.Response.StatusCode = StatusCodes.Status500InternalServerError;
             context.Response.ContentType = "text/html";
 
-            var errorResponse = new ServiceResponse(false, exception.Message);
+            var errorResponse = new ServiceResponse<string>(exception.Message);
 
             switch (exception)
             {
