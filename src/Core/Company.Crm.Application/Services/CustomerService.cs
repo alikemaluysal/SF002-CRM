@@ -3,6 +3,7 @@ using Company.Crm.Application.Dtos;
 using Company.Crm.Application.Services.Abstracts;
 using Company.Crm.Domain.Entities;
 using Company.Crm.Domain.Repositories;
+using Company.Framework.Dtos;
 using Microsoft.EntityFrameworkCore;
 
 namespace Company.Crm.Application.Services;
@@ -10,16 +11,18 @@ namespace Company.Crm.Application.Services;
 // Concrete-Abstract
 public class CustomerService : ICustomerService
 {
-    private readonly ICustomerRepository _customerRepository;
     private readonly IMapper _mapper;
+    private readonly ICustomerRepository _customerRepository;
+    private readonly IGenderRepository _genderRepository;
 
-    public CustomerService(ICustomerRepository customerRepository, IMapper mapper)
+    public CustomerService(IMapper mapper, ICustomerRepository customerRepository, IGenderRepository genderRepository)
     {
-        _customerRepository = customerRepository;
         _mapper = mapper;
+        _customerRepository = customerRepository;
+        _genderRepository = genderRepository;
     }
 
-    public List<CustomerDto> GetAll()
+    public ServiceResponse<List<CustomerDto>> GetAll()
     {
         var entityList = _customerRepository.GetAll();
 
@@ -42,66 +45,75 @@ public class CustomerService : ICustomerService
 
         var dtoList = _mapper.Map<List<CustomerDto>>(entityList);
 
-        return dtoList;
+        return new ServiceResponse<List<CustomerDto>>(dtoList);
     }
 
-    public List<CustomerDto> GetPaged(int page = 1)
+    public ServicePagedResponse<List<CustomerDto>> GetPaged(PaginationRequest req)
     {
-        var entityList = _customerRepository.GetAll()
+        var entityQuery = _customerRepository.GetAll()
             .Include(e => e.StatusTypeFk)
+            .Include(e => e.GenderFk)
             .OrderByDescending(c => c.Id);
 
-        var pagedList = entityList.Skip((page - 1) * 10).Take(10).ToList();
+        var totalEntity = entityQuery.Count();
+
+        var pagedList = entityQuery.Skip(req.Skip).Take(req.PerPage).ToList();
 
         var dtoList = _mapper.Map<List<CustomerDto>>(pagedList);
 
-        return dtoList;
+        return new ServicePagedResponse<List<CustomerDto>>(dtoList, totalEntity, req);
     }
 
-    public CustomerDto? GetById(int id)
+    public ServiceResponse<CustomerDto?> GetById(int id)
     {
         var entity = _customerRepository.GetById(id);
+        if (entity == null) return new ServiceResponse<CustomerDto?>("Not Found!");
+
         var dto = _mapper.Map<CustomerDto>(entity);
-        return dto;
+
+        if (entity.GenderId.HasValue)
+        {
+            var gender = _genderRepository.GetById(entity.GenderId.Value);
+            if (gender != null) dto.GenderName = gender.Name;
+        }
+
+        return new ServiceResponse<CustomerDto?>(dto);
     }
 
-    public CreateOrUpdateCustomerDto? GetForEditById(int id)
+    public ServiceResponse<CreateOrUpdateCustomerDto?> GetForEditById(int id)
     {
         var entity = _customerRepository.GetById(id);
         var dto = _mapper.Map<CreateOrUpdateCustomerDto>(entity);
-        return dto;
+        return new ServiceResponse<CreateOrUpdateCustomerDto?>(dto);
     }
 
-    public bool Insert(CreateOrUpdateCustomerDto dto)
+    public ServiceResponse<bool> Insert(CreateOrUpdateCustomerDto dto)
     {
         var customer = _mapper.Map<Customer>(dto);
-
-        return _customerRepository.Insert(customer);
+        return new ServiceResponse<bool>(_customerRepository.Insert(customer));
     }
 
-    public bool Update(CreateOrUpdateCustomerDto dto)
+    public ServiceResponse<bool> Update(CreateOrUpdateCustomerDto dto)
     {
         var customer = _mapper.Map<Customer>(dto);
-
-        return _customerRepository.Update(customer);
+        return new ServiceResponse<bool>(_customerRepository.Update(customer));
     }
 
-    public bool Delete(CustomerDto dto)
+    public ServiceResponse<bool> Delete(CustomerDto dto)
     {
         var customer = _mapper.Map<Customer>(dto);
-
-        return _customerRepository.Delete(customer);
+        return new ServiceResponse<bool>(_customerRepository.Delete(customer));
     }
 
-    public bool DeleteById(int id)
+    public ServiceResponse<bool> DeleteById(int id)
     {
-        return _customerRepository.DeleteById(id);
+        return new ServiceResponse<bool>(_customerRepository.DeleteById(id));
     }
 
-    public List<CustomerDto> GetAllByRegionId(int regionId)
+    public ServiceResponse<List<CustomerDto>> GetAllByRegionId(int regionId)
     {
         var entityList = _customerRepository.GetAllByRegionId(regionId);
         var dtoList = _mapper.Map<List<CustomerDto>>(entityList.ToList());
-        return dtoList;
+        return new ServiceResponse<List<CustomerDto>>(dtoList);
     }
 }

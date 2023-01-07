@@ -1,7 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using Company.Crm.Domain.Entities.Lst;
+﻿using Company.Crm.Domain.Entities.Lst;
 using Company.Crm.Domain.Enums;
 using Company.Framework.Entity;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Company.Crm.Domain.Entities;
 
@@ -21,6 +21,9 @@ public class Customer : BaseEntity
 
     [ForeignKey("StatusTypeId")]
     public StatusType? StatusTypeFk { get; set; }
+
+    [ForeignKey("GenderId")]
+    public Gender? GenderFk { get; set; }
 
     #endregion
 }

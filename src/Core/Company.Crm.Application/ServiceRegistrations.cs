@@ -21,26 +21,31 @@ public static class ServiceRegistrations
 
         services.AddTransient<ICustomerService, CustomerService>();
         services.AddTransient<IEmployeeService, EmployeeService>();
-        services.AddTransient<INotificationService, NotificationService>();
-        services.AddTransient<IUserAddressService, UserAddressService>();
-        services.AddTransient<IRegionService, RegionService>();
         services.AddTransient<IOfferService, OfferService>();
         services.AddTransient<ITaskService, TaskService>();
-        services.AddTransient<IStatusTypeService, StatusTypeService>();
-        services.AddTransient<IOfferStatusService, OfferStatusService>();
-        services.AddTransient<IDepartmentService, DepartmentService>();
+        services.AddTransient<INotificationService, NotificationService>();
         services.AddTransient<IRequestService, RequestService>();
-        services.AddTransient<IUserEmailService, UserEmailService>();
-        services.AddTransient<IUserPhoneService, UserPhoneService>();
         services.AddTransient<ITitleService, TitleService>();
         services.AddTransient<IDocumentService, DocumentService>();
-        services.AddTransient<IUserService, UserService>();
-        services.AddTransient<IUserStatusService, UserStatusService>();
-        services.AddTransient<ISettingService, SettingService>();
-        services.AddTransient<IRequestStatusService, RequestStatusService>();
-        services.AddTransient<ITaskStatusService, TaskStatusService>();
-        services.AddTransient<IDocumentTypeService, DocumentTypeService>();
         services.AddTransient<ISaleService, SaleService>();
+
+        // Usr Services
+        services.AddTransient<IUserService, UserService>();
+        services.AddTransient<IUserEmailService, UserEmailService>();
+        services.AddTransient<IUserAddressService, UserAddressService>();
+        services.AddTransient<IUserPhoneService, UserPhoneService>();
+        services.AddTransient<ISettingService, SettingService>();
+
+        // Lst Services
+        services.AddTransient<IDepartmentService, DepartmentService>();
+        services.AddTransient<IRegionService, RegionService>();
+        services.AddTransient<IUserStatusService, UserStatusService>();
+        services.AddTransient<IRequestStatusService, RequestStatusService>();
+        services.AddTransient<IDocumentTypeService, DocumentTypeService>();
+        services.AddTransient<IStatusTypeService, StatusTypeService>();
+        services.AddTransient<ITaskStatusService, TaskStatusService>();
+        services.AddTransient<IOfferStatusService, OfferStatusService>();
+        services.AddTransient<IGenderService, GenderService>();
 
         // Email Services
         services.Configure<EmailSettings>(configuration.GetSection("Email"));
