@@ -13,5 +13,6 @@ public class SaleConfiguration : IEntityTypeConfiguration<Sale>
         builder.Property(s => s.SaleDate).IsRequired();
         builder.Property(s => s.SaleAmount).IsRequired();
         builder.Property(s => s.Description).IsRequired();
+        builder.Property(e => e.SaleAmount).HasPrecision(12, 2);
     }
 }
