@@ -16,32 +16,34 @@ public class CustomerController : Controller
     private readonly ICustomerService _customerService;
     private readonly IValidator<CreateOrUpdateCustomerDto> _customerValidator;
     private readonly IStatusTypeService _statusTypeService;
+    private readonly IGenderService _genderService;
+    private readonly ITitleService _titleService;
 
-    public CustomerController(ICustomerService customerService, IStatusTypeService statusTypeService, IValidator<CreateOrUpdateCustomerDto> customerValidator)
+    public CustomerController(ICustomerService customerService, IStatusTypeService statusTypeService, IValidator<CreateOrUpdateCustomerDto> customerValidator, IGenderService genderService, ITitleService titleService)
     {
         _customerService = customerService;
         _statusTypeService = statusTypeService;
         _customerValidator = customerValidator;
+        _genderService = genderService;
+        _titleService = titleService;
     }
 
     public IActionResult Index(int page = 1)
     {
-        var customers = _customerService.GetPaged(page);
-        return View(customers);
+        var customers = _customerService.GetPaged(new() { Page = page });
+        return View(customers.Data);
     }
 
-    public async Task<PartialViewResult> Detail(int id)
+    public PartialViewResult Detail(int id)
     {
         var customer = _customerService.GetById(id);
-        return PartialView("_Detail", customer);
+        return PartialView("_Detail", customer.Data);
     }
 
     [HttpGet]
     public PartialViewResult Create()
     {
         var dto = new CreateOrUpdateCustomerDto();
-
-        //dto.Genders = _genderService.GetAll().Select(e=> new SelectListItem { Value = e.Id, Text = e.Name });
 
         FillDropdownItems(dto);
 
@@ -50,25 +52,22 @@ public class CustomerController : Controller
 
     private void FillDropdownItems(CreateOrUpdateCustomerDto dto)
     {
-        dto.Genders = new List<SelectListItem>
-        {
-            new() { Value = "1", Text = "Erkek" },
-            new() { Value = "2", Text = "Kadın" }
-        };
+        dto.Genders = _genderService.GetAll()
+            .Select(e => new SelectListItem { Value = e.Id.ToString(), Text = e.Name })
+            .ToList();
 
-        dto.Titles = new List<SelectListItem>
-        {
-            new() { Value = "1", Text = "Mühendis" },
-            new() { Value = "2", Text = "Yazılım Geliştirici" }
-        };
+        dto.Titles = _titleService.GetAll()
+            .Select(e => new SelectListItem { Value = e.Id.ToString(), Text = e.Name })
+            .ToList();
 
         dto.StatusTypes = _statusTypeService.GetAll()
-            .Select(e => new SelectListItem { Value = e.Id.ToString(), Text = e.Name }).ToList();
+            .Select(e => new SelectListItem { Value = e.Id.ToString(), Text = e.Name })
+            .ToList();
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<ActionResult> Create(CreateOrUpdateCustomerDto item)
+    public ActionResult Create(CreateOrUpdateCustomerDto item)
     {
         try
         {
@@ -86,7 +85,7 @@ public class CustomerController : Controller
             if (validationResult.IsValid)
             {
                 var isInserted = _customerService.Insert(item);
-                if (isInserted)
+                if (isInserted.IsSuccess)
                     return Json(new { IsSuccess = true, Redirect = Url.Action("Index") });
             }
         }
@@ -100,10 +99,14 @@ public class CustomerController : Controller
         return PartialView("_Create", item);
     }
 
-    public async Task<PartialViewResult> Edit(int? id)
+    public PartialViewResult Edit(int? id)
     {
         var dto = new CreateOrUpdateCustomerDto();
-        if (id.HasValue) dto = _customerService.GetForEditById(id.Value);
+        if (id.HasValue)
+        {
+            var customer = _customerService.GetForEditById(id.Value);
+            dto = customer.Data;
+        }
 
         FillDropdownItems(dto);
 
@@ -119,7 +122,7 @@ public class CustomerController : Controller
             if (ModelState.IsValid)
             {
                 var isUpdated = _customerService.Update(dto);
-                if (isUpdated)
+                if (isUpdated.IsSuccess)
                     return Json(new { IsSuccess = true, Redirect = Url.Action("Index") });
             }
         }
@@ -134,18 +137,19 @@ public class CustomerController : Controller
     }
 
     [HttpGet]
-    public async Task<PartialViewResult> Delete(int id)
+    public PartialViewResult Delete(int id)
     {
-        var serviceItem = _customerService.GetById(id);
+        var customer = _customerService.GetById(id);
 
-        return PartialView("_Delete", serviceItem);
+        return PartialView("_Delete", customer.Data);
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<ActionResult> DeleteConfirmed(int id)
+    public ActionResult DeleteConfirmed(int id)
     {
         _customerService.DeleteById(id);
+
         return RedirectToAction(nameof(Index));
     }
 }
