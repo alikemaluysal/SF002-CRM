@@ -4,9 +4,9 @@ using Company.Framework.Repository;
 
 namespace Company.Crm.Entityframework.Repositories;
 
-public class AddressRepository : BaseRepository<AppDbContext, UserAddress>, IAddressRepository
+public class UserAddressRepository : BaseRepository<AppDbContext, UserAddress>, IUserAddressRepository
 {
-    public AddressRepository(AppDbContext ctx) : base(ctx)
+    public UserAddressRepository(AppDbContext ctx) : base(ctx)
     {
     }
 }

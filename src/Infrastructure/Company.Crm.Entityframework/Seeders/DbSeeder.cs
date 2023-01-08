@@ -7,6 +7,7 @@ using Company.Crm.Domain.Enums;
 using Company.Framework.Authentication;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using TaskStatus = Company.Crm.Domain.Entities.Lst.TaskStatus;
 
 namespace Company.Crm.Entityframework.Seeders;
 
@@ -22,6 +23,7 @@ public static class DbSeeder
         SeedUsers(context);
         SeedAddresses(context);
         SeedNotifications(context);
+        SeedSales(context);
         SeedLstTables(context);
 
         context.SaveChanges();
@@ -39,7 +41,7 @@ public static class DbSeeder
                 .RuleFor(e => e.BirthDate, c =>
                     c.Date.Between(new DateTime(1960, 1, 1), DateTime.Now))
                 .RuleFor(e => e.UserId, c => c.Random.Int(1, 10))
-                .RuleFor(e => e.StatusTypeId, c => c.Random.Int(1,2));
+                .RuleFor(e => e.StatusTypeId, c => c.Random.Int(1, 2));
 
             var customers = Enumerable.Range(1, 200)
                 .Select(e => customerFaker.Generate())
@@ -81,7 +83,7 @@ public static class DbSeeder
         {
             var companySet = new Address("tr");
 
-            var addressFaker = new Faker<Domain.Entities.UserAddress>()
+            var addressFaker = new Faker<UserAddress>()
                 .RuleFor(e => e.Description, c => companySet.City())
                 .RuleFor(e => e.UserId, c => c.Random.Int(1, 100))
                 .RuleFor(e => e.AddressType, c => (AddressTypeEnum)c.Random.Int(1, 2))
@@ -120,6 +122,28 @@ public static class DbSeeder
             context.Notifications.AddRange(notifications);
         }
     }
+
+    private static void SeedSales(AppDbContext context)
+    {
+        if (!context.Sales.Any())
+        {
+            var randomSet = new Lorem("tr");
+            var saleFaker = new Faker<Sale>();
+
+            saleFaker
+                .RuleFor(x => x.EmployeeUserId, f => f.Random.Int(1, 100))
+                .RuleFor(x => x.RequestId, f => f.Random.Int(1, 100))
+                .RuleFor(x => x.SaleAmount, f => f.Random.Int(1, 10000))
+                .RuleFor(x => x.Description, f => randomSet.Word())
+                .RuleFor(x => x.SaleDate, f => f.Date.Past());
+
+
+            var sales = Enumerable.Range(1, 10).Select(e => saleFaker.Generate()).ToList();
+
+            context.Sales.AddRange(sales);
+        }
+    }
+
 
     private static void SeedLstTables(AppDbContext context)
     {
@@ -190,6 +214,50 @@ public static class DbSeeder
             {
                 new() { Name = "Software Developer" },
                 new() { Name = "Engineer" }
+            });
+        }
+
+        if (!context.TaskStatuses.Any())
+        {
+            context.TaskStatuses.AddRange(new List<TaskStatus>
+            {
+                new() { Name = "Open" },
+                new() { Name = "In Progress" },
+                new() { Name = "Resolved" },
+                new() { Name = "Closed" }
+            });
+        }
+
+        if (!context.DocumentTypes.Any())
+        {
+            context.DocumentTypes.AddRange(new List<DocumentType>
+            {
+                new() { Name = "Word" },
+                new() { Name = "PDF" },
+                new() { Name = "Video" },
+                new() { Name = "Audio" }
+            });
+        }
+
+        if (!context.OfferStatuses.Any())
+        {
+            context.OfferStatuses.AddRange(new List<OfferStatus>
+            {
+                new() { Name = "Open" },
+                new() { Name = "In Progress" },
+                new() { Name = "Resolved" },
+                new() { Name = "Closed" }
+            });
+        }
+
+        if (!context.RequestStatuses.Any())
+        {
+            context.RequestStatuses.AddRange(new List<RequestStatus>
+            {
+                new() { Name = "Open" },
+                new() { Name = "In Progress" },
+                new() { Name = "Resolved" },
+                new() { Name = "Closed" }
             });
         }
     }

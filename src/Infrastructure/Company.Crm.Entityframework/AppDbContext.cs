@@ -3,6 +3,7 @@ using Company.Crm.Domain.Entities.Lst;
 using Company.Crm.Domain.Entities.Usr;
 using Microsoft.EntityFrameworkCore;
 using Task = Company.Crm.Domain.Entities.Task;
+using TaskStatus = Company.Crm.Domain.Entities.Lst.TaskStatus;
 
 namespace Company.Crm.Entityframework;
 
@@ -29,6 +30,7 @@ public class AppDbContext : DbContext
     public DbSet<Notification> Notifications { get; set; }
     public DbSet<Document> Documents { get; set; }
     public DbSet<Setting> Settings { get; set; }
+    public DbSet<Sale> Sales { get; set; }
 
     #region USR Tables
 
@@ -46,7 +48,10 @@ public class AppDbContext : DbContext
     public DbSet<UserStatus> UserStatuses { get; set; }
     public DbSet<StatusType> StatusTypes { get; set; }
     public DbSet<OfferStatus> OfferStatuses { get; set; }
-
+    public DbSet<TaskStatus> TaskStatuses { get; set; }
+    public DbSet<DocumentType> DocumentTypes { get; set; }
+    public DbSet<RequestStatus> RequestStatuses { get; set; }
+    
     #endregion
 
     protected override void OnConfiguring(DbContextOptionsBuilder builder)
@@ -90,8 +95,6 @@ public class AppDbContext : DbContext
                 modelBuilder.Entity(entityType.ClrType).ToTable(entityType.ClrType.Name, entityType.GetSchema());
             }
         }
-
-        modelBuilder.Entity<Offer>().Property(e => e.BidAmount).HasPrecision(12, 2);
 
         // Seeders (HasData)
         //CustomerSeeder.Seed(modelBuilder);

@@ -50,6 +50,7 @@ public class UserEmailController : ControllerBase
         return Ok(isDeleted);
     }
 
+    [HttpPost("deleteByEntity")]
     public IActionResult Delete([FromBody] UserEmail entity)
     {
         var isDeleted = _service.Delete(entity);

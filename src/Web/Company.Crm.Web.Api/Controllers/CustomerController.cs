@@ -1,5 +1,6 @@
 ﻿using Company.Crm.Application.Dtos;
 using Company.Crm.Application.Services.Abstracts;
+using Company.Framework.Dtos;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Company.Crm.Web.Api.Controllers;
@@ -22,6 +23,14 @@ public class CustomerController : ControllerBase
         return Ok(data);
     }
 
+    [HttpGet("GetPaged")]
+    public IActionResult GetPaged([FromQuery] PaginationRequest req)
+    {
+        var customers = _customerService.GetPaged(req);
+
+        return Ok(customers);
+    }
+
     [HttpGet("{id}")]
     public IActionResult Get(int id)
     {
@@ -36,6 +45,7 @@ public class CustomerController : ControllerBase
         return Ok(data);
     }
 
+    [HttpPatch("{id}")]
     [HttpPut("{id}")]
     public IActionResult Put(int id, [FromBody] CreateOrUpdateCustomerDto dto)
     {

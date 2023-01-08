@@ -1,6 +1,6 @@
 using Company.Crm.Application;
-using Company.Crm.Application.Dtos;
 using Company.Crm.Entityframework;
+using Company.Framework.Dtos;
 using Microsoft.AspNetCore.Diagnostics;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
@@ -17,6 +17,19 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddEntityFrameworkRegistration(builder.Configuration);
 builder.Services.AddApplicationRegistration(builder.Configuration);
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: "CorsAyari", policy =>
+    {
+        policy
+            .WithOrigins(builder.Configuration["App:ClientUrls"].Split(','))
+            .AllowAnyHeader().AllowAnyMethod().AllowCredentials();
+
+        // Tüm adreslere izin verme
+        //policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowCredentials();
+    });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -25,6 +38,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+var isProduction = app.Environment.IsProduction();
 
 app.UseExceptionHandler(errorApp =>
 {
@@ -59,16 +74,19 @@ app.UseExceptionHandler(errorApp =>
             errorMessage = "Internal error!";
         }
 
-        var errorResponse = new ServiceResponse(errorMessage);
+        if (!isProduction) errorMessage = exception.Message;
+
+        var errorResponse = new ServiceResponse<string>(errorMessage);
         var errorBody = JsonSerializer.Serialize(errorResponse);
 
         context.Response.ContentType = "application/json";
         await context.Response.WriteAsync(errorBody);
-
     });
 });
 
 app.UseHttpsRedirection();
+
+app.UseCors("CorsAyari");
 
 app.UseAuthorization();
 

@@ -1,13 +1,16 @@
-﻿using Company.Crm.Domain.Entities;
+﻿using Company.Crm.Application.Dtos.UserPhone;
+using Company.Crm.Domain.Entities;
 
 namespace Company.Crm.Application.Services.Abstracts;
 
 public interface IUserPhoneService
 {
-    public List<UserPhone> GetAll();
-    public UserPhone? GetById(int id);
-    public bool Insert(UserPhone entity);
-    public bool Update(UserPhone entity);
-    public bool Delete(UserPhone entity);
-    public bool DeleteById(int id);
+    List<UserPhoneDto> GetPaged(int page = 1);
+    List<UserPhone> GetAll();
+    UserPhone? GetById(int id);
+    bool Insert(CreateOrUpdateUserPhoneDto dto);
+    bool Update(CreateOrUpdateUserPhoneDto dto);
+    bool Delete(UserPhoneDto dto);
+    bool DeleteById(int id);
+    CreateOrUpdateUserPhoneDto? GetForEditById(int id);
 }

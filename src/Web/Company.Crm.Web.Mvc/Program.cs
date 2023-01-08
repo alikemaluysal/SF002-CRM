@@ -66,7 +66,7 @@ app.UseExceptionHandler(errorApp =>
 });
 */
 
-app.UseIpLogging();
+//app.UseIpLogging();
 app.UseGlobalExceptionHandling();
 //app.UseMiddleware<ExceptionHandlingMiddleware>();
 

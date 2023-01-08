@@ -1,41 +1,80 @@
-﻿using Company.Crm.Application.Services.Abstracts;
+﻿using AutoMapper;
+using Company.Crm.Application.Dtos;
+using Company.Crm.Application.Dtos.Task;
+using Company.Crm.Application.Services.Abstracts;
+using Company.Crm.Domain.Entities;
 using Company.Crm.Domain.Repositories;
+using Microsoft.EntityFrameworkCore;
 using Task = Company.Crm.Domain.Entities.Task;
 
 namespace Company.Crm.Application.Services;
 
+// Concrete-Abstract
 public class TaskService : ITaskService
 {
     private readonly ITaskRepository _taskRepository;
+    private readonly IMapper _mapper;
 
-    public TaskService(ITaskRepository taskRepository)
+    public TaskService(ITaskRepository taskRepository, IMapper mapper)
     {
         _taskRepository = taskRepository;
+        _mapper = mapper;
     }
 
-    public List<Task> GetAll()
+    public List<TaskDto> GetAll()
     {
-        return _taskRepository.GetAll().ToList();
+        var entityList = _taskRepository.GetAll();
+
+        var dtoList = _mapper.Map<List<TaskDto>>(entityList);
+
+        return dtoList;
     }
 
-    public Task? GetById(int id)
+    public List<TaskDto> GetPaged(int page = 1)
     {
-        return _taskRepository.GetById(id);
+        var entityList = _taskRepository.GetAll()
+            .OrderByDescending(c => c.Id);
+
+        var pagedList = entityList.Skip((page - 1) * 10).Take(10).ToList();
+
+        var dtoList = _mapper.Map<List<TaskDto>>(pagedList);
+
+        return dtoList;
     }
 
-    public bool Insert(Task entity)
+    public TaskDto? GetById(int id)
     {
-        return _taskRepository.Insert(entity);
+        var entity = _taskRepository.GetById(id);
+        var dto = _mapper.Map<TaskDto>(entity);
+        return dto;
     }
 
-    public bool Update(Task entity)
+    public CreateOrUpdateTaskDto? GetForEditById(int id)
     {
-        return _taskRepository.Update(entity);
+        var entity = _taskRepository.GetById(id);
+        var dto = _mapper.Map<CreateOrUpdateTaskDto>(entity);
+        return dto;
     }
 
-    public bool Delete(Task entity)
+    public bool Insert(CreateOrUpdateTaskDto dto)
     {
-        return _taskRepository.Delete(entity);
+        var task = _mapper.Map<Task>(dto);
+
+        return _taskRepository.Insert(task);
+    }
+
+    public bool Update(CreateOrUpdateTaskDto dto)
+    {
+        var task = _mapper.Map<Task>(dto);
+
+        return _taskRepository.Update(task);
+    }
+
+    public bool Delete(TaskDto dto)
+    {
+        var task = _mapper.Map<Task>(dto);
+
+        return _taskRepository.Delete(task);
     }
 
     public bool DeleteById(int id)

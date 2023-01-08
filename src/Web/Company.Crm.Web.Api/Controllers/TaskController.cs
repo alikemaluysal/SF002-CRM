@@ -1,6 +1,6 @@
-﻿using Company.Crm.Application.Services.Abstracts;
+﻿using Company.Crm.Application.Dtos.Task;
+using Company.Crm.Application.Services.Abstracts;
 using Microsoft.AspNetCore.Mvc;
-using Task = Company.Crm.Domain.Entities.Task;
 
 namespace Company.Crm.Web.Api.Controllers;
 
@@ -30,14 +30,14 @@ public class TaskController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult Post([FromBody] Task task)
+    public IActionResult Post([FromBody] CreateOrUpdateTaskDto task)
     {
         var isAdded = _taskService.Insert(task);
         return Ok(isAdded);
     }
 
     [HttpPut("{id}")]
-    public IActionResult Put(int id, [FromBody] Task task)
+    public IActionResult Put(int id, [FromBody] CreateOrUpdateTaskDto task)
     {
         var isUpdated = _taskService.Update(task);
         return Ok(isUpdated);
@@ -51,9 +51,9 @@ public class TaskController : ControllerBase
     }
 
     [HttpPost("deleteByEntity")]
-    public IActionResult Delete([FromBody] Task entity)
+    public IActionResult Delete([FromBody] TaskDto task)
     {
-        var isDeleted = _taskService.Delete(entity);
+        var isDeleted = _taskService.Delete(task);
         return Ok(isDeleted);
     }
 }

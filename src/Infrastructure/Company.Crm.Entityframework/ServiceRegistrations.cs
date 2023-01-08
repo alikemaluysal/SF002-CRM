@@ -23,20 +23,29 @@ public static class ServiceRegistrations
         services.AddScoped<IEmployeeRepository, EmployeeRepository>();
         services.AddScoped<IRequestRepository, RequestRepository>();
         services.AddScoped<INotificationRepository, NotificationRepository>();
-        services.AddScoped<IAddressRepository, AddressRepository>();
-        services.AddScoped<IEmailRepository, EmailRepository>();
         services.AddScoped<IOfferRepository, OfferRepository>();
         services.AddScoped<ITaskRepository, TaskRepository>();
-        services.AddScoped<IRegionRepository, RegionRepository>();
-        services.AddScoped<IStatusTypeRepository, StatusTypeRepository>();
-        services.AddScoped<IOfferStatusRepository, OfferStatusRepository>();
-        services.AddScoped<IDepartmentRepository, DepartmentRepository>();
-        services.AddScoped<IPhoneRepository, PhoneRepository>();
         services.AddScoped<ITitleRepository, TitleRepository>();
         services.AddScoped<IDocumentRepository, DocumentRepository>();
+        services.AddScoped<ISaleRepository, SaleRepository>();
+
+        // Usr Repos
         services.AddScoped<IUserRepository, UserRepository>();
-        services.AddScoped<IUserStatusRepository, UserStatusRepository>();
+        services.AddScoped<IUserEmailRepository, UserEmailRepository>();
+        services.AddScoped<IUserAddressRepository, UserAddressRepository>();
+        services.AddScoped<IUserPhoneRepository, UserPhoneRepository>();
         services.AddScoped<ISettingRepository, SettingRepository>();
+
+        // Lst Repos
+        services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+        services.AddScoped<IRegionRepository, RegionRepository>();
+        services.AddScoped<IUserStatusRepository, UserStatusRepository>();
+        services.AddScoped<IRequestStatusRepository, RequestStatusRepository>();
+        services.AddScoped<IDocumentTypeRepository, DocumentTypeRepository>();
+        services.AddScoped<IStatusTypeRepository, StatusTypeRepository>();
+        services.AddScoped<ITaskStatusRepository, TaskStatusRepository>();
+        services.AddScoped<IOfferStatusRepository, OfferStatusRepository>();
+        services.AddScoped<IGenderRepository, GenderRepository>();
 
         var provider = services.BuildServiceProvider();
         DbSeeder.Seed(provider);

@@ -4,10 +4,10 @@ namespace Company.Crm.Application.Services.Abstracts;
 
 public interface IOfferService
 {
-    public List<OfferDto> GetAll();
-    public OfferDto? GetById(int id);
-    public bool Insert(OfferDto entity);
-    public bool Update(OfferDto entity);
-    public bool Delete(OfferDto entity);
-    public bool DeleteById(int id);
+    List<OfferDto> GetAll();
+    OfferDto? GetById(int id);
+    bool Insert(OfferDto entity);
+    bool Update(OfferDto entity);
+    bool Delete(OfferDto entity);
+    bool DeleteById(int id);
 }

@@ -61,6 +61,8 @@ namespace Company.Crm.Entityframework.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("GenderId");
+
                     b.HasIndex("StatusTypeId");
 
                     b.ToTable("Customer", (string)null);
@@ -141,11 +143,29 @@ namespace Company.Crm.Entityframework.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Department", "LST");
+                });
+
+            modelBuilder.Entity("Company.Crm.Domain.Entities.Lst.DocumentType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DocumentType", "LST");
                 });
 
             modelBuilder.Entity("Company.Crm.Domain.Entities.Lst.Gender", b =>
@@ -205,6 +225,24 @@ namespace Company.Crm.Entityframework.Migrations
                     b.ToTable("Region", "LST");
                 });
 
+            modelBuilder.Entity("Company.Crm.Domain.Entities.Lst.RequestStatus", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RequestStatus", "LST");
+                });
+
             modelBuilder.Entity("Company.Crm.Domain.Entities.Lst.StatusType", b =>
                 {
                     b.Property<int>("Id")
@@ -223,6 +261,24 @@ namespace Company.Crm.Entityframework.Migrations
                     b.ToTable("StatusType", "LST");
                 });
 
+            modelBuilder.Entity("Company.Crm.Domain.Entities.Lst.TaskStatus", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TaskStatus", "LST");
+                });
+
             modelBuilder.Entity("Company.Crm.Domain.Entities.Lst.Title", b =>
                 {
                     b.Property<int>("Id")
@@ -233,7 +289,8 @@ namespace Company.Crm.Entityframework.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
@@ -250,7 +307,8 @@ namespace Company.Crm.Entityframework.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
@@ -268,7 +326,7 @@ namespace Company.Crm.Entityframework.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2022, 12, 10, 11, 6, 12, 50, DateTimeKind.Utc).AddTicks(9464));
+                        .HasDefaultValue(new DateTime(2023, 1, 7, 20, 33, 25, 30, DateTimeKind.Utc).AddTicks(6805));
 
                     b.Property<int>("CreatedBy")
                         .HasColumnType("int");
@@ -349,6 +407,36 @@ namespace Company.Crm.Entityframework.Migrations
                     b.ToTable("Request", (string)null);
                 });
 
+            modelBuilder.Entity("Company.Crm.Domain.Entities.Sale", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("EmployeeUserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RequestId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("SaleAmount")
+                        .HasPrecision(12, 2)
+                        .HasColumnType("decimal(12,2)");
+
+                    b.Property<DateTime>("SaleDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Sale", (string)null);
+                });
+
             modelBuilder.Entity("Company.Crm.Domain.Entities.Setting", b =>
                 {
                     b.Property<int>("Id")
@@ -383,7 +471,8 @@ namespace Company.Crm.Entityframework.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<int>("EmployeeUserId")
                         .HasColumnType("int");
@@ -459,6 +548,7 @@ namespace Company.Crm.Entityframework.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("PhoneNumber")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("PhoneType")
@@ -575,9 +665,15 @@ namespace Company.Crm.Entityframework.Migrations
 
             modelBuilder.Entity("Company.Crm.Domain.Entities.Customer", b =>
                 {
+                    b.HasOne("Company.Crm.Domain.Entities.Lst.Gender", "GenderFk")
+                        .WithMany()
+                        .HasForeignKey("GenderId");
+
                     b.HasOne("Company.Crm.Domain.Entities.Lst.StatusType", "StatusTypeFk")
                         .WithMany("Customers")
                         .HasForeignKey("StatusTypeId");
+
+                    b.Navigation("GenderFk");
 
                     b.Navigation("StatusTypeFk");
                 });

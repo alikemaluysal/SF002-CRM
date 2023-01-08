@@ -3,7 +3,9 @@ using Company.Crm.Application.Dtos;
 using Company.Crm.Application.Dtos.Address;
 using Company.Crm.Application.Dtos.List;
 using Company.Crm.Application.Dtos.Notification;
+using Company.Crm.Application.Dtos.Sale;
 using Company.Crm.Application.Dtos.UserAddress;
+using Company.Crm.Application.Dtos.UserPhone;
 using Company.Crm.Domain.Entities;
 using Company.Crm.Domain.Entities.Lst;
 
@@ -17,12 +19,13 @@ public class MappingProfile : Profile
         // ReverseMap: CustomerDto nesnesini otomatik Customer'a dönüştürmeyi sağlar. İki satır yazmak yerine ReverseMap kullanılır.
         CreateMap<Customer, CustomerDto>()
             .ForMember(d => d.StatusTypeName, m => m.MapFrom(s => s.StatusTypeFk != null ? s.StatusTypeFk.Name : ""))
+            .ForMember(d => d.GenderName, m => m.MapFrom(s => s.GenderFk != null ? s.GenderFk.Name : ""))
             .ReverseMap();
         CreateMap<CustomerDto, Customer>();
         CreateMap<Customer, CreateOrUpdateCustomerDto>().ReverseMap();
 
-		    CreateMap<Gender, GenderDto>().ReverseMap();
-	
+        CreateMap<Gender, GenderDto>().ReverseMap();
+
         CreateMap<Employee, EmployeeDto>().ReverseMap();
         CreateMap<Employee, CreateOrUpdateEmployeeDto>().ReverseMap();
 
@@ -31,5 +34,12 @@ public class MappingProfile : Profile
 
         CreateMap<UserAddress, AddressDetailDto>().ReverseMap();
         CreateMap<UserAddress, AddressCreateOrUpdateDto>().ReverseMap();
+
+        CreateMap<UserPhone, UserPhoneDto>().ReverseMap();
+        CreateMap<UserPhone, CreateOrUpdateUserPhoneDto>().ReverseMap();
+
+        CreateMap<Sale, SaleDetailDto>().ReverseMap();
+        CreateMap<Sale, CreateOrUpdateSaleDto>().ReverseMap();
+
     }
 }

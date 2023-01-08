@@ -4,10 +4,12 @@ namespace Company.Crm.Application.Services.Abstracts;
 
 public interface IDepartmentService
 {
-    public List<Department> GetAll();
-    public Department? GetById(int id);
-    public bool Insert(Department entity);
-    public bool Update(Department entity);
-    public bool Delete(Department entity);
-    public bool DeleteById(int id);
+    List<Department> GetAll();
+    Department? GetById(int id);
+    bool Insert(Department entity);
+    bool Update(Department entity);
+    bool Delete(Department entity);
+    bool DeleteById(int id);
+    List<Department> GetPaged(int page = 1);
+    Department GetForEditById(int id);
 }
