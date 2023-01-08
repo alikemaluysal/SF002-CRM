@@ -5,6 +5,7 @@ using Company.Crm.Application.Dtos.List;
 using Company.Crm.Application.Dtos.Notification;
 using Company.Crm.Application.Dtos.Sale;
 using Company.Crm.Application.Dtos.UserAddress;
+using Company.Crm.Application.Dtos.UserEmail;
 using Company.Crm.Application.Dtos.UserPhone;
 using Company.Crm.Domain.Entities;
 using Company.Crm.Domain.Entities.Lst;
@@ -37,6 +38,9 @@ public class MappingProfile : Profile
 
         CreateMap<UserPhone, UserPhoneDto>().ReverseMap();
         CreateMap<UserPhone, CreateOrUpdateUserPhoneDto>().ReverseMap();
+        
+        CreateMap<UserEmail, UserEmailDto>().ReverseMap();
+        CreateMap<UserEmail, CreateOrUpdateUserEmailDto>().ReverseMap();
 
         CreateMap<Sale, SaleDetailDto>().ReverseMap();
         CreateMap<Sale, CreateOrUpdateSaleDto>().ReverseMap();

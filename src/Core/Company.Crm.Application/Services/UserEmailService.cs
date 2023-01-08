@@ -1,4 +1,5 @@
-﻿using Company.Crm.Application.Services.Abstracts;
+﻿using Company.Crm.Application.Dtos.UserEmail;
+using Company.Crm.Application.Services.Abstracts;
 using Company.Crm.Domain.Entities;
 using Company.Crm.Domain.Repositories;
 
@@ -41,5 +42,15 @@ public class UserEmailService : IUserEmailService
     public bool DeleteById(int id)
     {
         return _userEmailRepository.DeleteById(id);
+    }
+
+    public CreateOrUpdateUserEmailDto? GetForEditById(int id)
+    {
+        return _userEmailRepository.GetForEditById(id);
+    }
+
+    public List<UserEmail> GetPaged(int page = 1)
+    {
+        return _userEmailRepository.GetPaged(page);
     }
 }
