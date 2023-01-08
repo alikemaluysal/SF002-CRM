@@ -3,6 +3,7 @@ using Company.Crm.Application.Dtos;
 using Company.Crm.Application.Services.Abstracts;
 using Company.Crm.Domain.Entities;
 using Company.Crm.Domain.Repositories;
+using Company.Framework.Dtos;
 
 namespace Company.Crm.Application.Services;
 
@@ -17,47 +18,48 @@ public class EmployeeService : IEmployeeService
         _mapper = mapper;
     }
 
-    public List<EmployeeDto> GetAll()
+    public ServiceResponse<List<EmployeeDto>> GetAll()
     {
         var entityList = _employeeRepository.GetAll();
         var dtoList = _mapper.Map<List<EmployeeDto>>(entityList);
-        return dtoList;
+
+        return new ServiceResponse<List<EmployeeDto>>(dtoList);
     }
 
-    public EmployeeDto? GetById(int id)
+    public ServiceResponse<EmployeeDto?> GetById(int id)
     {
         var entity = _employeeRepository.GetById(id);
         var dto = _mapper.Map<EmployeeDto>(entity);
-        return dto;
+        return new ServiceResponse<EmployeeDto?>(dto);
     }
 
-    public bool Insert(CreateOrUpdateEmployeeDto dto)
+    public ServiceResponse<bool> Insert(CreateOrUpdateEmployeeDto dto)
     {
         var entity = _mapper.Map<Employee>(dto);
-        return _employeeRepository.Insert(entity);
+        return new ServiceResponse<bool>(_employeeRepository.Insert(entity));
     }
 
-    public bool Update(CreateOrUpdateEmployeeDto dto)
+    public ServiceResponse<bool> Update(CreateOrUpdateEmployeeDto dto)
     {
         var entity = _mapper.Map<Employee>(dto);
-        return _employeeRepository.Update(entity);
+        return new ServiceResponse<bool>(_employeeRepository.Update(entity));
     }
 
-    public bool Delete(EmployeeDto dto)
+    public ServiceResponse<bool> Delete(EmployeeDto dto)
     {
         var entity = _mapper.Map<Employee>(dto);
-        return _employeeRepository.Delete(entity);
+        return new ServiceResponse<bool>(_employeeRepository.Delete(entity));
     }
 
-    public bool DeleteById(int id)
+    public ServiceResponse<bool> DeleteById(int id)
     {
-        return _employeeRepository.DeleteById(id);
+        return new ServiceResponse<bool>(_employeeRepository.DeleteById(id));
     }
 
-    public List<EmployeeDto> GetAllByRegionId(int regionId)
+    public ServiceResponse<List<EmployeeDto>> GetAllByRegionId(int regionId)
     {
         var entityList = _employeeRepository.GetAllByRegionId(regionId);
         var dtoList = _mapper.Map<List<EmployeeDto>>(entityList);
-        return dtoList;
+        return new ServiceResponse<List<EmployeeDto>>(dtoList);
     }
 }
