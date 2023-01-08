@@ -1,14 +1,16 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
+import { onMounted } from 'vue'
+import Navbar from './components/Navbar.vue'
+
+onMounted(() => {
+  // sayfa yüklendiğinde
+})
 </script>
 
 <template>
-  <RouterLink to="/">Home</RouterLink>
-  <RouterLink to="/about">About</RouterLink>
+  <Navbar />
 
-  <RouterView />
+  <div class="container">
+    <router-view></router-view>
+  </div>
 </template>
-
-<style scoped>
-
-</style>
