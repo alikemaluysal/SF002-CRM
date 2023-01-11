@@ -34,21 +34,28 @@ public class UserEmailService : IUserEmailService
         return dto;
     }
 
-    public bool Insert(UserEmail dto)
+    public bool Insert(CreateOrUpdateUserEmailDto dto)
     {
         var userEmail = _mapper.Map<UserEmail>(dto);
         return _userEmailRepository.Update(userEmail);
     }
 
-    public bool Update(UserEmail entity)
+    public bool Update(CreateOrUpdateUserEmailDto dto)
     {
-        var userEmail = _mapper.Map<UserEmail>(entity);
+        #region mappsiz
+        //var userEmail = _userEmailRepository.GetById(dto.Id);
+        //userEmail.EmailAddress = dto.EmailAddress;
+        //userEmail.UserId = dto.UserId;
+        //userEmail.EmailType = (EmailTypeEnum)dto.EmailType;
+        #endregion
+
+        var userEmail = _mapper.Map<UserEmail>(dto);
         return _userEmailRepository.Update(userEmail);
     }
 
-    public bool Delete(UserEmail entity)
+    public bool Delete(CreateOrUpdateUserEmailDto dto)
     {
-        var userEmail = _mapper.Map<UserEmail>(entity);
+        var userEmail = _mapper.Map<UserEmail>(dto);
         return _userEmailRepository.Delete(userEmail);
     }
 

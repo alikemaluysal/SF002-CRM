@@ -62,7 +62,7 @@ public class UserEmailController : Controller
         {
             if (ModelState.IsValid)
             {
-                var isInserted = await _userEmailService.Insert(item);
+                var isInserted = _userEmailService.Insert(item);
                 if (isInserted)
                     return Json(new { IsSuccess = true, Redirect = Url.Action("Index") });
             }
@@ -87,13 +87,13 @@ public class UserEmailController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<ActionResult> Edit(UserEmail entity)
+    public async Task<ActionResult> Edit(CreateOrUpdateUserEmailDto dto)
     {
         try
         {
             if (ModelState.IsValid)
             {
-                var isUpdated = _userEmailService.Update(entity);
+                var isUpdated = _userEmailService.Update(dto);
                 if (isUpdated)
                     return Json(new { IsSuccess = true, Redirect = Url.Action("Index") });
             }
@@ -103,7 +103,7 @@ public class UserEmailController : Controller
             ModelState.AddModelError("", "Unable to save changes.");
         }
 
-        return PartialView("_Edit", entity);
+        return PartialView("_Edit", dto);
     }
 
     [HttpGet]
