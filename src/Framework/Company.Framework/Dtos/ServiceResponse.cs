@@ -34,13 +34,11 @@ public class ServiceResponse<TKey> : BaseResponse
         Message = message;
     }
 
-    public ServiceResponse(string? message) : this(false, default, message)
-    {
-    }
+    public ServiceResponse(string? message) : this(true, default, message)
+    { }
 
     public ServiceResponse(TKey data) : this(true, data, default)
-    {
-    }
+    { }
 
     public ServiceResponse(ModelStateDictionary modelState, string message)
     {

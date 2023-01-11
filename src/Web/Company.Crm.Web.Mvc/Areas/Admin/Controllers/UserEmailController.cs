@@ -1,4 +1,4 @@
-﻿using Company.Crm.Application.Constants;
+using Company.Crm.Application.Constants;
 using Company.Crm.Application.Dtos.UserEmail;
 using Company.Crm.Application.Services.Abstracts;
 using Company.Crm.Domain.Entities;
@@ -12,6 +12,18 @@ namespace Company.Crm.Web.Mvc.Areas.Admin.Controllers;
 
 [Authorize(Roles = RoleNameConsts.Administrator)]
 [Area("Admin")]
+=======
+﻿using Company.Crm.Application.Dtos.UserEmail;
+using Company.Crm.Application.Dtos.UserPhone;
+using Company.Crm.Application.Services;
+using Company.Crm.Application.Services.Abstracts;
+using Company.Crm.Application.Validators;
+using Company.Crm.Domain.Entities;
+using FluentValidation;
+using Microsoft.AspNetCore.Mvc;
+
+namespace Company.Crm.Web.Mvc.Areas.Admin.Controllers;
+
 public class UserEmailController : Controller
 {
     private readonly IUserEmailService _userEmailService;
@@ -31,13 +43,14 @@ public class UserEmailController : Controller
 
     public async Task<PartialViewResult> Detail(int id)
     {
-        var userPhone = _userEmailService.GetById(id);
-        return PartialView("_Detail", userPhone);
+        var userEmail = _userEmailService.GetById(id);
+        return PartialView("_Detail", userEmail);
     }
 
     [HttpGet]
     public PartialViewResult Create()
     {
+
         CreateOrUpdateUserEmailDto dto = new();
         FillDropdownItems(dto);
         return PartialView("_Create", dto);
@@ -60,7 +73,8 @@ public class UserEmailController : Controller
     {
         try
         {
-            if (ModelState.IsValid)
+            
+            if (validationResult.IsValid)
             {
                 var isInserted = _userEmailService.Insert(item);
                 if (isInserted)
@@ -71,7 +85,6 @@ public class UserEmailController : Controller
         {
             ModelState.AddModelError("", "Unable to save changes.");
         }
-
         FillDropdownItems(item);
 
         return PartialView("_Create", item);
@@ -88,12 +101,14 @@ public class UserEmailController : Controller
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<ActionResult> Edit(CreateOrUpdateUserEmailDto dto)
+
     {
         try
         {
             if (ModelState.IsValid)
             {
                 var isUpdated = _userEmailService.Update(dto);
+
                 if (isUpdated)
                     return Json(new { IsSuccess = true, Redirect = Url.Action("Index") });
             }
@@ -102,8 +117,9 @@ public class UserEmailController : Controller
         {
             ModelState.AddModelError("", "Unable to save changes.");
         }
-
+        
         return PartialView("_Edit", dto);
+
     }
 
     [HttpGet]

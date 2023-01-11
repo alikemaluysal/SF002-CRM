@@ -1,8 +1,7 @@
-﻿using AutoMapper;
+using AutoMapper;
 using Company.Crm.Application.Dtos.UserEmail;
 using Company.Crm.Application.Services.Abstracts;
 using Company.Crm.Domain.Entities;
-using Company.Crm.Domain.Enums;
 using Company.Crm.Domain.Repositories;
 
 namespace Company.Crm.Application.Services;
@@ -69,7 +68,6 @@ public class UserEmailService : IUserEmailService
         var entity = _userEmailRepository.GetById(id);
         var dto = _mapper.Map<CreateOrUpdateUserEmailDto>(entity);
         return dto;
-      
     }
 
     public List<UserEmail> GetPaged(int page = 1)
@@ -82,5 +80,6 @@ public class UserEmailService : IUserEmailService
         var dtoList = _mapper.Map<List<UserEmail>>(pagedList);
 
         return dtoList;
+
     }
 }

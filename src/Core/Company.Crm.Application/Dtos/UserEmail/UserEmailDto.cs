@@ -1,10 +1,4 @@
-﻿using Company.Crm.Domain.Enums;
 using Company.Framework.Dtos;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Company.Crm.Application.Dtos.UserEmail
 {

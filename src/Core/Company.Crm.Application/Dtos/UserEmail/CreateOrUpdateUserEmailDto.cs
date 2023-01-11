@@ -1,4 +1,4 @@
-﻿using Company.Crm.Domain.Enums;
+using Company.Crm.Domain.Enums;
 using Company.Framework.Dtos;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.AspNetCore.Mvc.Rendering;

@@ -1,4 +1,4 @@
-﻿using Company.Crm.Application.Dtos.UserEmail;
+using Company.Crm.Application.Dtos.UserEmail;
 using Company.Crm.Domain.Entities;
 
 namespace Company.Crm.Application.Services.Abstracts;
