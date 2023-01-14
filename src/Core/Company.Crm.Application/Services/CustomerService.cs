@@ -48,7 +48,7 @@ public class CustomerService : ICustomerService
         return new ServiceResponse<List<CustomerDto>>(dtoList);
     }
 
-    public ServicePagedResponse<List<CustomerDto>> GetPaged(PaginationRequest req)
+    public ServicePaginationResponse<List<CustomerDto>> GetPaged(PaginationRequest req)
     {
         var entityQuery = _customerRepository.GetAll()
             .Include(e => e.StatusTypeFk)
@@ -61,7 +61,7 @@ public class CustomerService : ICustomerService
 
         var dtoList = _mapper.Map<List<CustomerDto>>(pagedList);
 
-        return new ServicePagedResponse<List<CustomerDto>>(dtoList, totalEntity, req);
+        return new ServicePaginationResponse<List<CustomerDto>>(dtoList, totalEntity, req);
     }
 
     public ServiceResponse<CustomerDto?> GetById(int id)

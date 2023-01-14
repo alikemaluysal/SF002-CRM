@@ -13,5 +13,5 @@ public interface ICustomerService
     ServiceResponse<bool> Delete(CustomerDto dto);
     ServiceResponse<bool> DeleteById(int id);
     ServiceResponse<List<CustomerDto>> GetAllByRegionId(int regionId);
-    ServicePagedResponse<List<CustomerDto>> GetPaged(PaginationRequest req);
+    ServicePaginationResponse<List<CustomerDto>> GetPaged(PaginationRequest req);
 }

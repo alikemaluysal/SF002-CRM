@@ -1,8 +1,8 @@
 ﻿namespace Company.Framework.Dtos;
 
-public class ServicePagedResponse<TKey> : ServiceResponse<TKey> where TKey : class
+public class ServicePaginationResponse<TKey> : ServiceResponse<TKey> where TKey : class
 {
-    public ServicePagedResponse(TKey data, int total, PaginationRequest req)
+    public ServicePaginationResponse(TKey data, int total, PaginationRequest req)
     {
         IsSuccess = true;
         Data = data;
