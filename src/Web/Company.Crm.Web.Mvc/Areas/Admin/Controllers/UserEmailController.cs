@@ -1,3 +1,18 @@
+using Company.Crm.Application.Constants;
+using Company.Crm.Application.Dtos.UserEmail;
+using Company.Crm.Application.Services.Abstracts;
+using Company.Crm.Domain.Entities;
+using Company.Crm.Domain.Enums;
+using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+
+namespace Company.Crm.Web.Mvc.Areas.Admin.Controllers;
+
+[Authorize(Roles = RoleNameConsts.Administrator)]
+[Area("Admin")]
+=======
 ﻿using Company.Crm.Application.Dtos.UserEmail;
 using Company.Crm.Application.Dtos.UserPhone;
 using Company.Crm.Application.Services;
@@ -28,35 +43,40 @@ public class UserEmailController : Controller
 
     public async Task<PartialViewResult> Detail(int id)
     {
-        var userPhone = _userEmailService.GetById(id);
-        return PartialView("_Detail", userPhone);
+        var userEmail = _userEmailService.GetById(id);
+        return PartialView("_Detail", userEmail);
     }
 
     [HttpGet]
     public PartialViewResult Create()
     {
-        var dto = new CreateOrUpdateUserEmailDto();
+
+        CreateOrUpdateUserEmailDto dto = new();
+        FillDropdownItems(dto);
         return PartialView("_Create", dto);
+    }
+
+    private void FillDropdownItems(CreateOrUpdateUserEmailDto dto)
+    {
+        dto.EmailTypes?.AddRange(new[]
+        {
+            new SelectListItem { Text = EmailTypeEnum.CustomEmail.ToString(), Value = ((int)EmailTypeEnum.CustomEmail).ToString() },
+            new SelectListItem { Text = EmailTypeEnum.WorkEmail.ToString(), Value = ((int)EmailTypeEnum.WorkEmail).ToString() },
+            new SelectListItem { Text = EmailTypeEnum.MobileEmail.ToString(), Value = ((int)EmailTypeEnum.MobileEmail).ToString() },
+            new SelectListItem { Text = EmailTypeEnum.OtherEmail.ToString(), Value = ((int)EmailTypeEnum.OtherEmail).ToString() }
+        });
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<ActionResult> Create(CreateOrUpdateUserEmailDto dto)
+    public async Task<ActionResult> Create(CreateOrUpdateUserEmailDto item)
     {
         try
         {
-            var validationResult = _userEmailValidator.Validate(dto);
-            if (!validationResult.IsValid)
-            {
-                validationResult.AddToModelState(ModelState);
-
-                return PartialView("_Create", dto);
-            }
-
-
+            
             if (validationResult.IsValid)
             {
-                var isInserted = _userEmailService.Insert(dto);
+                var isInserted = _userEmailService.Insert(item);
                 if (isInserted)
                     return Json(new { IsSuccess = true, Redirect = Url.Action("Index") });
             }
@@ -65,8 +85,9 @@ public class UserEmailController : Controller
         {
             ModelState.AddModelError("", "Unable to save changes.");
         }
+        FillDropdownItems(item);
 
-        return PartialView("_Create", dto);
+        return PartialView("_Create", item);
     }
 
     public async Task<PartialViewResult> Edit(int? id)
@@ -79,13 +100,15 @@ public class UserEmailController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<ActionResult> Edit(UserEmail entity)
+    public async Task<ActionResult> Edit(CreateOrUpdateUserEmailDto dto)
+
     {
         try
         {
             if (ModelState.IsValid)
             {
-                var isUpdated = _userEmailService.Update(entity);
+                var isUpdated = _userEmailService.Update(dto);
+
                 if (isUpdated)
                     return Json(new { IsSuccess = true, Redirect = Url.Action("Index") });
             }
@@ -94,8 +117,9 @@ public class UserEmailController : Controller
         {
             ModelState.AddModelError("", "Unable to save changes.");
         }
+        
+        return PartialView("_Edit", dto);
 
-        return PartialView("_Edit", entity);
     }
 
     [HttpGet]
