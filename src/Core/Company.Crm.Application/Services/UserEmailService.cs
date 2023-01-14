@@ -11,7 +11,7 @@ public class UserEmailService : IUserEmailService
     private readonly IUserEmailRepository _userEmailRepository;
     private readonly IMapper _mapper;
 
-    public UserEmailService(IUserEmailRepository userEmailRepository , IMapper mapper)
+    public UserEmailService(IUserEmailRepository userEmailRepository, IMapper mapper)
     {
         _userEmailRepository = userEmailRepository;
         _mapper = mapper;
@@ -19,8 +19,6 @@ public class UserEmailService : IUserEmailService
 
     public List<UserEmailDto> GetAll()
     {
-
-        //return _userEmailRepository.GetAll().ToList();
         var entityList = _userEmailRepository.GetAll();
         var dtoList = _mapper.Map<List<UserEmailDto>>(entityList);
         return dtoList;
@@ -41,13 +39,6 @@ public class UserEmailService : IUserEmailService
 
     public bool Update(CreateOrUpdateUserEmailDto dto)
     {
-        #region mappsiz
-        //var userEmail = _userEmailRepository.GetById(dto.Id);
-        //userEmail.EmailAddress = dto.EmailAddress;
-        //userEmail.UserId = dto.UserId;
-        //userEmail.EmailType = (EmailTypeEnum)dto.EmailType;
-        #endregion
-
         var userEmail = _mapper.Map<UserEmail>(dto);
         return _userEmailRepository.Update(userEmail);
     }
@@ -70,16 +61,15 @@ public class UserEmailService : IUserEmailService
         return dto;
     }
 
-    public List<UserEmail> GetPaged(int page = 1)
+    public List<UserEmailDto> GetPaged(int page = 1)
     {
         var entityList = _userEmailRepository.GetAll()
             .OrderByDescending(c => c.Id);
 
         var pagedList = entityList.Skip((page - 1) * 10).Take(10).ToList();
 
-        var dtoList = _mapper.Map<List<UserEmail>>(pagedList);
+        var dtoList = _mapper.Map<List<UserEmailDto>>(pagedList);
 
         return dtoList;
-
     }
 }

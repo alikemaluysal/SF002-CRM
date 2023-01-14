@@ -1,5 +1,5 @@
-﻿using Company.Crm.Application.Services.Abstracts;
-using Company.Crm.Domain.Entities;
+﻿using Company.Crm.Application.Dtos.UserEmail;
+using Company.Crm.Application.Services.Abstracts;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Company.Crm.Web.Api.Controllers;
@@ -30,14 +30,14 @@ public class UserEmailController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult Post([FromBody] UserEmail userEmail)
+    public IActionResult Post([FromBody] CreateOrUpdateUserEmailDto userEmail)
     {
         var isAdded = _service.Insert(userEmail);
         return Ok(isAdded);
     }
 
     [HttpPut("{id}")]
-    public IActionResult Put(int id, [FromBody] UserEmail userEmail)
+    public IActionResult Put(int id, [FromBody] CreateOrUpdateUserEmailDto userEmail)
     {
         var isUpdated = _service.Update(userEmail);
         return Ok(isUpdated);
@@ -51,7 +51,7 @@ public class UserEmailController : ControllerBase
     }
 
     [HttpPost("deleteByEntity")]
-    public IActionResult Delete([FromBody] UserEmail entity)
+    public IActionResult Delete([FromBody] CreateOrUpdateUserEmailDto entity)
     {
         var isDeleted = _service.Delete(entity);
         return Ok(isDeleted);

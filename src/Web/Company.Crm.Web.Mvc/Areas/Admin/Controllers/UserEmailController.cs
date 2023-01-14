@@ -1,26 +1,9 @@
-using Company.Crm.Application.Constants;
 using Company.Crm.Application.Dtos.UserEmail;
 using Company.Crm.Application.Services.Abstracts;
-using Company.Crm.Domain.Entities;
 using Company.Crm.Domain.Enums;
 using FluentValidation;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-
-namespace Company.Crm.Web.Mvc.Areas.Admin.Controllers;
-
-[Authorize(Roles = RoleNameConsts.Administrator)]
-[Area("Admin")]
-=======
-﻿using Company.Crm.Application.Dtos.UserEmail;
-using Company.Crm.Application.Dtos.UserPhone;
-using Company.Crm.Application.Services;
-using Company.Crm.Application.Services.Abstracts;
-using Company.Crm.Application.Validators;
-using Company.Crm.Domain.Entities;
-using FluentValidation;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Company.Crm.Web.Mvc.Areas.Admin.Controllers;
 
@@ -50,7 +33,6 @@ public class UserEmailController : Controller
     [HttpGet]
     public PartialViewResult Create()
     {
-
         CreateOrUpdateUserEmailDto dto = new();
         FillDropdownItems(dto);
         return PartialView("_Create", dto);
@@ -73,8 +55,7 @@ public class UserEmailController : Controller
     {
         try
         {
-            
-            if (validationResult.IsValid)
+            if (ModelState.IsValid)
             {
                 var isInserted = _userEmailService.Insert(item);
                 if (isInserted)
@@ -117,9 +98,8 @@ public class UserEmailController : Controller
         {
             ModelState.AddModelError("", "Unable to save changes.");
         }
-        
-        return PartialView("_Edit", dto);
 
+        return PartialView("_Edit", dto);
     }
 
     [HttpGet]
