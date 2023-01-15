@@ -7,6 +7,7 @@ import '@/plugins/axios.js'
 import '@/plugins/notification.js'
 import PrimeVue from 'primevue/config'
 import Calendar from 'primevue/calendar'
+import Dropdown from 'primevue/dropdown'
 import 'primevue/resources/themes/saga-blue/theme.css'
 import 'primevue/resources/primevue.min.css'
 import { tr } from '@/assets/primevue-langs.json'
@@ -26,6 +27,7 @@ app.use(PrimeVue, {
 	locale: tr
 })
 app.component('Calendar', Calendar);
+app.component('Dropdown', Dropdown);
 
 app.use(createPinia())
 app.use(router)

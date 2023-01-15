@@ -40,7 +40,7 @@ function editItem(id) {
 		//dataItem.value.birthDate = dataItem.value.birthDate.substring(0, 10)
 		dataItem.value.birthDate = new Date(dataItem.value.birthDate)
 
-		showModal();
+		showModal()
 	})
 }
 
@@ -116,7 +116,7 @@ function itemSaved() {
 					No records!
 				</div>
 
-				<pagination v-if="dataMeta" :meta="dataMeta" v-on:pageChange="fetchItems" />
+				<pagination class="mt-3" v-if="dataMeta" :meta="dataMeta" v-on:pageChange="fetchItems" />
 			</div>
 
 			<customer-modal :item="dataItem" @onSaved="itemSaved"></customer-modal>

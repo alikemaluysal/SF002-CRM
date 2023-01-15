@@ -215,6 +215,13 @@ const version = ref('1.0')
 								</span>
 							</a>
 						</li>
+						<li class="nav-item">
+							<router-link class="nav-link" to="/auth/login">
+								<span class="nav-link-title">
+									Login
+								</span>
+							</router-link>
+						</li>
 					</ul>
 					<div class="my-2 my-md-0 flex-grow-1 flex-md-grow-0 order-first order-md-last">
 						<form action="./" method="get" autocomplete="off" novalidate>
