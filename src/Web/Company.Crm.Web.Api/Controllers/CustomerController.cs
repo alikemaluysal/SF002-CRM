@@ -1,10 +1,12 @@
 ﻿using Company.Crm.Application.Dtos;
 using Company.Crm.Application.Services.Abstracts;
 using Company.Framework.Dtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Company.Crm.Web.Api.Controllers;
 
+[Authorize]
 [Route("api/[controller]")]
 [ApiController]
 public class CustomerController : ControllerBase

@@ -17,4 +17,5 @@ public interface IUserService
     User? GetByEmail(string email);
     void RemindPassword(RemindPasswordDto dto);
     void ResetPassword(ResetPasswordDto dto);
+    Task<bool> IsUserExist(string username, string email);
 }

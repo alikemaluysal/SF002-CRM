@@ -145,4 +145,12 @@ public class UserService : IUserService
             _userRepository.Update(user);
         }
     }
+
+    public async Task<bool> IsUserExist(string username, string email)
+    {
+        var isExist = await _userRepository.GetAll()
+            .AnyAsync(x => x.Username == username || x.Email == email);
+        return isExist;
+    }
+
 }
