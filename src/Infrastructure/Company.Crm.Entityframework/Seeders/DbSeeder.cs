@@ -18,13 +18,15 @@ public static class DbSeeder
         var options = serviceProvider.GetRequiredService<DbContextOptions<AppDbContext>>();
         var context = new AppDbContext(options);
 
+        SeedLstTables(context);
+        context.SaveChanges();
+        
         SeedCustomers(context);
         SeedRoles(context);
         SeedUsers(context);
         SeedAddresses(context);
         SeedNotifications(context);
         SeedSales(context);
-        SeedLstTables(context);
 
         context.SaveChanges();
     }
