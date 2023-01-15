@@ -1,4 +1,5 @@
 ﻿using Company.Crm.Domain.Entities.Lst;
+using Company.Crm.Domain.Entities.Usr;
 using Company.Crm.Domain.Enums;
 using Company.Framework.Entity;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -18,6 +19,9 @@ public class Customer : BaseEntity
     public DateTime BirthDate { get; set; }
 
     #region Navigation Properties
+
+    [ForeignKey("UserId")]
+    public User? UserFk { get; set; }
 
     [ForeignKey("StatusTypeId")]
     public StatusType? StatusTypeFk { get; set; }

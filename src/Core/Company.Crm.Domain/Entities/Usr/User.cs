@@ -12,4 +12,7 @@ public class User : BaseEntity
     public int? UserStatusId { get; set; }
 
     public ICollection<Role> Roles { get; set; }
+    public ICollection<UserAddress> Addresses { get; set; }
+    public ICollection<UserPhone> Phones { get; set; }
+    public ICollection<UserEmail> Emails { get; set; }
 }
