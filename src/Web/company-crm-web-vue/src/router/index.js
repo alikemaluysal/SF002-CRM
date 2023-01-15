@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomePage from '../pages/HomePage.vue'
-import CustomerList from '../pages/customer/CustomerList.vue'
+import HomePage from '../views/HomePage.vue'
+import CustomerList from '../views/customer/CustomerList.vue'
 
 const routes = [
   { path: '/', name: 'home', component: HomePage },
@@ -11,7 +11,7 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (About.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import('../pages/AboutPage.vue')
+    component: () => import('../views/AboutPage.vue')
   }
 ]
 
