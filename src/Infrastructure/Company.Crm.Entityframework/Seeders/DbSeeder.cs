@@ -1,5 +1,4 @@
 ﻿using Bogus;
-using Bogus.DataSets;
 using Company.Crm.Domain.Entities;
 using Company.Crm.Domain.Entities.Lst;
 using Company.Crm.Domain.Entities.Usr;
@@ -8,6 +7,7 @@ using Company.Framework.Authentication;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using TaskStatus = Company.Crm.Domain.Entities.Lst.TaskStatus;
+using UserStatus = Company.Crm.Domain.Entities.Lst.UserStatus;
 
 namespace Company.Crm.Entityframework.Seeders;
 
@@ -19,12 +19,14 @@ public static class DbSeeder
         var context = new AppDbContext(options);
 
         SeedLstTables(context);
-        context.SaveChanges();
-        
-        SeedCustomers(context);
         SeedRoles(context);
-        SeedUsers(context);
-        SeedAddresses(context);
+        SeedAdminUser(context);
+        context.SaveChanges();
+
+        SeedCustomers(context);
+        context.SaveChanges();
+
+        SeedUserDetails(context);
         SeedNotifications(context);
         SeedSales(context);
 
@@ -36,14 +38,31 @@ public static class DbSeeder
         if (!context.Customers.Any())
         {
             var companySet = new Bogus.DataSets.Company("tr");
+            var nameSet = new Bogus.DataSets.Name("tr");
+
+            var userFaker = new Faker<User>()
+                .RuleFor(o => o.Name, f => nameSet.FirstName())
+                .RuleFor(o => o.Surname, f => nameSet.LastName())
+                .RuleFor(o => o.Username, (f, o) => o.Name.ToLower() + "." + o.Surname.ToLower())
+                .RuleFor(o => o.Email, (f, o) => o.Name.ToLower() + "." + o.Surname.ToLower() + "@company.com")
+                .RuleFor(o => o.Password, SecurityHelper.HashCreate("123qwe"))
+                .RuleFor(o => o.UserStatusId, f => f.Random.Int(1, 2));
+
+            var userRole = context.Roles.FirstOrDefault(e => e.Id == 2);
+            if (userRole != null)
+                userFaker.RuleFor(o => o.Roles, new List<Role> { userRole });
 
             var customerFaker = new Faker<Customer>()
-                .RuleFor(e => e.CompanyName, c => companySet.CompanyName())
-                .RuleFor(e => e.IdentityNumber, c => c.Random.AlphaNumeric(11))
-                .RuleFor(e => e.BirthDate, c =>
-                    c.Date.Between(new DateTime(1960, 1, 1), DateTime.Now))
-                .RuleFor(e => e.UserId, c => c.Random.Int(1, 10))
-                .RuleFor(e => e.StatusTypeId, c => c.Random.Int(1, 2));
+                .RuleFor(o => o.CompanyName, f => companySet.CompanyName())
+                .RuleFor(o => o.IdentityNumber, f => f.Random.Long(11111111111, 99999999999).ToString())
+                .RuleFor(o => o.BirthDate, f =>
+                    f.Date.Between(new DateTime(1960, 1, 1), DateTime.Now))
+                .RuleFor(o => o.StatusTypeId, f => f.Random.Int(1, 2))
+                .RuleFor(o => o.GenderId, f => f.Random.Int(1, 2))
+                .RuleFor(o => o.TitleId, f => f.Random.Int(1, 100))
+                .RuleFor(o => o.CustomerType, f => (CustomerTypeEnum)f.Random.Int(1, 2))
+                .RuleFor(o => o.UserFk, () => userFaker)
+                .RuleFor(o => o.UserId, (f, o) => o.UserFk?.Id);
 
             var customers = Enumerable.Range(1, 200)
                 .Select(e => customerFaker.Generate())
@@ -65,37 +84,75 @@ public static class DbSeeder
             });
     }
 
-    private static void SeedUsers(AppDbContext context)
+    private static void SeedAdminUser(AppDbContext context)
     {
-        if (!context.Users.Any())
-            context.Users.Add(new User
+        if (!context.Users.Any(e => e.Username == "admin"))
+        {
+            var user = new User
             {
                 Username = "admin",
                 Email = "admin@site.com",
                 Password = SecurityHelper.HashCreate("admin"),
                 Name = "admin",
                 Surname = "admin",
-                UserStatusId = (int)UserStatusEnum.Active
-            });
+                UserStatusId = (int)UserStatusEnum.Active,
+                Roles = new List<Role>()
+            };
+
+            var userRole = context.Roles.FirstOrDefault(e => e.Id == 1);
+            if (userRole != null)
+            {
+                user.Roles.Add(userRole);
+            }
+
+            context.Users.Add(user);
+        }
     }
 
-    private static void SeedAddresses(AppDbContext context)
+    private static void SeedUserDetails(AppDbContext context)
     {
-        if (!context.UserAddresses.Any())
+        var addressSet = new Bogus.DataSets.Address("tr");
+        var phoneSet = new Bogus.DataSets.PhoneNumbers("tr");
+
+        var users = context.Users.ToList();
+
+        foreach (var user in users)
         {
-            var companySet = new Address("tr");
+            if (!context.UserAddresses.Any())
+            {
+                var addressFaker = new Faker<UserAddress>()
+                    .RuleFor(e => e.UserId, user.Id)
+                    .RuleFor(e => e.Description, c => addressSet.FullAddress())
+                    .RuleFor(e => e.AddressType, c => (AddressTypeEnum)c.Random.Int(1, 2));
 
-            var addressFaker = new Faker<UserAddress>()
-                .RuleFor(e => e.Description, c => companySet.City())
-                .RuleFor(e => e.UserId, c => c.Random.Int(1, 100))
-                .RuleFor(e => e.AddressType, c => (AddressTypeEnum)c.Random.Int(1, 2))
-                .RuleFor(e => e.UserId, c => c.Random.Int(1, 10));
+                var address = addressFaker.Generate();
 
-            var addresses = Enumerable.Range(1, 200)
-                .Select(e => addressFaker.Generate())
-                .ToList();
+                context.UserAddresses.Add(address);
+            }
 
-            context.UserAddresses.AddRange(addresses);
+            if (!context.UserPhones.Any())
+            {
+                var phoneFaker = new Faker<UserPhone>()
+                    .RuleFor(e => e.UserId, user.Id)
+                    .RuleFor(e => e.PhoneNumber, c => phoneSet.PhoneNumber())
+                    .RuleFor(e => e.PhoneType, c => (PhoneTypeEnum)c.Random.Int(1, 4));
+
+                var phone = phoneFaker.Generate();
+
+                context.UserPhones.Add(phone);
+            }
+
+            if (!context.UserEmails.Any())
+            {
+                var emailFaker = new Faker<UserEmail>()
+                    .RuleFor(e => e.UserId, user.Id)
+                    .RuleFor(e => e.EmailAddress, user.Email)
+                    .RuleFor(e => e.EmailType, c => (EmailTypeEnum)c.Random.Int(1, 4));
+
+                var email = emailFaker.Generate();
+
+                context.UserEmails.Add(email);
+            }
         }
     }
 
@@ -103,7 +160,7 @@ public static class DbSeeder
     {
         if (!context.Notifications.Any())
         {
-            var randomSet = new Lorem("tr");
+            var randomSet = new Bogus.DataSets.Lorem("tr");
             var notificationFaker = new Faker<Notification>();
 
             notificationFaker
@@ -111,7 +168,9 @@ public static class DbSeeder
                 .RuleFor(x => x.Title, f => randomSet.Slug())
                 .RuleFor(x => x.Description, f => randomSet.Word());
 
-            var notifications = Enumerable.Range(1, 10).Select(e => notificationFaker.Generate()).ToList();
+            var notifications = Enumerable.Range(1, 10)
+                .Select(e => notificationFaker.Generate())
+                .ToList();
 
             foreach (var notification in notifications)
             {
@@ -129,7 +188,7 @@ public static class DbSeeder
     {
         if (!context.Sales.Any())
         {
-            var randomSet = new Lorem("tr");
+            var randomSet = new Bogus.DataSets.Lorem("tr");
             var saleFaker = new Faker<Sale>();
 
             saleFaker
@@ -139,13 +198,13 @@ public static class DbSeeder
                 .RuleFor(x => x.Description, f => randomSet.Word())
                 .RuleFor(x => x.SaleDate, f => f.Date.Past());
 
-
-            var sales = Enumerable.Range(1, 10).Select(e => saleFaker.Generate()).ToList();
+            var sales = Enumerable.Range(1, 10)
+                .Select(e => saleFaker.Generate())
+                .ToList();
 
             context.Sales.AddRange(sales);
         }
     }
-
 
     private static void SeedLstTables(AppDbContext context)
     {
@@ -212,11 +271,16 @@ public static class DbSeeder
 
         if (!context.Titles.Any())
         {
-            context.Titles.AddRange(new List<Title>
-            {
-                new() { Name = "Software Developer" },
-                new() { Name = "Engineer" }
-            });
+            var nameSet = new Bogus.DataSets.Name("tr");
+
+            var titleFaker = new Faker<Title>()
+                .RuleFor(o => o.Name, f => nameSet.JobTitle());
+
+            var titles = Enumerable.Range(1, 100)
+                .Select(e => titleFaker.Generate())
+                .ToList();
+
+            context.Titles.AddRange(titles);
         }
 
         if (!context.TaskStatuses.Any())
