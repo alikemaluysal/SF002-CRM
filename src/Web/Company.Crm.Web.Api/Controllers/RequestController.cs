@@ -1,4 +1,5 @@
-﻿using Company.Crm.Application.Dtos;
+﻿using Company.Crm.Application.Dtos.Notification;
+using Company.Crm.Application.Dtos.Request;
 using Company.Crm.Application.Services.Abstracts;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,19 +24,19 @@ public class RequestController : ControllerBase
     [HttpGet("{id}")]
     public IActionResult Get(int id)
     {
-        var request = _requestService.GetById(id);
+        var request = _requestService.GetForEditById(id);
         return Ok(request);
     }
 
     [HttpPost]
-    public IActionResult Post([FromBody] RequestDto requests)
+    public IActionResult Post([FromBody] RequestCreateOrUpdateDto requests)
     {
         var isAdded = _requestService.Insert(requests);
         return Ok(isAdded);
     }
 
     [HttpPut("{id}")]
-    public IActionResult Put(int id, [FromBody] RequestDto requests)
+    public IActionResult Put(int id, [FromBody] RequestCreateOrUpdateDto requests)
     {
         var isUpdated = _requestService.Update(requests);
         return Ok(isUpdated);

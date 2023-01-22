@@ -1,6 +1,8 @@
-﻿namespace Company.Crm.Application.Dtos;
+﻿using Company.Framework.Dtos;
 
-public class RequestDto
+namespace Company.Crm.Application.Dtos.Notification;
+
+public class RequestCreateOrUpdateDto : BaseDto
 {
     public int CustomerUserId { get; set; }
     public int EmployeeUserId { get; set; }
