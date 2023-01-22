@@ -1,6 +1,6 @@
-﻿using System.Security.Cryptography;
+﻿using Microsoft.AspNetCore.Cryptography.KeyDerivation;
+using System.Security.Cryptography;
 using System.Text;
-using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 
 namespace Company.Framework.Authentication;
 
@@ -54,5 +54,10 @@ public static class SecurityHelper
         var hashBytes = md5.ComputeHash(inputBytes);
 
         return Convert.ToHexString(hashBytes);
+    }
+
+    public static string CreateToken()
+    {
+        return Convert.ToBase64String(GenerateSalt());
     }
 }
