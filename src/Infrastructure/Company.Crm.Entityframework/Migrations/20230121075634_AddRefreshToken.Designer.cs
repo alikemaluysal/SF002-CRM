@@ -4,6 +4,7 @@ using Company.Crm.Entityframework;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Company.Crm.Entityframework.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230121075634_AddRefreshToken")]
+    partial class AddRefreshToken
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -64,8 +66,6 @@ namespace Company.Crm.Entityframework.Migrations
                     b.HasIndex("GenderId");
 
                     b.HasIndex("StatusTypeId");
-
-                    b.HasIndex("TitleId");
 
                     b.HasIndex("UserId");
 
@@ -130,23 +130,10 @@ namespace Company.Crm.Entityframework.Migrations
                     b.Property<int?>("StatusTypeId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("TitleId")
-                        .HasColumnType("int");
-
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("DepartmentId");
-
-                    b.HasIndex("GenderId");
-
-                    b.HasIndex("StatusTypeId");
-
-                    b.HasIndex("TitleId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Employee", (string)null);
                 });
@@ -705,10 +692,6 @@ namespace Company.Crm.Entityframework.Migrations
                         .WithMany("Customers")
                         .HasForeignKey("StatusTypeId");
 
-                    b.HasOne("Company.Crm.Domain.Entities.Lst.Title", "TitleFk")
-                        .WithMany()
-                        .HasForeignKey("TitleId");
-
                     b.HasOne("Company.Crm.Domain.Entities.Usr.User", "UserFk")
                         .WithMany()
                         .HasForeignKey("UserId")
@@ -718,43 +701,6 @@ namespace Company.Crm.Entityframework.Migrations
                     b.Navigation("GenderFk");
 
                     b.Navigation("StatusTypeFk");
-
-                    b.Navigation("TitleFk");
-
-                    b.Navigation("UserFk");
-                });
-
-            modelBuilder.Entity("Company.Crm.Domain.Entities.Employee", b =>
-                {
-                    b.HasOne("Company.Crm.Domain.Entities.Lst.Department", "DepartmentFk")
-                        .WithMany()
-                        .HasForeignKey("DepartmentId");
-
-                    b.HasOne("Company.Crm.Domain.Entities.Lst.Gender", "GenderFk")
-                        .WithMany()
-                        .HasForeignKey("GenderId");
-
-                    b.HasOne("Company.Crm.Domain.Entities.Lst.StatusType", "StatusTypeFk")
-                        .WithMany()
-                        .HasForeignKey("StatusTypeId");
-
-                    b.HasOne("Company.Crm.Domain.Entities.Lst.Title", "TitleFk")
-                        .WithMany()
-                        .HasForeignKey("TitleId");
-
-                    b.HasOne("Company.Crm.Domain.Entities.Usr.User", "UserFk")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("DepartmentFk");
-
-                    b.Navigation("GenderFk");
-
-                    b.Navigation("StatusTypeFk");
-
-                    b.Navigation("TitleFk");
 
                     b.Navigation("UserFk");
                 });

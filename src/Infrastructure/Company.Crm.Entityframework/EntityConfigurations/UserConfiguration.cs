@@ -9,6 +9,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
     public void Configure(EntityTypeBuilder<User> builder)
     {
         builder.Property(c => c.Password).HasMaxLength(200);
+        builder.Property(c => c.RefreshToken).HasMaxLength(64);
 
         builder
             .HasMany(d => d.Roles)
