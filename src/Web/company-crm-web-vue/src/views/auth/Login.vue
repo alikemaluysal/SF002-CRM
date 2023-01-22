@@ -64,19 +64,21 @@
 import { ref } from 'vue'
 import session from '@/plugins/session'
 import router from '../../router';
+import { useRoute } from 'vue-router';
 const loginDto = ref({})
 const authError = ref()
+const route = useRoute()
 
 function Authenticate() {
 	axios.post("auth/authenticate", loginDto.value).then(res => {
-		debugger;
 		session.setSession(res.data)
-		router.push('/')
+		if (route && route.query.redirect)
+			router.push(route.query.redirect)
+		else
+			router.push('/')
+	}).catch(error => {
+		authError.value = 'Auth failed!'
+		//toastr.error('Auth failed!', 'Auth')
 	})
-		.catch(error => {
-			authError.value = 'Auth failed!'
-			//toastr.error('Auth failed!', 'Auth')
-		})
 }
-
 </script>

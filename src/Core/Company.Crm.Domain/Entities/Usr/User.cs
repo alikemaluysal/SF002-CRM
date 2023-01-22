@@ -10,6 +10,8 @@ public class User : BaseEntity
     public string Name { get; set; }
     public string Surname { get; set; }
     public int? UserStatusId { get; set; }
+    public string? RefreshToken { get; set; }
+    public DateTime? RefreshTokenExpireDate { get; set; }
 
     public ICollection<Role> Roles { get; set; }
     public ICollection<UserAddress> Addresses { get; set; }

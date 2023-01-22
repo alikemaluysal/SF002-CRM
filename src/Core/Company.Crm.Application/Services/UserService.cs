@@ -153,4 +153,42 @@ public class UserService : IUserService
         return isExist;
     }
 
+    public async Task<bool> UpdateRefreshToken(int userId, string refreshToken, DateTime expireDate)
+    {
+        var user = _userRepository.GetById(userId);
+        if (user == null) return false;
+
+        user.RefreshToken = refreshToken;
+        user.RefreshTokenExpireDate = expireDate;
+        var isUpdated = _userRepository.Update(user);
+        return isUpdated;
+    }
+
+    public async Task<RefreshTokenUserDto?> GetUserByRefreshToken(string refreshToken)
+    {
+        var user = _userRepository.GetAll().Where(e => e.RefreshToken == refreshToken).FirstOrDefault();
+        if (user == null) return null;
+
+        return new RefreshTokenUserDto
+        {
+            Id = user.Id,
+            RefreshToken = user.RefreshToken,
+            RefreshTokenExpireDate = user.RefreshTokenExpireDate
+        };
+    }
+
+    public async Task<bool> InsertAll(List<User> users)
+    {
+        foreach (var user in users)
+        {
+            //var dbUser = _userRepository.GetAll().Where(e => e.Username == user.Username).FirstOrDefault();
+            var dbUser = _userRepository.GetFirstByFilter(e => e.Username == user.Username);
+            if (dbUser == null)
+            {
+                _userRepository.Insert(user);
+            }
+        }
+
+        return true;
+    }
 }
