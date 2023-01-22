@@ -4,6 +4,7 @@ using Company.Crm.Application.Services.Abstracts;
 using Company.Crm.Domain.Entities;
 using Company.Crm.Domain.Repositories;
 using Company.Framework.Dtos;
+using Company.Framework.Utilities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Company.Crm.Application.Services;
@@ -60,9 +61,7 @@ public class CustomerService : ICustomerService
             .OrderByDescending(c => c.Id);
 
         var totalEntity = entityQuery.Count();
-
-        var pagedList = entityQuery.Skip(req.Skip).Take(req.PerPage).ToList();
-
+        var pagedList = entityQuery.ToPagedList(req);
         var dtoList = _mapper.Map<List<CustomerDto>>(pagedList);
 
         return new ServicePaginationResponse<List<CustomerDto>>(dtoList, totalEntity, req);
