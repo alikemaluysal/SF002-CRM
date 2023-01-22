@@ -1,7 +1,5 @@
 ﻿using Company.Crm.Application.Services.Abstracts;
-using Company.Crm.Domain.Entities.Lst;
 using Company.Crm.Domain.Repositories;
-using Company.Crm.Entityframework.Repositories;
 using TaskStatus = Company.Crm.Domain.Entities.Lst.TaskStatus;
 
 namespace Company.Crm.Application.Services;
@@ -20,6 +18,20 @@ public class TaskStatusService : ITaskStatusService
         return _taskStatusRepository.GetAll().ToList();
     }
 
+    public List<TaskStatus> GetPaged(int page = 1)
+    {
+        var entityList = _taskStatusRepository.GetAll().OrderByDescending(c => c.Id);
+
+        var pagedList = entityList.Skip((page - 1) * 10).Take(10).ToList();
+        return pagedList;
+    }
+
+    public TaskStatus? GetForEditById(int id)
+    {
+        var taskStatus = _taskStatusRepository.GetById(id);
+        return taskStatus;
+    }
+    
     public TaskStatus? GetById(int id)
     {
         return _taskStatusRepository.GetById(id);
@@ -43,21 +55,5 @@ public class TaskStatusService : ITaskStatusService
     public bool DeleteById(int id)
     {
         return _taskStatusRepository.DeleteById(id);
-    }
-
-    public List<TaskStatus> GetPaged(int page = 1)
-    {
-        var entityList = _taskStatusRepository.GetAll().OrderByDescending(c => c.Id);
-
-        var pagedList = entityList.Skip((page - 1) * 10).Take(10).ToList();
-        return pagedList;
-    }
-
-
-    public TaskStatus GetForEditById(int id)
-    {
-        var taskStatus = _taskStatusRepository.GetById(id);
-
-        return taskStatus;
     }
 }

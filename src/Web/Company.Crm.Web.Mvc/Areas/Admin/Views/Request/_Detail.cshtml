@@ -1,4 +1,4 @@
-﻿@model UserPhoneDto
+﻿@model RequestDto
 
 <div class="modal-header">
     <h5 class="modal-title">Detail</h5>
@@ -12,15 +12,9 @@
         </div>
     </div>
     <div class="row mb-3">
-        <label asp-for="PhoneNumber" class="col-lg-3 col-form-label"></label>
+        <label asp-for="Description" class="col-lg-3 col-form-label"></label>
         <div class="col-lg-9">
-            <span class="form-control-plaintext">@Model.PhoneNumber</span>
-        </div>
-    </div>
-    <div class="row mb-3">
-        <label asp-for="PhoneType" class="col-lg-3 col-form-label"></label>
-        <div class="col-lg-9">
-            <span class="form-control-plaintext">@Model.PhoneType</span>
+            <span class="form-control-plaintext">@Model.Description</span>
         </div>
     </div>
 </div>

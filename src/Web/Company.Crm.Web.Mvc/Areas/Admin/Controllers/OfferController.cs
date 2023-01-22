@@ -1,5 +1,5 @@
 using Company.Crm.Application.Constants;
-using Company.Crm.Application.Dtos;
+using Company.Crm.Application.Dtos.Offer;
 using Company.Crm.Application.Services.Abstracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -16,7 +16,7 @@ public class OfferController : Controller
     {
         _offerService = offerService;
     }
-    
+
     public IActionResult Index()
     {
         var list = _offerService.GetAll();
@@ -99,6 +99,4 @@ public class OfferController : Controller
     {
         return Json(new { IsSuccess = _offerService.DeleteById(id), Redirect = Url.Action("Index") });
     }
-    
-    
 }

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Company.Crm.Web.Mvc.Areas.Admin.Controllers;
+
 [Authorize(Roles = RoleNameConsts.Administrator)]
 [Area("Admin")]
 public class DocumentController : Controller
@@ -99,4 +100,3 @@ public class DocumentController : Controller
         return Json(new { IsSuccess = _service.DeleteById(id), Redirect = Url.Action("Index") });
     }
 }
-

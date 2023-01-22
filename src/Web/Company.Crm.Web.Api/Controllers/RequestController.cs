@@ -29,16 +29,16 @@ public class RequestController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult Post([FromBody] RequestCreateOrUpdateDto requests)
+    public IActionResult Post([FromBody] CreateOrUpdateRequestDto createOrUpdateRequests)
     {
-        var isAdded = _requestService.Insert(requests);
+        var isAdded = _requestService.Insert(createOrUpdateRequests);
         return Ok(isAdded);
     }
 
     [HttpPut("{id}")]
-    public IActionResult Put(int id, [FromBody] RequestCreateOrUpdateDto requests)
+    public IActionResult Put(int id, [FromBody] CreateOrUpdateRequestDto createOrUpdateRequests)
     {
-        var isUpdated = _requestService.Update(requests);
+        var isUpdated = _requestService.Update(createOrUpdateRequests);
         return Ok(isUpdated);
     }
 

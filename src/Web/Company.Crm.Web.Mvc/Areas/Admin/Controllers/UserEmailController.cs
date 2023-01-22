@@ -1,12 +1,16 @@
+using Company.Crm.Application.Constants;
 using Company.Crm.Application.Dtos.UserEmail;
 using Company.Crm.Application.Services.Abstracts;
 using Company.Crm.Domain.Enums;
 using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Company.Crm.Web.Mvc.Areas.Admin.Controllers;
 
+[Authorize(Roles = RoleNameConsts.Administrator)]
+[Area("Admin")]
 public class UserEmailController : Controller
 {
     private readonly IUserEmailService _userEmailService;
@@ -24,7 +28,7 @@ public class UserEmailController : Controller
         return View(userEmail);
     }
 
-    public async Task<PartialViewResult> Detail(int id)
+    public PartialViewResult Detail(int id)
     {
         var userEmail = _userEmailService.GetById(id);
         return PartialView("_Detail", userEmail);
@@ -66,6 +70,7 @@ public class UserEmailController : Controller
         {
             ModelState.AddModelError("", "Unable to save changes.");
         }
+
         FillDropdownItems(item);
 
         return PartialView("_Create", item);
@@ -103,16 +108,15 @@ public class UserEmailController : Controller
     }
 
     [HttpGet]
-    public async Task<PartialViewResult> Delete(int id)
+    public PartialViewResult Delete(int id)
     {
         var serviceItem = _userEmailService.GetById(id);
-
         return PartialView("_Delete", serviceItem);
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<ActionResult> DeleteConfirmed(int id)
+    public ActionResult DeleteConfirmed(int id)
     {
         _userEmailService.DeleteById(id);
         return RedirectToAction(nameof(Index));

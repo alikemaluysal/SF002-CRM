@@ -1,17 +1,15 @@
 ﻿using AutoMapper;
 using Company.Crm.Application.Services.Abstracts;
-using Company.Crm.Domain.Entities;
 using Company.Crm.Domain.Entities.Lst;
 using Company.Crm.Domain.Repositories;
-using Company.Crm.Entityframework.Repositories;
 using Company.Framework.Dtos;
 
 namespace Company.Crm.Application.Services;
 
 public class DepartmentService : IDepartmentService
 {
-    private readonly IMapper _mapper;
     private readonly IDepartmentRepository _departmentRepository;
+    private readonly IMapper _mapper;
 
     public DepartmentService(IDepartmentRepository departmentRepository, IMapper mapper)
     {
@@ -24,7 +22,7 @@ public class DepartmentService : IDepartmentService
         var entityList = _departmentRepository.GetAll().ToList();
         return new ServiceResponse<List<Department>>(entityList);
     }
-    
+
     public ServicePaginationResponse<List<Department>> GetPaged(PaginationRequest req)
     {
         var entityQuery = _departmentRepository.GetAll().OrderByDescending(c => c.Id);
@@ -44,7 +42,7 @@ public class DepartmentService : IDepartmentService
         var department = _departmentRepository.GetById(id);
         return new ServiceResponse<Department?>(department);
     }
-    
+
     public ServiceResponse<bool> Insert(Department entity)
     {
         return new ServiceResponse<bool>(_departmentRepository.Insert(entity));

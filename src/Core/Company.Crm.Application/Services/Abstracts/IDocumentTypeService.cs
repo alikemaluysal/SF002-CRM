@@ -12,4 +12,3 @@ public interface IDocumentTypeService
     bool DeleteById(int id);
     List<DocumentType> GetPaged(int page = 1);
 }
-

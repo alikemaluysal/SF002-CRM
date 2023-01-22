@@ -1,4 +1,5 @@
 ﻿using Company.Crm.Application.Dtos;
+using Company.Crm.Application.Dtos.Offer;
 using Company.Crm.Application.Services.Abstracts;
 using Microsoft.AspNetCore.Mvc;
 

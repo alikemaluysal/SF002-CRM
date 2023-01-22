@@ -5,9 +5,9 @@ namespace Company.Crm.Application.Services.Abstracts;
 
 public interface IUserPhoneService
 {
+    List<UserPhoneDto> GetAll();
     List<UserPhoneDto> GetPaged(int page = 1);
-    List<UserPhone> GetAll();
-    UserPhone? GetById(int id);
+    UserPhoneDto? GetById(int id);
     bool Insert(CreateOrUpdateUserPhoneDto dto);
     bool Update(CreateOrUpdateUserPhoneDto dto);
     bool Delete(UserPhoneDto dto);

@@ -68,6 +68,7 @@ public class RegionController : Controller
         {
             region = _regionService.GetForEditById(id.Value);
         }
+
         return PartialView("_Edit", region);
     }
 
@@ -88,6 +89,7 @@ public class RegionController : Controller
         {
             ModelState.AddModelError("", "Unable to save changes.");
         }
+
         return PartialView("_Edit", region);
     }
 

@@ -1,6 +1,6 @@
 using Company.Framework.Dtos;
 
-namespace Company.Crm.Application.Dtos;
+namespace Company.Crm.Application.Dtos.Offer;
 
 public class OfferDto : BaseDto
 {

@@ -8,8 +8,8 @@ namespace Company.Crm.Application.Services;
 
 public class UserEmailService : IUserEmailService
 {
-    private readonly IUserEmailRepository _userEmailRepository;
     private readonly IMapper _mapper;
+    private readonly IUserEmailRepository _userEmailRepository;
 
     public UserEmailService(IUserEmailRepository userEmailRepository, IMapper mapper)
     {

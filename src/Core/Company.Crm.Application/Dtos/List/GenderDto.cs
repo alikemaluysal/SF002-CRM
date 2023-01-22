@@ -1,9 +1,8 @@
 ﻿using Company.Framework.Dtos;
 
-namespace Company.Crm.Application.Dtos.List
+namespace Company.Crm.Application.Dtos.List;
+
+public class GenderDto : BaseDto
 {
-    public class GenderDto : BaseDto
-    {
-        public string? Name { get; set; }
-    }
+    public string? Name { get; set; }
 }

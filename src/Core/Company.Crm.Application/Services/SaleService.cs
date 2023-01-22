@@ -17,23 +17,6 @@ public class SaleService : ISaleService
         _mapper = mapper;
     }
 
-    public bool Insert(CreateOrUpdateSaleDto entity)
-    {
-        var sale = _mapper.Map<Sale>(entity);
-        return _saleRepository.Insert(sale);
-    }
-
-    public bool Delete(SaleDetailDto entity)
-    {
-        var sale = _mapper.Map<Sale>(entity);
-        return _saleRepository.Delete(sale);
-    }
-
-    public bool DeleteById(int id)
-    {
-        return _saleRepository.DeleteById(id);
-    }
-
     public List<SaleDetailDto> GetAll()
     {
         var entityList = _saleRepository.GetAll();
@@ -48,19 +31,24 @@ public class SaleService : ISaleService
         }).ToList();
     }
 
+    public List<SaleDetailDto> GetPaged(int page)
+    {
+        var entityList = _saleRepository.GetAll().OrderByDescending(c => c.Id);
+
+        var pagedList = entityList.Skip((page - 1) * 10).Take(10).ToList();
+        return _mapper.Map<List<SaleDetailDto>>(pagedList);
+    }
+
     public SaleDetailDto? GetById(int id)
     {
         var entity = _saleRepository.GetById(id);
         return _mapper.Map<SaleDetailDto>(entity);
     }
 
-    public List<SaleDetailDto> GetPaged(int page)
+    public bool Insert(CreateOrUpdateSaleDto entity)
     {
-        var entityList = _saleRepository.GetAll()
-            .OrderByDescending(c => c.Id);
-
-        var pagedList = entityList.Skip((page - 1) * 10).Take(10).ToList();
-        return _mapper.Map<List<SaleDetailDto>>(pagedList);
+        var sale = _mapper.Map<Sale>(entity);
+        return _saleRepository.Insert(sale);
     }
 
     public bool Update(CreateOrUpdateSaleDto entity)
@@ -72,6 +60,17 @@ public class SaleService : ISaleService
         sale.SaleAmount = entity.SaleAmount;
         sale.Description = entity.Description;
         return _saleRepository.Update(sale);
+    }
+
+    public bool Delete(SaleDetailDto entity)
+    {
+        var sale = _mapper.Map<Sale>(entity);
+        return _saleRepository.Delete(sale);
+    }
+
+    public bool DeleteById(int id)
+    {
+        return _saleRepository.DeleteById(id);
     }
 
     public CreateOrUpdateSaleDto GetForEditById(int id)

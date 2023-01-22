@@ -1,5 +1,6 @@
-﻿@model List<UserPhone>
-<h2>UserPhone</h2>
+﻿@model List<UserPhoneDto>
+
+<h2>User Phones</h2>
 
 <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-action" id="createModal" asp-action="Create">
     <i class="bi bi-plus"></i> Create
@@ -10,7 +11,6 @@
     AreaLabeledId = "modal-action-label",
     Size = ModalSize.Medium
 })
-
 
 <table class="table table-hover">
     <thead>

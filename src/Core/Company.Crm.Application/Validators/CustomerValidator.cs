@@ -7,19 +7,14 @@ public class CustomerValidator : AbstractValidator<CreateOrUpdateCustomerDto>
 {
     public CustomerValidator()
     {
-        RuleFor(t => t.UserId).NotNull(); //.WithMessage("UserId is required!");
-
+        RuleFor(t => t.UserId).NotNull().WithMessage("UserId is required!");
         RuleFor(t => t.CompanyName).NotNull().NotEmpty().MaximumLength(50);
-
         RuleFor(t => t.BirthDate).Must(BirthDateValidation);
     }
 
     private bool BirthDateValidation(DateTime? dt)
     {
         if (dt == null) return false;
-
-        if (dt.Value.Year < 1950) return false;
-
-        return true;
+        return dt.Value.Year >= 1950;
     }
 }

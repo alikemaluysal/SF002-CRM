@@ -11,9 +11,9 @@ namespace Company.Crm.Application.Services;
 // Concrete-Abstract
 public class CustomerService : ICustomerService
 {
-    private readonly IMapper _mapper;
     private readonly ICustomerRepository _customerRepository;
     private readonly IGenderRepository _genderRepository;
+    private readonly IMapper _mapper;
 
     public CustomerService(IMapper mapper, ICustomerRepository customerRepository, IGenderRepository genderRepository)
     {

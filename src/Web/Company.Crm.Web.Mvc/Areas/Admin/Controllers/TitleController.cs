@@ -8,7 +8,6 @@ namespace Company.Crm.Web.Mvc.Areas.Admin.Controllers;
 
 [Authorize(Roles = RoleNameConsts.Administrator)]
 [Area("Admin")]
-
 public class TitleController : Controller
 {
     private readonly ITitleService _service;

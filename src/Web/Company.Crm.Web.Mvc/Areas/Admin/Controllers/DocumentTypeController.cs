@@ -1,11 +1,11 @@
 ﻿using Company.Crm.Application.Constants;
 using Company.Crm.Application.Services.Abstracts;
-using Company.Crm.Domain.Entities;
 using Company.Crm.Domain.Entities.Lst;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Company.Crm.Web.Mvc.Areas.Admin.Controllers;
+
 [Authorize(Roles = RoleNameConsts.Administrator)]
 [Area("Admin")]
 public class DocumentTypeController : Controller
@@ -22,7 +22,6 @@ public class DocumentTypeController : Controller
         var list = _service.GetPaged(page);
         return View(list);
     }
-
 
     public async Task<PartialViewResult> Detail(int id)
     {
@@ -102,5 +101,3 @@ public class DocumentTypeController : Controller
         return Json(new { IsSuccess = _service.DeleteById(id), Redirect = Url.Action("Index") });
     }
 }
-
-

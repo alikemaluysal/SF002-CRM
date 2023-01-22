@@ -1,12 +1,14 @@
-﻿using Company.Crm.Application.Dtos.Sale;
+﻿using Company.Crm.Application.Constants;
+using Company.Crm.Application.Dtos.Sale;
 using Company.Crm.Application.Services.Abstracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Company.Crm.Web.Mvc.Areas.Admin.Controllers;
 
 //[Authorize(Roles = RoleNameConsts.Administrator + "," + RoleNameConsts.SalesManager)]
 //[Authorize(Roles = RoleNameConsts.SalesManager)]
-//[Authorize(Roles = RoleNameConsts.Administrator)]
+[Authorize(Roles = RoleNameConsts.Administrator)]
 [Area("Admin")]
 public class SaleController : Controller
 {
@@ -95,7 +97,7 @@ public class SaleController : Controller
         {
             ModelState.AddModelError("", "Unable to save changes.");
         }
-        
+
         return PartialView("_Edit", dto);
     }
 }

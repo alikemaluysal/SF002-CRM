@@ -1,11 +1,11 @@
 ﻿using Company.Crm.Application.Constants;
 using Company.Crm.Application.Services.Abstracts;
-using Company.Crm.Domain.Entities;
 using Company.Crm.Domain.Entities.Lst;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Company.Crm.Web.Mvc.Areas.Admin.Controllers;
+
 [Authorize(Roles = RoleNameConsts.Administrator)]
 [Area("Admin")]
 public class RequestStatusController : Controller
@@ -102,5 +102,3 @@ public class RequestStatusController : Controller
         return Json(new { IsSuccess = _service.DeleteById(id), Redirect = Url.Action("Index") });
     }
 }
-
-

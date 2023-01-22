@@ -1,11 +1,15 @@
-﻿using Company.Crm.Application.Dtos.UserPhone;
+﻿using Company.Crm.Application.Constants;
+using Company.Crm.Application.Dtos.UserPhone;
 using Company.Crm.Application.Services.Abstracts;
 using Company.Crm.Application.Validators;
 using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Company.Crm.Web.Mvc.Areas.Admin.Controllers;
 
+[Authorize(Roles = RoleNameConsts.Administrator)]
+[Area("Admin")]
 public class UserPhoneController : Controller
 {
     private readonly IUserPhoneService _userPhoneService;
@@ -23,7 +27,7 @@ public class UserPhoneController : Controller
         return View(userPhones);
     }
 
-    public async Task<PartialViewResult> Detail(int id)
+    public PartialViewResult Detail(int id)
     {
         var userPhone = _userPhoneService.GetById(id);
         return PartialView("_Detail", userPhone);
@@ -66,7 +70,7 @@ public class UserPhoneController : Controller
         return PartialView("_Create", item);
     }
 
-    public async Task<PartialViewResult> Edit(int? id)
+    public PartialViewResult Edit(int? id)
     {
         var dto = new CreateOrUpdateUserPhoneDto();
         if (id.HasValue) dto = _userPhoneService.GetForEditById(id.Value);
@@ -76,7 +80,7 @@ public class UserPhoneController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<ActionResult> Edit(CreateOrUpdateUserPhoneDto dto)
+    public ActionResult Edit(CreateOrUpdateUserPhoneDto dto)
     {
         try
         {
@@ -96,7 +100,7 @@ public class UserPhoneController : Controller
     }
 
     [HttpGet]
-    public async Task<PartialViewResult> Delete(int id)
+    public PartialViewResult Delete(int id)
     {
         var serviceItem = _userPhoneService.GetById(id);
 
@@ -105,7 +109,7 @@ public class UserPhoneController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<ActionResult> DeleteConfirmed(int id)
+    public ActionResult DeleteConfirmed(int id)
     {
         _userPhoneService.DeleteById(id);
         return RedirectToAction(nameof(Index));

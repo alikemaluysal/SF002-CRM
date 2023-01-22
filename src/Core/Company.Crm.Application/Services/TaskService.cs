@@ -1,10 +1,7 @@
 ﻿using AutoMapper;
-using Company.Crm.Application.Dtos;
 using Company.Crm.Application.Dtos.Task;
 using Company.Crm.Application.Services.Abstracts;
-using Company.Crm.Domain.Entities;
 using Company.Crm.Domain.Repositories;
-using Microsoft.EntityFrameworkCore;
 using Task = Company.Crm.Domain.Entities.Task;
 
 namespace Company.Crm.Application.Services;
@@ -12,8 +9,8 @@ namespace Company.Crm.Application.Services;
 // Concrete-Abstract
 public class TaskService : ITaskService
 {
-    private readonly ITaskRepository _taskRepository;
     private readonly IMapper _mapper;
+    private readonly ITaskRepository _taskRepository;
 
     public TaskService(ITaskRepository taskRepository, IMapper mapper)
     {

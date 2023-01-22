@@ -2,6 +2,7 @@
 using Company.Crm.Application.Dtos;
 using Company.Crm.Application.Services.Abstracts;
 using Company.Crm.Application.Validators;
+using Company.Framework.Dtos;
 using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -15,8 +16,8 @@ public class CustomerController : Controller
 {
     private readonly ICustomerService _customerService;
     private readonly IValidator<CreateOrUpdateCustomerDto> _customerValidator;
-    private readonly IStatusTypeService _statusTypeService;
     private readonly IGenderService _genderService;
+    private readonly IStatusTypeService _statusTypeService;
     private readonly ITitleService _titleService;
 
     public CustomerController(ICustomerService customerService, IStatusTypeService statusTypeService, IValidator<CreateOrUpdateCustomerDto> customerValidator, IGenderService genderService, ITitleService titleService)
@@ -30,7 +31,7 @@ public class CustomerController : Controller
 
     public IActionResult Index(int page = 1)
     {
-        var customers = _customerService.GetPaged(new() { Page = page });
+        var customers = _customerService.GetPaged(new PaginationRequest { Page = page });
         return View(customers.Data);
     }
 

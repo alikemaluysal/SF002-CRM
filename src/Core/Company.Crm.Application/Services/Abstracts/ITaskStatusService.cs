@@ -1,6 +1,4 @@
-﻿using Company.Crm.Domain.Entities.Lst;
-using TaskStatus = Company.Crm.Domain.Entities.Lst.TaskStatus;
-
+﻿using TaskStatus = Company.Crm.Domain.Entities.Lst.TaskStatus;
 
 namespace Company.Crm.Application.Services.Abstracts;
 
@@ -13,5 +11,5 @@ public interface ITaskStatusService
     bool Delete(TaskStatus entity);
     bool DeleteById(int id);
     List<TaskStatus> GetPaged(int page = 1);
-    TaskStatus GetForEditById(int id);
+    TaskStatus? GetForEditById(int id);
 }

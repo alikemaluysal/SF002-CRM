@@ -1,4 +1,4 @@
-﻿@model UserEmail
+﻿@model RequestDto
 
 <form asp-action="DeleteConfirmed" role="form">
     <div class="modal-header">
@@ -7,7 +7,7 @@
     </div>
     <div class="modal-body form-horizontal">
         <input type="hidden" asp-for="Id" />
-        Do you want to delete @Model.EmailAddress ?
+        Do you want to delete @Model.Description ?
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>

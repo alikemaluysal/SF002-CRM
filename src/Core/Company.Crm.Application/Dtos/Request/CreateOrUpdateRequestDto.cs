@@ -1,8 +1,8 @@
 ﻿using Company.Framework.Dtos;
 
-namespace Company.Crm.Application.Dtos.Notification;
+namespace Company.Crm.Application.Dtos.Request;
 
-public class RequestCreateOrUpdateDto : BaseDto
+public class CreateOrUpdateRequestDto : BaseDto
 {
     public int CustomerUserId { get; set; }
     public int EmployeeUserId { get; set; }

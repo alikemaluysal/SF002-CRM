@@ -1,13 +1,12 @@
 ﻿using Company.Framework.Dtos;
 
-namespace Company.Crm.Application.Dtos.Sale
+namespace Company.Crm.Application.Dtos.Sale;
+
+public class CreateOrUpdateSaleDto : BaseDto
 {
-	public class CreateOrUpdateSaleDto : BaseDto
-	{
-		public int RequestId { get; set; }
-		public int EmployeeUserId { get; set; }
-		public DateTime SaleDate { get; set; }
-		public decimal SaleAmount { get; set; }
-		public string Description { get; set; }
-	}
+    public int RequestId { get; set; }
+    public int EmployeeUserId { get; set; }
+    public DateTime SaleDate { get; set; }
+    public decimal SaleAmount { get; set; }
+    public string Description { get; set; }
 }

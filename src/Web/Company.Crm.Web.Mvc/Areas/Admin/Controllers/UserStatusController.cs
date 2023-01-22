@@ -1,9 +1,13 @@
-﻿using Company.Crm.Application.Services.Abstracts;
+﻿using Company.Crm.Application.Constants;
+using Company.Crm.Application.Services.Abstracts;
 using Company.Crm.Domain.Entities.Lst;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Company.Crm.Web.Mvc.Areas.Admin.Controllers;
 
+[Authorize(Roles = RoleNameConsts.Administrator)]
+[Area("Admin")]
 public class UserStatusController : Controller
 {
     private readonly IUserStatusService _userStatusService;
@@ -32,7 +36,7 @@ public class UserStatusController : Controller
 
         return PartialView("_Create", data);
     }
-    
+
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<ActionResult> Create(UserStatus userStatus)
@@ -50,7 +54,6 @@ public class UserStatusController : Controller
         }
         catch
         {
-
             ModelState.AddModelError("", "Unable to save changes");
         }
 
@@ -65,7 +68,6 @@ public class UserStatusController : Controller
         if (id.HasValue) model = _userStatusService.GetById(id.Value);
 
         return PartialView("_Edit", model);
-
     }
 
     [HttpPost]
@@ -85,7 +87,6 @@ public class UserStatusController : Controller
         }
         catch
         {
-
             ModelState.AddModelError("", "Unable to save changes.");
         }
 

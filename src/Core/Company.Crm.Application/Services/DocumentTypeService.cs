@@ -1,8 +1,6 @@
 ﻿using Company.Crm.Application.Services.Abstracts;
-using Company.Crm.Domain.Entities;
 using Company.Crm.Domain.Entities.Lst;
 using Company.Crm.Domain.Repositories;
-using Company.Crm.Entityframework.Repositories;
 
 namespace Company.Crm.Application.Services;
 
@@ -54,5 +52,4 @@ public class DocumentTypeService : IDocumentTypeService
 
         return pagedList;
     }
-
 }

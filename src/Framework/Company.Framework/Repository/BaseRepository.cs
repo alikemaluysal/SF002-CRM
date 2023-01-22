@@ -27,7 +27,7 @@ public abstract class BaseRepository<TContext, TEntity> : IRepository<TEntity>
         return _table.Where(expression).ToList();
     }
 
-    public TEntity GetFirstByFilter(Expression<Func<TEntity, bool>> expression)
+    public TEntity? GetFirstByFilter(Expression<Func<TEntity, bool>> expression)
     {
         return _table.FirstOrDefault(expression);
     }

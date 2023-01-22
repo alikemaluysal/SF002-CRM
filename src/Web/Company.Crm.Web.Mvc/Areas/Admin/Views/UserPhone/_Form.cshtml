@@ -1,4 +1,4 @@
-﻿@model UserPhone
+﻿@model CreateOrUpdateUserPhoneDto
 
 @if (!Html.ViewData.ModelState.IsValid)
 {
@@ -28,7 +28,6 @@
         <span asp-validation-for="PhoneNumber" class="text-danger"></span>
     </div>
 </div>
-
 
 @{
     await Html.RenderPartialAsync("_ValidationScriptsPartial");

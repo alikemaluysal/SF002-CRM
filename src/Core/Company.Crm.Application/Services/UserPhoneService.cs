@@ -1,18 +1,15 @@
 ﻿using AutoMapper;
-using Company.Crm.Application.Dtos;
 using Company.Crm.Application.Dtos.UserPhone;
 using Company.Crm.Application.Services.Abstracts;
 using Company.Crm.Domain.Entities;
 using Company.Crm.Domain.Repositories;
-using Company.Crm.Entityframework.Repositories;
 
 namespace Company.Crm.Application.Services;
 
 public class UserPhoneService : IUserPhoneService
 {
-    private readonly IUserPhoneRepository _userPhoneRepository;
     private readonly IMapper _mapper;
-
+    private readonly IUserPhoneRepository _userPhoneRepository;
 
     public UserPhoneService(IUserPhoneRepository userPhoneRepository, IMapper mapper)
     {
@@ -20,14 +17,16 @@ public class UserPhoneService : IUserPhoneService
         _userPhoneRepository = userPhoneRepository;
     }
 
-    public List<UserPhone> GetAll()
+    public List<UserPhoneDto> GetAll()
     {
-        return _userPhoneRepository.GetAll().ToList();
+        var entities = _userPhoneRepository.GetAll().ToList();
+        return _mapper.Map<List<UserPhoneDto>>(entities);
     }
 
-    public UserPhone? GetById(int id)
+    public UserPhoneDto? GetById(int id)
     {
-        return _userPhoneRepository.GetById(id);
+        var entity = _userPhoneRepository.GetById(id);
+        return _mapper.Map<UserPhoneDto>(entity);
     }
 
     public bool Insert(CreateOrUpdateUserPhoneDto dto)
@@ -71,5 +70,4 @@ public class UserPhoneService : IUserPhoneService
         var dto = _mapper.Map<CreateOrUpdateUserPhoneDto>(entity);
         return dto;
     }
-
 }

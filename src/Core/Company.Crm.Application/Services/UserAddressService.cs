@@ -10,8 +10,8 @@ namespace Company.Crm.Application.Services;
 
 public class UserAddressService : IUserAddressService
 {
-    private readonly IUserAddressRepository _userAddressRepository;
     private readonly IMapper _mapper;
+    private readonly IUserAddressRepository _userAddressRepository;
 
     public UserAddressService(IUserAddressRepository userAddressRepository, IMapper mapper)
     {

@@ -1,6 +1,5 @@
 ﻿using Company.Crm.Application.Constants;
 using Company.Crm.Application.Services.Abstracts;
-using Company.Crm.Domain.Entities.Lst;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TaskStatus = Company.Crm.Domain.Entities.Lst.TaskStatus;
@@ -69,6 +68,7 @@ public class TaskStatusController : Controller
         {
             taskstatus = _taskStatusService.GetForEditById(id.Value);
         }
+
         return PartialView("_Edit", taskstatus);
     }
 
@@ -89,6 +89,7 @@ public class TaskStatusController : Controller
         {
             ModelState.AddModelError("", "Unable to save changes.");
         }
+
         return PartialView("_Edit", taskstatus);
     }
 

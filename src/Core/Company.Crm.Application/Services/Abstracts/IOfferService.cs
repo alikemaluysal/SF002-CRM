@@ -1,4 +1,5 @@
 using Company.Crm.Application.Dtos;
+using Company.Crm.Application.Dtos.Offer;
 
 namespace Company.Crm.Application.Services.Abstracts;
 

@@ -11,5 +11,5 @@ public interface IRequestStatusService
     bool Delete(RequestStatus entity);
     bool DeleteById(int id);
     List<RequestStatus> GetPaged(int page = 1);
-    RequestStatus GetForEditById(int id);
+    RequestStatus? GetForEditById(int id);
 }

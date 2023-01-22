@@ -1,5 +1,6 @@
 using AutoMapper;
 using Company.Crm.Application.Dtos;
+using Company.Crm.Application.Dtos.Offer;
 using Company.Crm.Application.Services.Abstracts;
 using Company.Crm.Domain.Entities;
 using Company.Crm.Domain.Repositories;

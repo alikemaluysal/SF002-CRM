@@ -25,4 +25,13 @@
     <ProjectReference Include="..\..\Infrastructure\Company.Crm.Entityframework\Company.Crm.Entityframework.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <AdditionalFiles Include="Areas\Admin\Views\Request\Index.cshtml" />
+    <AdditionalFiles Include="Areas\Admin\Views\Request\_Create.cshtml" />
+    <AdditionalFiles Include="Areas\Admin\Views\Request\_Delete.cshtml" />
+    <AdditionalFiles Include="Areas\Admin\Views\Request\_Detail.cshtml" />
+    <AdditionalFiles Include="Areas\Admin\Views\Request\_Edit.cshtml" />
+    <AdditionalFiles Include="Areas\Admin\Views\Request\_Form.cshtml" />
+  </ItemGroup>
+
 </Project>
