@@ -29,5 +29,8 @@ public class Customer : BaseEntity
     [ForeignKey("GenderId")]
     public Gender? GenderFk { get; set; }
 
+    [ForeignKey("TitleId")]
+    public Title? TitleFk { get; set; }
+
     #endregion
 }

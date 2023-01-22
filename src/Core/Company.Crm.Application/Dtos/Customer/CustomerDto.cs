@@ -5,6 +5,7 @@ namespace Company.Crm.Application.Dtos;
 public class CustomerDto : BaseDto
 {
     public int UserId { get; set; }
+    public string? UserFullName { get; set; }
     public string? IdentityNumber { get; set; }
     public int? GenderId { get; set; }
     public string? GenderName { get; set; }

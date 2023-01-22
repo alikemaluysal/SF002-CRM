@@ -12,4 +12,6 @@ public class EmployeeDto : BaseDto
     public int? StatusTypeId { get; set; }
     public int? RegionId { get; set; }
     public DateTime? BirthDate { get; set; }
+    public string? UserFullName { get; set; }
+    public string? TitleName { get; set; }
 }

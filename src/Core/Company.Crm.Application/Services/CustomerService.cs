@@ -24,7 +24,9 @@ public class CustomerService : ICustomerService
 
     public ServiceResponse<List<CustomerDto>> GetAll()
     {
-        var entityList = _customerRepository.GetAll();
+        var entityList = _customerRepository.GetAll()
+            .Include(e => e.UserFk)
+            .Include(e => e.TitleFk);
 
         #region Old
 
@@ -53,6 +55,8 @@ public class CustomerService : ICustomerService
         var entityQuery = _customerRepository.GetAll()
             .Include(e => e.StatusTypeFk)
             .Include(e => e.GenderFk)
+            .Include(e => e.UserFk)
+            .Include(e => e.TitleFk)
             .OrderByDescending(c => c.Id);
 
         var totalEntity = entityQuery.Count();

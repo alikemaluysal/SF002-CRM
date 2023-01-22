@@ -12,4 +12,5 @@ public interface IEmployeeService
     ServiceResponse<bool> Delete(EmployeeDto dto);
     ServiceResponse<bool> DeleteById(int id);
     ServiceResponse<List<EmployeeDto>> GetAllByRegionId(int regionId);
+    ServiceResponse<EmployeeDto?> GetByUserId(int userId);
 }

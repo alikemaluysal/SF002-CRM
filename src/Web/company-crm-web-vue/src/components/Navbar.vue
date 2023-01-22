@@ -1,7 +1,17 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import Auth from '@/services/auth.service'
 const appName = ref('CRM Admin')
 const version = ref('1.0')
+const user = ref({})
+onMounted(() => {
+	/*axios.post('/Auth/Me').then(res => {
+		user.value = res.data.data;
+	})*/
+})
+function handleLogout() {
+	Auth.Logout()
+}
 </script>
 
 <template>
@@ -12,7 +22,7 @@ const version = ref('1.0')
 				<span class="navbar-toggler-icon"></span>
 			</button>
 			<h1 class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3">
-				<a href=".">
+				<a href="javascript:" @click="handleMe">
 					<img src="../assets/logo.svg" alt="Tabler" class="navbar-brand-image">
 					{{ appName }} {{ version }}
 				</a>
@@ -139,8 +149,8 @@ const version = ref('1.0')
 					<a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown" aria-label="Open user menu">
 						<span class="avatar avatar-sm" style="background-image: url(/template/static/avatars/000m.jpg)"></span>
 						<div class="d-none d-xl-block ps-2">
-							<div>Paweł Kuna</div>
-							<div class="mt-1 small text-muted">UI Designer</div>
+							<div>{{ user.fullName }}</div>
+							<div class="mt-1 small text-muted">{{ user.title }}</div>
 						</div>
 					</a>
 					<div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
@@ -149,7 +159,7 @@ const version = ref('1.0')
 						<a href="#" class="dropdown-item">Feedback</a>
 						<div class="dropdown-divider"></div>
 						<a href="./settings.html" class="dropdown-item">Settings</a>
-						<a href="./sign-in.html" class="dropdown-item">Logout</a>
+						<button class="dropdown-item" @click.prevent="handleLogout">Logout</button>
 					</div>
 				</div>
 			</div>
@@ -194,6 +204,34 @@ const version = ref('1.0')
 								<li>
 									<router-link class="dropdown-item" to="/customer/list">
 										List
+									</router-link>
+								</li>
+							</ul>
+						</li>
+						<li class="nav-item dropdown">
+							<button class="nav-link bg-transparent border-0 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+								<span class="nav-link-icon d-md-none d-lg-inline-block">
+									<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-users" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+										<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+										<circle cx="9" cy="7" r="4"></circle>
+										<path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"></path>
+										<path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+										<path d="M21 21v-2a4 4 0 0 0 -3 -3.85"></path>
+									</svg>
+								</span>
+								<span class="nav-link-title">
+									Users
+								</span>
+							</button>
+							<ul class="dropdown-menu">
+								<li>
+									<router-link class="dropdown-item" to="/customer/list">
+										List
+									</router-link>
+								</li>
+								<li>
+									<router-link class="dropdown-item" to="/user/import">
+										Import Users
 									</router-link>
 								</li>
 							</ul>

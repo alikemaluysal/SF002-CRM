@@ -1,6 +1,8 @@
 ﻿using Company.Crm.Application.Services.Abstracts;
 using Company.Crm.Domain.Entities.Usr;
+using Company.Framework.Authentication;
 using Microsoft.AspNetCore.Mvc;
+using OfficeOpenXml;
 
 namespace Company.Crm.Web.Api.Controllers;
 
@@ -55,5 +57,37 @@ public class UserController : Controller
     {
         var isDeleted = _userService.Delete(user);
         return Ok(isDeleted);
+    }
+
+    [HttpPost("import-excel")]
+    public async Task<IActionResult> ImportExcel(IFormFile excelFile)
+    {
+        ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+
+        var stream = excelFile.OpenReadStream();
+        using var package = new ExcelPackage(stream);
+
+        var sheet = package.Workbook.Worksheets["Sheet1"];
+
+        var users = new List<User>();
+
+        int startRow = 2;
+        int endRow = sheet.Dimension.Rows;
+        for (int row = startRow; row <= endRow; row++)
+        {
+            users.Add(new()
+            {
+                Username = sheet.Cells[row, 2].Value.ToString(),
+                Email = sheet.Cells[row, 3].Value.ToString(),
+                Password = SecurityHelper.HashCreate("123"),
+                Name = sheet.Cells[row, 5].Value.ToString(),
+                Surname = sheet.Cells[row, 5].Value.ToString(),
+                UserStatusId = 1
+            });
+        }
+
+        var isInserted = await _userService.InsertAll(users);
+
+        return Ok(isInserted);
     }
 }

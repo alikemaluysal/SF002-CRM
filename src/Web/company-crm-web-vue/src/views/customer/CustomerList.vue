@@ -3,6 +3,9 @@ import { ref, onMounted } from 'vue'
 import Pagination from '../../components/Pagination.vue'
 import CustomerModal from './CustomerModal.vue'
 import { moment } from '@/plugins/datetime'
+import pdfMake from "pdfmake/build/pdfmake"
+import pdfFonts from "pdfmake/build/vfs_fonts.js";
+import { Logo } from './report-logos.js'
 
 let appModal
 const dataItem = ref()
@@ -65,6 +68,84 @@ function itemSaved() {
 	appModal.hide()
 	fetchItems()
 }
+
+function exportExcel() {
+	axios.post('customer/export-excel', null, {
+		headers: {
+			'Content-Disposition': "attachment; filename=CustomerReport.xlsx",
+			'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+		},
+		responseType: 'arraybuffer',
+	}).then(response => {
+		const url = window.URL.createObjectURL(new Blob([response.data]));
+		const link = document.createElement('a');
+		link.href = url;
+		link.setAttribute('download', 'CustomerReport.xlsx');
+		document.body.appendChild(link);
+		link.click();
+		toastr.success("Export Excel", "Success!")
+	})
+}
+
+function exportPdf() {
+	if (pdfMake.vfs == undefined) {
+		pdfMake.vfs = pdfFonts.pdfMake.vfs;
+	}
+
+	axios.get('customer').then(response => {
+
+		let data = response.data.data;
+
+		let tableBody = [
+			['ID', 'User', 'Company Name']
+		]
+
+		data.forEach(item => {
+			tableBody.push([item.id, item.userFullName, item.companyName])
+		});
+
+		let content = [
+			{
+				layout: 'noBorders',
+				style: 'headerTable',
+				table: {
+					widths: ['*', 50, '*'],
+					body: [
+						['Company.CRM', { image: Logo, width: 50, fit: [50, 50] }, { text: new Date().toLocaleString(), alignment: 'right' }]
+					]
+				}
+			},
+			{
+				text: 'Customers Report',
+				style: 'header'
+			},
+			{
+				style: 'tableExample',
+				table: {
+					body: tableBody
+				}
+			},
+		]
+
+		let docDefinition = {
+			content: content,
+			styles: {
+				header: {
+					fontSize: 18,
+					bold: true
+				},
+				headerTable: {
+					margin: [0, 0, 0, 0]
+				},
+				tableExample: {
+					margin: [0, 0, 0, 0]
+				},
+			}
+		}
+		//pdfMake.createPdf(docDefinition).download('optionalName.pdf')
+		pdfMake.createPdf(docDefinition).open()
+	})
+}
 </script>
 <template>
 	<div class="page-body">
@@ -75,6 +156,8 @@ function itemSaved() {
 					<div class="btn-group ms-auto">
 						<button class="btn btn-primary" @click="createItem">New</button>
 						<button class="btn btn-primary" @click.prevent="fetchItems(1)">Refresh</button>
+						<button class="btn btn-success" @click.prevent="exportExcel()">Export Excel</button>
+						<button class="btn btn-danger" @click.prevent="exportPdf()">Export PDF</button>
 					</div>
 				</div>
 				<div class="table-responsive" v-if="dataList && dataList.length">
@@ -82,18 +165,22 @@ function itemSaved() {
 						<thead>
 							<tr>
 								<th>#</th>
-								<th>Company</th>
+								<th>Name</th>
+								<th>Title</th>
 								<th>Gender</th>
+								<th>Company</th>
 								<th>Birth Date</th>
 								<th>Birth Date</th>
 								<th>Action</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr v-for="{ id, companyName, genderName, birthDate } in dataList" :key="id">
+							<tr v-for="{ id, userFullName, titleName, companyName, genderName, birthDate } in dataList" :key="id">
 								<td>{{ id }}</td>
-								<td>{{ companyName }}</td>
+								<td>{{ userFullName }}</td>
+								<td>{{ titleName }}</td>
 								<td>{{ genderName }}</td>
+								<td>{{ companyName }}</td>
 								<td>{{ moment(birthDate).format("DD.MM.YYYY") }}</td>
 								<td>{{ moment(birthDate).fromNow() }}</td>
 								<td>
@@ -112,7 +199,7 @@ function itemSaved() {
 					</table>
 				</div>
 
-				<div v-else>
+				<div class="card-body" v-else>
 					No records!
 				</div>
 

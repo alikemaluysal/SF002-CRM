@@ -4,6 +4,7 @@ using Company.Crm.Application.Services.Abstracts;
 using Company.Crm.Domain.Entities;
 using Company.Crm.Domain.Repositories;
 using Company.Framework.Dtos;
+using Microsoft.EntityFrameworkCore;
 
 namespace Company.Crm.Application.Services;
 
@@ -61,5 +62,15 @@ public class EmployeeService : IEmployeeService
         var entityList = _employeeRepository.GetAllByRegionId(regionId);
         var dtoList = _mapper.Map<List<EmployeeDto>>(entityList);
         return new ServiceResponse<List<EmployeeDto>>(dtoList);
+    }
+
+    public ServiceResponse<EmployeeDto?> GetByUserId(int userId)
+    {
+        var entity = _employeeRepository.GetAll()
+            .Include(e => e.UserFk)
+            .Include(e => e.TitleFk)
+            .FirstOrDefault(e => e.UserId == userId);
+        var dto = _mapper.Map<EmployeeDto>(entity);
+        return new ServiceResponse<EmployeeDto?>(dto);
     }
 }

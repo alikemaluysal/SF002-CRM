@@ -18,4 +18,7 @@ public interface IUserService
     void RemindPassword(RemindPasswordDto dto);
     void ResetPassword(ResetPasswordDto dto);
     Task<bool> IsUserExist(string username, string email);
+    Task<bool> UpdateRefreshToken(int userId, string refreshToken, DateTime expireDate);
+    Task<RefreshTokenUserDto?> GetUserByRefreshToken(string refreshToken);
+    Task<bool> InsertAll(List<User> users);
 }

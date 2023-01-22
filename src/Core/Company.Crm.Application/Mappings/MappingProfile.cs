@@ -21,13 +21,18 @@ public class MappingProfile : Profile
         CreateMap<Customer, CustomerDto>()
             .ForMember(d => d.StatusTypeName, m => m.MapFrom(s => s.StatusTypeFk != null ? s.StatusTypeFk.Name : ""))
             .ForMember(d => d.GenderName, m => m.MapFrom(s => s.GenderFk != null ? s.GenderFk.Name : ""))
+            .ForMember(d => d.TitleName, m => m.MapFrom(s => s.TitleFk != null ? s.TitleFk.Name : ""))
+            .ForMember(d => d.UserFullName, m => m.MapFrom(s => s.UserFk != null ? s.UserFk.Name + " " + s.UserFk.Surname : ""))
             .ReverseMap();
         CreateMap<CustomerDto, Customer>();
         CreateMap<Customer, CreateOrUpdateCustomerDto>().ReverseMap();
 
         CreateMap<Gender, GenderDto>().ReverseMap();
 
-        CreateMap<Employee, EmployeeDto>().ReverseMap();
+        CreateMap<Employee, EmployeeDto>()
+            .ForMember(d => d.TitleName, m => m.MapFrom(s => s.TitleFk != null ? s.TitleFk.Name : ""))
+            .ForMember(d => d.UserFullName, m => m.MapFrom(s => s.UserFk != null ? s.UserFk.Name + " " + s.UserFk.Surname : ""))
+            .ReverseMap();
         CreateMap<Employee, CreateOrUpdateEmployeeDto>().ReverseMap();
 
         CreateMap<Notification, NotificationCreateOrUpdateDto>().ReverseMap();
@@ -38,7 +43,7 @@ public class MappingProfile : Profile
 
         CreateMap<UserPhone, UserPhoneDto>().ReverseMap();
         CreateMap<UserPhone, CreateOrUpdateUserPhoneDto>().ReverseMap();
-        
+
         CreateMap<UserEmail, UserEmailDto>().ReverseMap();
         CreateMap<UserEmail, CreateOrUpdateUserEmailDto>().ReverseMap();
 
