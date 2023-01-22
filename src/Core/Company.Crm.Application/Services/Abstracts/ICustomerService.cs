@@ -1,17 +1,10 @@
 ﻿using Company.Crm.Application.Dtos;
 using Company.Framework.Dtos;
+using Company.Framework.Service;
 
 namespace Company.Crm.Application.Services.Abstracts;
 
-public interface ICustomerService
+public interface ICustomerService : ICrudService<CustomerDto, CreateOrUpdateCustomerDto>
 {
-    ServiceResponse<List<CustomerDto>> GetAll();
-    ServiceResponse<CustomerDto?> GetById(int id);
-    ServiceResponse<CreateOrUpdateCustomerDto?> GetForEditById(int id);
-    ServiceResponse<bool> Insert(CreateOrUpdateCustomerDto dto);
-    ServiceResponse<bool> Update(CreateOrUpdateCustomerDto dto);
-    ServiceResponse<bool> Delete(CustomerDto dto);
-    ServiceResponse<bool> DeleteById(int id);
     ServiceResponse<List<CustomerDto>> GetAllByRegionId(int regionId);
-    ServicePaginationResponse<List<CustomerDto>> GetPaged(PaginationRequest req);
 }

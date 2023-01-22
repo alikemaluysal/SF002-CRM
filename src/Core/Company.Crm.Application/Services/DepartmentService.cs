@@ -4,6 +4,7 @@ using Company.Crm.Domain.Entities;
 using Company.Crm.Domain.Entities.Lst;
 using Company.Crm.Domain.Repositories;
 using Company.Crm.Entityframework.Repositories;
+using Company.Framework.Dtos;
 
 namespace Company.Crm.Application.Services;
 
@@ -18,49 +19,49 @@ public class DepartmentService : IDepartmentService
         _mapper = mapper;
     }
 
-    public List<Department> GetAll()
+    public ServiceResponse<List<Department>> GetAll()
     {
         var entityList = _departmentRepository.GetAll().ToList();
-        return entityList;
+        return new ServiceResponse<List<Department>>(entityList);
+    }
+    
+    public ServicePaginationResponse<List<Department>> GetPaged(PaginationRequest req)
+    {
+        var entityQuery = _departmentRepository.GetAll().OrderByDescending(c => c.Id);
+        var totalEntity = entityQuery.Count();
+        var pagedList = entityQuery.Skip(req.Skip).Take(req.PerPage).ToList();
+        return new ServicePaginationResponse<List<Department>>(pagedList, totalEntity, req);
     }
 
-    public Department? GetById(int id)
+    public ServiceResponse<Department?> GetById(int id)
     {
         var entity = _departmentRepository.GetById(id);
-        return entity;
+        return new ServiceResponse<Department>(entity);
     }
 
-    public bool Insert(Department entity)
-    {
-        return _departmentRepository.Insert(entity);
-    }
-
-    public bool Update(Department entity)
-    {
-        return _departmentRepository.Update(entity);
-    }
-
-    public bool Delete(Department entity)
-    {
-        return _departmentRepository.Delete(entity);
-    }
-
-    public bool DeleteById(int id)
-    {
-        return _departmentRepository.DeleteById(id);
-    }
-
-    public List<Department> GetPaged(int page = 1)
-    {
-        var entityList = _departmentRepository.GetAll().OrderByDescending(c => c.Id);
-        var pagedList = entityList.Skip((page - 1) * 10).Take(10).ToList();
-        return pagedList;
-    }
-
-    public Department GetForEditById(int id)
+    public ServiceResponse<Department?> GetForEditById(int id)
     {
         var department = _departmentRepository.GetById(id);
+        return new ServiceResponse<Department?>(department);
+    }
+    
+    public ServiceResponse<bool> Insert(Department entity)
+    {
+        return new ServiceResponse<bool>(_departmentRepository.Insert(entity));
+    }
 
-        return department;
+    public ServiceResponse<bool> Update(Department entity)
+    {
+        return new ServiceResponse<bool>(_departmentRepository.Update(entity));
+    }
+
+    public ServiceResponse<bool> Delete(Department entity)
+    {
+        return new ServiceResponse<bool>(_departmentRepository.Delete(entity));
+    }
+
+    public ServiceResponse<bool> DeleteById(int id)
+    {
+        return new ServiceResponse<bool>(_departmentRepository.DeleteById(id));
     }
 }
