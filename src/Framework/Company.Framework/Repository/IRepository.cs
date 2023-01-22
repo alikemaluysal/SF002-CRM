@@ -1,12 +1,16 @@
-﻿namespace Company.Framework.Repository;
+﻿using System.Linq.Expressions;
+
+namespace Company.Framework.Repository;
 
 public interface IRepository<TEntity>
     where TEntity : class
 {
-    public IQueryable<TEntity> GetAll();
-    public TEntity? GetById(int id);
-    public bool Insert(TEntity entity);
-    public bool Update(TEntity entity);
-    public bool Delete(TEntity entity);
-    public bool DeleteById(int id);
+    IQueryable<TEntity> GetAll();
+    List<TEntity> GetAllByFilter(Expression<Func<TEntity, bool>> expression);
+    TEntity? GetFirstByFilter(Expression<Func<TEntity, bool>> expression);
+    TEntity? GetById(int id);
+    bool Insert(TEntity entity);
+    bool Update(TEntity entity);
+    bool Delete(TEntity entity);
+    bool DeleteById(int id);
 }

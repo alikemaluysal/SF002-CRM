@@ -1,5 +1,6 @@
 ﻿using Company.Framework.Entity;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace Company.Framework.Repository;
 
@@ -19,6 +20,16 @@ public abstract class BaseRepository<TContext, TEntity> : IRepository<TEntity>
     public IQueryable<TEntity> GetAll()
     {
         return _table;
+    }
+
+    public List<TEntity> GetAllByFilter(Expression<Func<TEntity, bool>> expression)
+    {
+        return _table.Where(expression).ToList();
+    }
+
+    public TEntity GetFirstByFilter(Expression<Func<TEntity, bool>> expression)
+    {
+        return _table.FirstOrDefault(expression);
     }
 
     public TEntity? GetById(int id)
