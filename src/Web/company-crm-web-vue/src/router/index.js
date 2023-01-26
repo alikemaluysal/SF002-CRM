@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomePage from '../views/HomePage.vue'
 import CustomerList from '../views/customer/CustomerList.vue'
+import TaskStatusList from '../views/taskStatus/TaskStatusList.vue'
 import NotificationList from '../views/notification/NotificationList.vue'
 import UserAddressList from '../views/userAddress/UserAddressList.vue'
 import NotFound from '../views/NotFound.vue'
@@ -23,6 +24,7 @@ const routes = [
 			{ path: '/user/import', component: UserImport },
       { path: '/notification/list', component: NotificationList, meta: { requiresAuth: true } },
       { path: '/user-address/list', component: UserAddressList, meta: { requiresAuth: true } },
+      { path: '/taskStatus/list', component: TaskStatusList, meta: { requiresAuth: true } },
 			{
 				path: '/about',
 				name: 'about',
