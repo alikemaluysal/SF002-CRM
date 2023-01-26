@@ -1,9 +1,13 @@
 <script setup>
 import { ref, onMounted } from 'vue'
+import IconNotification from './icons/IconNotification.vue';
+import IconUserAdress from './icons/IconUserAddress.vue'
 import Auth from '@/services/auth.service'
+
 const appName = ref('CRM Admin')
 const version = ref('1.0')
 const user = ref({})
+
 onMounted(() => {
 	/*axios.post('/Auth/Me').then(res => {
 		user.value = res.data.data;
@@ -208,6 +212,23 @@ function handleLogout() {
 								</li>
 							</ul>
 						</li>
+            <li class="nav-item dropdown">
+							<button class="nav-link bg-transparent border-0 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+								<span class="nav-link-icon d-md-none d-lg-inline-block">
+									<IconNotification ></IconNotification>
+								</span>
+								<span class="nav-link-title">
+									Notifications
+								</span>
+							</button>
+							<ul class="dropdown-menu">
+								<li>
+									<router-link class="dropdown-item" to="/notification/list">
+										List
+									</router-link>
+								</li>
+							</ul>
+						</li>
 						<li class="nav-item dropdown">
 							<button class="nav-link bg-transparent border-0 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
 								<span class="nav-link-icon d-md-none d-lg-inline-block">
@@ -235,6 +256,23 @@ function handleLogout() {
 									</router-link>
 								</li>
 							</ul>
+						</li>
+            <li class="nav-item dropdown">
+							<button class="nav-link bg-transparent border-0 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+								<span class="nav-link-icon d-md-none d-lg-inline-block">
+									<IconUserAdress></IconUserAdress>
+								</span>
+								<span class="nav-link-title">
+									User Adresses
+								</span>
+							</button>
+							<ul class="dropdown-menu">
+								<li>
+									<router-link class="dropdown-item" to="/user-address/list">
+										List
+									</router-link>
+								</li>
+              </ul>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" href="/template/index.html" target="_blank">

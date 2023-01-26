@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomePage from '../views/HomePage.vue'
 import CustomerList from '../views/customer/CustomerList.vue'
+import NotificationList from '../views/notification/NotificationList.vue'
+import UserAddressList from '../views/userAddress/UserAddressList.vue'
 import NotFound from '../views/NotFound.vue'
 import session from '../plugins/session'
 import Login from '../views/auth/Login.vue'
@@ -19,6 +21,8 @@ const routes = [
 			{ path: '/', name: 'home', component: HomePage },
 			{ path: '/customer/list', component: CustomerList },
 			{ path: '/user/import', component: UserImport },
+      { path: '/notification/list', component: NotificationList, meta: { requiresAuth: true } },
+      { path: '/user-address/list', component: UserAddressList, meta: { requiresAuth: true } },
 			{
 				path: '/about',
 				name: 'about',

@@ -14,7 +14,7 @@ public class AddressCreateOrUpdateDto : BaseDto
 
     public int UserId { get; set; }
     public string Description { get; set; }
-    public int AddressTypeEnumNumber { get; set; }
+    public short AddressType { get; set; } // addressTypeEnumNumber
 
     [NotMapped]
     [ValidateNever]

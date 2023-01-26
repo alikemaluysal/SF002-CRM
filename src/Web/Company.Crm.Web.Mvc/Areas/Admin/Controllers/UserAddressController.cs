@@ -21,7 +21,7 @@ public class UserAddressController : Controller
 
     public IActionResult Index(int page = 1)
     {
-        var addresses = _addressService.GetPaged(page);
+        var addresses = _addressService.GetPaged(new() { Page = page });
         return View(addresses);
     }
 
@@ -57,7 +57,7 @@ public class UserAddressController : Controller
             if (ModelState.IsValid)
             {
                 var isInserted = _addressService.Insert(item);
-                if (isInserted)
+                if (isInserted.IsSuccess)
                     return Json(new { IsSuccess = true, Redirect = Url.Action("Index") });
             }
         }
@@ -74,7 +74,7 @@ public class UserAddressController : Controller
     public async Task<PartialViewResult> Edit(int? id)
     {
         var dto = new AddressCreateOrUpdateDto();
-        if (id.HasValue) dto = _addressService.GetForEditById(id.Value);
+        if (id.HasValue) dto = _addressService.GetForEditById(id.Value).Data;
 
         FillDropdownItems(dto);
 
@@ -90,7 +90,7 @@ public class UserAddressController : Controller
             if (ModelState.IsValid)
             {
                 var isUpdated = _addressService.Update(dto);
-                if (isUpdated)
+                if (isUpdated.IsSuccess)
                     return Json(new { IsSuccess = true, Redirect = Url.Action("Index") });
             }
         }

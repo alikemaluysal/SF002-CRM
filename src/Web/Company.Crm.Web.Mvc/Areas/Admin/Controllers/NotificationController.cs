@@ -21,7 +21,7 @@ public class NotificationController : Controller
 
     public IActionResult Index(int page = 1)
     {
-        var notifications = _notificationService.GetPaged(page);
+        var notifications = _notificationService.GetPaged(new() { Page = page });
         return View(notifications);
     }
 
@@ -29,8 +29,6 @@ public class NotificationController : Controller
     public PartialViewResult Create()
     {
         NotificationCreateOrUpdateDto entity = new();
-        //var userName = HttpContext.User.Identity.Name;
-
         return PartialView("_Create", entity);
     }
 
@@ -43,7 +41,7 @@ public class NotificationController : Controller
             if (ModelState.IsValid)
             {
                 var isInserted = _notificationService.Insert(notification);
-                if (isInserted)
+                if (isInserted.IsSuccess)
                     return Json(new { IsSuccess = true, Redirect = Url.Action("Index") });
             }
         }
@@ -82,7 +80,7 @@ public class NotificationController : Controller
     public async Task<PartialViewResult> Edit(int? id)
     {
         var dto = new NotificationCreateOrUpdateDto();
-        if (id.HasValue) dto = _notificationService.GetForEditById(id.Value);
+        if (id.HasValue) dto = _notificationService.GetForEditById(id.Value).Data;
         return PartialView("_Edit", dto);
     }
 
@@ -95,7 +93,7 @@ public class NotificationController : Controller
             if (ModelState.IsValid)
             {
                 var isUpdated = _notificationService.Update(notification);
-                if (isUpdated)
+                if (isUpdated.IsSuccess)
                     return Json(new { IsSuccess = true, Redirect = Url.Action("Index") });
             }
         }
@@ -110,7 +108,7 @@ public class NotificationController : Controller
     [HttpGet]
     public async Task<ActionResult> MarkAsRead(int id)
     {
-        _notificationService.MarkAsRead(id);
+        _notificationService.MarkAsReadOrUnread(id);
         return RedirectToAction(nameof(Index));
     }
 }

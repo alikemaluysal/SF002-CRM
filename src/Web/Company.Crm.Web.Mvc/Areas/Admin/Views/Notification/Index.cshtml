@@ -17,7 +17,7 @@
 			<th>@Html.DisplayNameFor(x=>x[0].Id)</th>
 			<th>@Html.DisplayNameFor(x=>x[0].UserId)</th>
 			<th>@Html.DisplayNameFor(x=>x[0].Title)</th>
-			<th>@Html.DisplayNameFor(x=>x[0].Text)</th>
+			<th>@Html.DisplayNameFor(x=>x[0].Description)</th>
 			<th>@Html.DisplayNameFor(x=>x[0].CreatedAt)</th>
 			<th>@Html.DisplayNameFor(x=>x[0].IsRead)</th>
 
@@ -35,7 +35,7 @@
 				<td>@notification.Id</td>
 				<td>@notification.UserId</td>
 				<td>@notification.Title</td>
-				<td>@notification.Text</td>
+				<td>@notification.Description</td>
 				<td>@notification.CreatedAt</td>
 				<td>
 					@if (isNotificationReaded == true)

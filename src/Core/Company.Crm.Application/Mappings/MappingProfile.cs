@@ -38,7 +38,8 @@ public class MappingProfile : Profile
         CreateMap<Notification, NotificationDetailDto>().ReverseMap();
 
         CreateMap<UserAddress, AddressDetailDto>().ReverseMap();
-        CreateMap<UserAddress, AddressCreateOrUpdateDto>().ReverseMap();
+        CreateMap<UserAddress, AddressCreateOrUpdateDto>().ForMember(dt => dt.AddressType, opt => opt.MapFrom(src => src.AddressType)).ReverseMap(); //int enum map
+
 
         CreateMap<Request, RequestDto>().ReverseMap();
         CreateMap<Request, CreateOrUpdateRequestDto>().ReverseMap();
