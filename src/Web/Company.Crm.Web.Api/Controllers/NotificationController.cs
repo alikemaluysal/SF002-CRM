@@ -1,10 +1,12 @@
 ﻿using Company.Crm.Application.Dtos.Notification;
 using Company.Crm.Application.Services.Abstracts;
 using Company.Crm.Domain.Entities;
+using Company.Framework.Dtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Company.Crm.Web.Api.Controllers;
-
+[Authorize]
 [Route("api/[controller]")]
 [ApiController]
 public class NotificationController : ControllerBase
@@ -23,6 +25,13 @@ public class NotificationController : ControllerBase
         return Ok(data);
     }
 
+    [HttpGet("GetPaged")]
+    public IActionResult GetPaged([FromQuery] PaginationRequest req)
+    {
+        var data = _notificationService.GetPaged(req);
+
+        return Ok(data);
+    }
     [HttpGet("{id}")]
     public IActionResult Get(int id)
     {
@@ -36,7 +45,7 @@ public class NotificationController : ControllerBase
         var data = _notificationService.Insert(entity);
         return Ok(data);
     }
-
+    [HttpPatch("{id}")]
     [HttpPut("{id}")]
     public IActionResult Put(int id, [FromBody] NotificationCreateOrUpdateDto entity)
     {
@@ -56,5 +65,13 @@ public class NotificationController : ControllerBase
     {
         var data = _notificationService.Delete(entity);
         return Ok(data);
+    }
+
+    [HttpPatch("[action]/{id}")]
+    [HttpPut("[action]/{id}")]
+
+    public IActionResult ToggleReadSituation(int id)
+    {
+        return Ok(_notificationService.MarkAsReadOrUnread(id).IsSuccess);
     }
 }

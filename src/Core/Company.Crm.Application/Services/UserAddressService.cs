@@ -3,8 +3,8 @@ using Company.Crm.Application.Dtos.Address;
 using Company.Crm.Application.Dtos.UserAddress;
 using Company.Crm.Application.Services.Abstracts;
 using Company.Crm.Domain.Entities;
-using Company.Crm.Domain.Enums;
 using Company.Crm.Domain.Repositories;
+using Company.Framework.Dtos;
 
 namespace Company.Crm.Application.Services;
 
@@ -19,75 +19,59 @@ public class UserAddressService : IUserAddressService
         _mapper = mapper;
     }
 
-    public bool Delete(AddressDetailDto dto)
-    {
-        var address = _mapper.Map<UserAddress>(dto);
-
-        return _userAddressRepository.Delete(address);
-    }
-
-    public bool DeleteById(int id)
-    {
-        return _userAddressRepository.DeleteById(id);
-    }
-
-    public List<AddressDetailDto> GetAll()
+    public ServiceResponse<List<AddressDetailDto>> GetAll()
     {
         var entityList = _userAddressRepository.GetAll();
         var dtoList = _mapper.Map<List<AddressDetailDto>>(entityList);
-        return dtoList;
+        return new(dtoList);
     }
 
-    public AddressDetailDto? GetById(int id)
+    public ServicePaginationResponse<List<AddressDetailDto>> GetPaged(PaginationRequest request)
     {
-        var entity = _userAddressRepository.GetById(id);
-        var dto = _mapper.Map<AddressDetailDto>(entity);
-        return dto;
-    }
-
-    public AddressCreateOrUpdateDto? GetForEditById(int id)
-    {
-        var entity = _userAddressRepository.GetById(id);
-        //var dto = _mapper.Map<AddressCreateOrUpdateDto>(entity);
-        var dto = new AddressCreateOrUpdateDto
-        {
-            Id = entity.Id,
-            AddressTypeEnumNumber = (int)entity.AddressType,
-            Description = entity.Description,
-            UserId = entity.UserId
-        };
-        return dto;
-    }
-
-    public List<AddressDetailDto> GetPaged(int page = 1)
-    {
-        var entityList = _userAddressRepository.GetAll()
-            .OrderByDescending(c => c.Id);
-
-        var pagedList = entityList.Skip((page - 1) * 10).Take(10).ToList();
+        var query = _userAddressRepository.GetAll().
+            OrderByDescending(x => x.Id);
+        var totalCount = query.Count();
+        var pagedList = query.Skip(request.Skip).Take(request.PerPage).ToList();
         var dtoList = _mapper.Map<List<AddressDetailDto>>(pagedList);
-        return dtoList;
+        return new(dtoList, totalCount, request);
     }
 
-    public bool Insert(AddressCreateOrUpdateDto dto)
+    public ServiceResponse<AddressDetailDto?> GetById(int id)
     {
-        UserAddress userAddress = new()
-        {
-            Description = dto.Description,
-            UserId = dto.UserId,
-            AddressType = (AddressTypeEnum)dto.AddressTypeEnumNumber
-        };
-        //var address = _mapper.Map<Address>(dto);
-        return _userAddressRepository.Insert(userAddress);
+        var entity = _userAddressRepository.GetById(id);
+        if (entity == null)
+            return new("Not Found!");
+        var dto = _mapper.Map<AddressDetailDto>(entity);
+        return new(dto);
     }
 
-    public bool Update(AddressCreateOrUpdateDto dto)
+    public ServiceResponse<AddressCreateOrUpdateDto?> GetForEditById(int id)
     {
-        var address = _userAddressRepository.GetById(dto.Id);
-        address.Description = dto.Description;
-        address.UserId = dto.UserId;
-        address.AddressType = (AddressTypeEnum)dto.AddressTypeEnumNumber;
-        //var address = _mapper.Map<Address>(dto)
-        return _userAddressRepository.Update(address);
+        var entity = _userAddressRepository.GetById(id);
+        var dto = _mapper.Map<AddressCreateOrUpdateDto>(entity);
+        return new(dto);
+    }
+
+    public ServiceResponse<bool> Insert(AddressCreateOrUpdateDto dto)
+    {
+        var entity = _mapper.Map<UserAddress>(dto);
+        return new(_userAddressRepository.Insert(entity));
+    }
+
+    public ServiceResponse<bool> Update(AddressCreateOrUpdateDto dto)
+    {
+        var entity = _mapper.Map<UserAddress>(dto);
+        return new(_userAddressRepository.Update(entity));
+    }
+
+    public ServiceResponse<bool> Delete(AddressDetailDto dto)
+    {
+        var entity = _mapper.Map<UserAddress>(dto);
+        return new(_userAddressRepository.Delete(entity));
+    }
+
+    public ServiceResponse<bool> DeleteById(int id)
+    {
+        return new(_userAddressRepository.DeleteById(id));
     }
 }

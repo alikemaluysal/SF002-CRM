@@ -14,12 +14,12 @@
 </div>
 
 <div class="row mb-3">
-    <label asp-for="AddressTypeEnumNumber" class="col-lg-3 col-form-label">Address Type</label>
+    <label asp-for="AddressType" class="col-lg-3 col-form-label">Address Type</label>
     <div class="col-lg-9">
-        <select class="form-select" asp-for="AddressTypeEnumNumber" asp-items="Model.AddressTypes">
+        <select class="form-select" asp-for="AddressType" asp-items="Model.AddressTypes">
             <option value="">Seçiniz</option>
         </select>
-        <span asp-validation-for="AddressTypeEnumNumber" class="text-danger"></span>
+        <span asp-validation-for="AddressType" class="text-danger"></span>
     </div>
 </div>
 
