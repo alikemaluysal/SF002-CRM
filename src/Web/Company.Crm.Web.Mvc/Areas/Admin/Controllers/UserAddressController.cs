@@ -2,6 +2,7 @@
 using Company.Crm.Application.Dtos.UserAddress;
 using Company.Crm.Application.Services.Abstracts;
 using Company.Crm.Domain.Enums;
+using Company.Framework.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -21,14 +22,14 @@ public class UserAddressController : Controller
 
     public IActionResult Index(int page = 1)
     {
-        var addresses = _addressService.GetPaged(new() { Page = page });
-        return View(addresses);
+        var addresses = _addressService.GetPaged(new PaginationRequest { Page = page });
+        return View(addresses.Data);
     }
 
-    public async Task<PartialViewResult> Detail(int id)
+    public PartialViewResult Detail(int id)
     {
         var address = _addressService.GetById(id);
-        return PartialView("_Detail", address);
+        return PartialView("_Detail", address.Data);
     }
 
     [HttpGet]
@@ -50,7 +51,7 @@ public class UserAddressController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<ActionResult> Create(AddressCreateOrUpdateDto item)
+    public ActionResult Create(AddressCreateOrUpdateDto item)
     {
         try
         {
@@ -71,7 +72,7 @@ public class UserAddressController : Controller
         return PartialView("_Create", item);
     }
 
-    public async Task<PartialViewResult> Edit(int? id)
+    public PartialViewResult Edit(int? id)
     {
         var dto = new AddressCreateOrUpdateDto();
         if (id.HasValue) dto = _addressService.GetForEditById(id.Value).Data;
@@ -83,7 +84,7 @@ public class UserAddressController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<ActionResult> Edit(AddressCreateOrUpdateDto dto)
+    public ActionResult Edit(AddressCreateOrUpdateDto dto)
     {
         try
         {
@@ -105,15 +106,15 @@ public class UserAddressController : Controller
     }
 
     [HttpGet]
-    public async Task<PartialViewResult> Delete(int id)
+    public PartialViewResult Delete(int id)
     {
         var serviceItem = _addressService.GetById(id);
-        return PartialView("_Delete", serviceItem);
+        return PartialView("_Delete", serviceItem.Data);
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<ActionResult> DeleteConfirmed(int id)
+    public ActionResult DeleteConfirmed(int id)
     {
         return Json(new { IsSuccess = _addressService.DeleteById(id), Redirect = Url.Action("Index") });
     }

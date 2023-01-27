@@ -12,6 +12,9 @@ export default {
 		{ path: '/', name: 'home', component: HomePage },
 		{ path: '/customer/list', component: CustomerList },
 		{ path: '/user/import', component: UserImport },
+		{ path: '/notification/list', component: NotificationList, meta: { requiresAuth: true } },
+		{ path: '/user-address/list', component: UserAddressList, meta: { requiresAuth: true } },
+		{ path: '/taskStatus/list', component: TaskStatusList, meta: { requiresAuth: true } },
 		{
 			path: '/about',
 			name: 'about',

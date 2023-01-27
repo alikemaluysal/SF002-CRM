@@ -1,6 +1,7 @@
 ﻿using Company.Crm.Application.Constants;
 using Company.Crm.Application.Dtos.Notification;
 using Company.Crm.Application.Services.Abstracts;
+using Company.Framework.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,8 +22,8 @@ public class NotificationController : Controller
 
     public IActionResult Index(int page = 1)
     {
-        var notifications = _notificationService.GetPaged(new() { Page = page });
-        return View(notifications);
+        var notifications = _notificationService.GetPaged(new PaginationRequest { Page = page });
+        return View(notifications.Data);
     }
 
     [HttpGet]
@@ -34,7 +35,7 @@ public class NotificationController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<ActionResult> Create(NotificationCreateOrUpdateDto notification)
+    public ActionResult Create(NotificationCreateOrUpdateDto notification)
     {
         try
         {
@@ -55,29 +56,28 @@ public class NotificationController : Controller
     }
 
     [HttpGet]
-    public async Task<PartialViewResult> Detail(int id)
+    public PartialViewResult Detail(int id)
     {
         var notification = _notificationService.GetById(id);
-        return PartialView("_Detail", notification);
+        return PartialView("_Detail", notification.Data);
     }
 
     [HttpGet]
-    public async Task<PartialViewResult> Delete(int id)
+    public PartialViewResult Delete(int id)
     {
         var notification = _notificationService.GetById(id);
-
-        return PartialView("_Delete", notification);
+        return PartialView("_Delete", notification.Data);
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<ActionResult> DeleteConfirmed(int id)
+    public ActionResult DeleteConfirmed(int id)
     {
         return Json(new { IsSuccess = _notificationService.DeleteById(id), Redirect = Url.Action("Index") });
     }
 
     [HttpGet]
-    public async Task<PartialViewResult> Edit(int? id)
+    public PartialViewResult Edit(int? id)
     {
         var dto = new NotificationCreateOrUpdateDto();
         if (id.HasValue) dto = _notificationService.GetForEditById(id.Value).Data;
@@ -86,7 +86,7 @@ public class NotificationController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<ActionResult> Edit(NotificationCreateOrUpdateDto notification)
+    public ActionResult Edit(NotificationCreateOrUpdateDto notification)
     {
         try
         {
@@ -106,7 +106,7 @@ public class NotificationController : Controller
     }
 
     [HttpGet]
-    public async Task<ActionResult> MarkAsRead(int id)
+    public ActionResult MarkAsRead(int id)
     {
         _notificationService.MarkAsReadOrUnread(id);
         return RedirectToAction(nameof(Index));

@@ -4,6 +4,7 @@ using Company.Crm.Application.Services.Abstracts;
 using Company.Crm.Domain.Entities;
 using Company.Crm.Domain.Repositories;
 using Company.Framework.Dtos;
+using Company.Framework.Utilities;
 
 namespace Company.Crm.Application.Services;
 
@@ -22,38 +23,38 @@ public class NotificationService : INotificationService
     {
         var entityList = _notificationRepository.GetAll();
         var dtoList = _mapper.Map<List<NotificationDetailDto>>(entityList);
-        return new(dtoList);
+        return new ServiceResponse<List<NotificationDetailDto>>(dtoList);
     }
+
     public ServicePaginationResponse<List<NotificationDetailDto>> GetPaged(PaginationRequest request)
     {
-        var query = _notificationRepository.GetAll().
-            OrderByDescending(x => x.IsRead);
+        var query = _notificationRepository.GetAll().OrderByDescending(x => x.IsRead);
         var totalCount = query.Count();
-        var pagedList = query.Skip(request.Skip).Take(request.PerPage).ToList();
+        var pagedList = query.ToPagedList(request);
         var dtoList = _mapper.Map<List<NotificationDetailDto>>(pagedList);
-        return new(dtoList, totalCount, request);
+        return new ServicePaginationResponse<List<NotificationDetailDto>>(dtoList, totalCount, request);
     }
 
     public ServiceResponse<NotificationDetailDto> GetById(int id)
     {
         var entity = _notificationRepository.GetById(id);
         if (entity == null)
-            return new("Not Found!");
+            return new ServiceResponse<NotificationDetailDto>("Not Found!");
         var dto = _mapper.Map<NotificationDetailDto>(entity);
-        return new(dto);
+        return new ServiceResponse<NotificationDetailDto>(dto);
     }
 
     public ServiceResponse<NotificationCreateOrUpdateDto> GetForEditById(int id)
     {
         var entity = _notificationRepository.GetById(id);
         var dto = _mapper.Map<NotificationCreateOrUpdateDto>(entity);
-        return new(dto);
+        return new ServiceResponse<NotificationCreateOrUpdateDto>(dto);
     }
 
     public ServiceResponse<bool> Insert(NotificationCreateOrUpdateDto dto)
     {
         var entity = _mapper.Map<Notification>(dto);
-        return new(_notificationRepository.Insert(entity));
+        return new ServiceResponse<bool>(_notificationRepository.Insert(entity));
     }
 
     public ServiceResponse<bool> MarkAsReadOrUnread(int id)
@@ -62,23 +63,26 @@ public class NotificationService : INotificationService
         if (notification != null)
         {
             notification.IsRead = !notification.IsRead;
-            return new(_notificationRepository.Update(notification)); //save yapabilmek için /servislerden çağırmak için repositorye save methodu eklenebilir ? 
+            return new ServiceResponse<bool>(_notificationRepository.Update(notification)); //save yapabilmek için /servislerden çağırmak için repositorye save methodu eklenebilir ? 
         }
-        return new(false);
+
+        return new ServiceResponse<bool>(false);
     }
+
     public ServiceResponse<bool> Update(NotificationCreateOrUpdateDto dto)
     {
         var entity = _mapper.Map<Notification>(dto);
-        return new(_notificationRepository.Update(entity));
+        return new ServiceResponse<bool>(_notificationRepository.Update(entity));
     }
+
     public ServiceResponse<bool> Delete(Notification dto)
     {
         var entity = _mapper.Map<Notification>(dto);
-        return new(_notificationRepository.Delete(entity));
+        return new ServiceResponse<bool>(_notificationRepository.Delete(entity));
     }
 
     public ServiceResponse<bool> DeleteById(int id)
     {
-        return new(_notificationRepository.DeleteById(id));
+        return new ServiceResponse<bool>(_notificationRepository.DeleteById(id));
     }
 }

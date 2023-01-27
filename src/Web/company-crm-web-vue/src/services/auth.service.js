@@ -3,7 +3,7 @@ import router from '@/router'
 
 export default {
 	Logout() {
-		session.clearSession();
-		router.push({ name: 'Login' });
+		session.clearSession()
+		router.push('auth/login')
 	}
 }
