@@ -29,7 +29,7 @@
 						<div class="row mb-3">
 							<label class="col-sm-4 col-form-label">Birth Date</label>
 							<div class="col-sm-8">
-								<Calendar v-model="item.birthDate" dateFormat="dd.mm.yy" />
+								<Calendar v-model="item.birthDate" dateFormat="dd.mm.yy" style="width: 100%" />
 							</div>
 						</div>
 						<div class="form-group row">
