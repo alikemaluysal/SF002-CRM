@@ -69,17 +69,22 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("me")]
-    public async Task<IActionResult> Me()
+    public IActionResult Me()
     {
-        int userId = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+        var userId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
         if (userId == 0) return BadRequest("User not found!");
 
         var employeeResponse = _employeeService.GetByUserId(userId);
+        if (!employeeResponse.IsSuccess || employeeResponse.Data == null) return BadRequest("Employee not found!");
+        
+        var data = employeeResponse.Data;
+        var genderLetter = data.GenderId == 1 ? "m" : "f";
 
         return Ok(new SessionUserDto
         {
-            FullName = employeeResponse.Data?.UserFullName,
-            Title = employeeResponse.Data?.TitleName
+            FullName = data.UserFullName,
+            Title = data.TitleName,
+            ProfilePhoto = $"00{data.UserId}{genderLetter}.jpg"
         });
     }
 
@@ -105,17 +110,17 @@ public class AuthController : ControllerBase
 
     private async Task<JwtToken> GetJwtToken(User user)
     {
-        var claims = new List<Claim>()
+        var claims = new List<Claim>
         {
-            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-            new Claim(ClaimTypes.Name, user.Name + " " + user.Surname),
-            new Claim(ClaimTypes.GivenName, user.Name),
-            new Claim(ClaimTypes.Surname, user.Surname),
-            new Claim(ClaimTypes.Email, user.Email),
+            new(ClaimTypes.NameIdentifier, user.Id.ToString()),
+            new(ClaimTypes.Name, user.Name + " " + user.Surname),
+            new(ClaimTypes.GivenName, user.Name),
+            new(ClaimTypes.Surname, user.Surname),
+            new(ClaimTypes.Email, user.Email),
             //new Claim("Permissions", "1,2")
         };
 
-        if (user.Roles != null && user.Roles.Any())
+        if (user.Roles.Any())
         {
             foreach (var role in user.Roles)
             {
