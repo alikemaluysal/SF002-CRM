@@ -34,8 +34,10 @@ public class CustomerController : ControllerBase
     [HttpGet("GetPaged")]
     public IActionResult GetPaged([FromQuery] PaginationRequest req)
     {
+#if DEBUG
+        Thread.Sleep(TimeSpan.FromSeconds(2));
+#endif
         var customers = _customerService.GetPaged(req);
-
         return Ok(customers);
     }
 

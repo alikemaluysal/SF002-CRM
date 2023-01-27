@@ -1,10 +1,10 @@
 <script setup>
-import { onMounted } from 'vue'
-onMounted(() => {
-  // sayfa yüklendiğinde
-})
+import Loading from "@/components/Loading.vue";
+import { useLayoutStore } from "./stores/layout.store";
+const store = useLayoutStore();
 </script>
 
 <template>
-  <router-view></router-view>
+	<Loading :visible="store.isPageLoading">Page Loading</Loading>
+	<router-view></router-view>
 </template>

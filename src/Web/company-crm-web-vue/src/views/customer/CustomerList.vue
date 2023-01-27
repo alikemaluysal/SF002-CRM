@@ -1,25 +1,33 @@
 <script setup>
 import { ref, onMounted } from 'vue'
-import Pagination from '../../components/Pagination.vue'
-import CustomerModal from './CustomerModal.vue'
+import Pagination from '@/components/Pagination.vue'
+import Loading from '@/components/Loading.vue'
 import { moment } from '@/plugins/datetime'
 import pdfMake from "pdfmake/build/pdfmake"
 import pdfFonts from "pdfmake/build/vfs_fonts.js";
 import { Logo } from './report-logos.js'
+import CustomerModal from './CustomerModal.vue'
+import { storeToRefs } from 'pinia'
+import { useLayoutStore } from '@/stores'
+import { IconPlus, IconRefresh, IconPencil, IconTrash, IconExcel, IconPdf } from '@/components/icons'
 
 let appModal
 const dataItem = ref()
 const dataList = ref()
 const dataMeta = ref()
+const store = useLayoutStore()
+const { isTableLoading } = storeToRefs(store);
 
 onMounted(() => {
 	fetchItems()
 })
 
 function fetchItems(page = 1) {
+	store.showTableLoading()
 	axios.get('customer/getpaged', { params: { page, perPage: 10 } }).then(response => {
 		dataList.value = response.data.data
 		dataMeta.value = response.data.meta
+		store.hideTableLoading()
 	})
 }
 
@@ -147,6 +155,7 @@ function exportPdf() {
 	})
 }
 </script>
+
 <template>
 	<div class="page-body">
 		<div class="container-xl">
@@ -154,14 +163,27 @@ function exportPdf() {
 				<div class="card-header">
 					<h3 class="card-title">Customers</h3>
 					<div class="btn-group ms-auto">
-						<button class="btn btn-primary" @click="createItem">New</button>
-						<button class="btn btn-primary" @click.prevent="fetchItems(1)">Refresh</button>
-						<button class="btn btn-success" @click.prevent="exportExcel()">Export Excel</button>
-						<button class="btn btn-danger" @click.prevent="exportPdf()">Export PDF</button>
+						<button class="btn btn-primary" @click="createItem">
+							<IconPlus /> New
+						</button>
+						<button class="btn" @click.prevent="fetchItems(1)">
+							<span class="spinner-border spinner-border-sm me-2" role="status" v-if="isTableLoading"></span>
+							<IconRefresh v-if="!isTableLoading" />
+							Refresh
+						</button>
+					</div>
+					<div class="btn-group ms-2">
+						<button class="btn" @click.prevent="exportExcel()">
+							<IconExcel /> Export Excel
+						</button>
+						<button class="btn" @click.prevent="exportPdf()">
+							<IconPdf /> Export PDF
+						</button>
 					</div>
 				</div>
-				<div class="table-responsive" v-if="dataList && dataList.length">
-					<table class="table table-vcenter card-table">
+				<div class="table-responsive">
+					<loading :visible="isTableLoading">Table Loading</loading>
+					<table class="table table-vcenter card-table" v-if="dataList && dataList.length">
 						<thead>
 							<tr>
 								<th>#</th>
@@ -186,21 +208,20 @@ function exportPdf() {
 								<td>
 									<div class="btn-list flex-nowrap">
 										<button class="btn btn-success" @click="editItem(id)">
-											Edit
+											<IconPencil /> Edit
 										</button>
 
 										<button class="btn btn-danger" @click="deleteItem(id)">
-											Delete
+											<IconTrash /> Delete
 										</button>
 									</div>
 								</td>
 							</tr>
 						</tbody>
 					</table>
-				</div>
-
-				<div class="card-body" v-else>
-					No records!
+					<div class="card-body" v-else>
+						No records!
+					</div>
 				</div>
 
 				<pagination class="mt-3" v-if="dataMeta" :meta="dataMeta" v-on:pageChange="fetchItems" />
@@ -210,3 +231,4 @@ function exportPdf() {
 		</div>
 	</div>
 </template>
+
