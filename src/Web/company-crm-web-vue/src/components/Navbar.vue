@@ -1,13 +1,21 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import Auth from '@/services/auth.service'
 const appName = ref('CRM Admin')
 const version = ref('1.0')
 const user = ref({})
 onMounted(() => {
-	/*axios.post('/Auth/Me').then(res => {
-		user.value = res.data.data;
-	})*/
+	axios.post('/Auth/Me').then(res => {
+		if (res && res.data) {
+			user.value = res.data
+		}
+	})
+})
+const avatarStyle = computed(() => {
+	if (user.value.profilePhoto)
+		return 'background-image: url(/template/static/avatars/' + user.value.profilePhoto + ')'
+	else
+		return 'background-image: url(/template/static/avatars/000m.jpg)'
 })
 function handleLogout() {
 	Auth.Logout()
@@ -147,7 +155,7 @@ function handleLogout() {
 				</div>
 				<div class="nav-item dropdown">
 					<a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown" aria-label="Open user menu">
-						<span class="avatar avatar-sm" style="background-image: url(/template/static/avatars/000m.jpg)"></span>
+						<span class="avatar avatar-sm" :style="avatarStyle"></span>
 						<div class="d-none d-xl-block ps-2">
 							<div>{{ user.fullName }}</div>
 							<div class="mt-1 small text-muted">{{ user.title }}</div>
