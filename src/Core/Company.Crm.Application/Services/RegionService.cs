@@ -1,6 +1,10 @@
 ﻿using Company.Crm.Application.Services.Abstracts;
 using Company.Crm.Domain.Entities.Lst;
 using Company.Crm.Domain.Repositories;
+using Company.Crm.Entityframework.Repositories;
+using Company.Framework.Dtos;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace Company.Crm.Application.Services;
 
@@ -13,50 +17,70 @@ public class RegionService : IRegionService
         _regionRepository = regionRepository;
     }
 
-    public List<Region> GetAll()
+    public ServiceResponse<List<Region>> GetAll()
     {
-        return _regionRepository.GetAll().ToList();
-    }
 
-    public Region? GetById(int id)
-    {
-        return _regionRepository.GetById(id);
-    }
+        var entity = _regionRepository.GetAll().ToList();
+        return new(entity);
 
-    public bool Insert(Region entity)
-    {
-        return _regionRepository.Insert(entity);
-    }
-
-    public bool Update(Region entity)
-    {
-        return _regionRepository.Update(entity);
-    }
-
-    public bool Delete(Region entity)
-    {
-        return _regionRepository.Delete(entity);
-    }
-
-    public bool DeleteById(int id)
-    {
-        return _regionRepository.DeleteById(id);
-    }
-
-    public List<Region> GetPaged(int page = 1)
-    {
-        var entityList = _regionRepository.GetAll().OrderByDescending(c => c.Id);
-
-        var pagedList = entityList.Skip((page - 1) * 10).Take(10).ToList();
-
-        return pagedList;
     }
 
 
-    public Region GetForEditById(int id)
+    public ServiceResponse<Region?> GetById(int id)
     {
-        var region = _regionRepository.GetById(id);
-
-        return region;
+        var entity = _regionRepository.GetById(id);
+        if (entity == null)
+            return new ServiceResponse<Region?>("Not Found!");
+        return new(entity);
     }
+
+
+    public ServiceResponse<bool> Insert(Region entity)
+    {
+        return new(_regionRepository.Insert(entity));
+    }
+
+
+    public ServiceResponse<Region> GetForEditById(int id)
+    {
+        var entity = _regionRepository.GetById(id);
+        return new(entity);
+    }
+
+
+    public ServiceResponse<bool> Update(Region entity)
+    {
+        return new(_regionRepository.Update(entity));
+    }
+
+
+    public ServiceResponse<bool> Delete(Region entity)
+    {
+        return new ServiceResponse<bool>(_regionRepository.Delete(entity));
+    }
+
+
+    public ServiceResponse<bool> DeleteById(int id)
+    {
+        return new ServiceResponse<bool>(_regionRepository.DeleteById(id));
+    }
+
+     public ServicePaginationResponse<List<Region>> GetPaged(PaginationRequest request)
+    {      
+
+        var entityQuery = _regionRepository.GetAll()                              
+                   .OrderByDescending(c => c.Id);
+
+        var totalCount = entityQuery.Count();
+
+        var pagedList = entityQuery.Skip(request.Skip).Take(request.PerPage);
+
+        var data = entityQuery.ToList();
+
+        return new ServicePaginationResponse<List<Region>>(data, totalCount, request);
+
+
+
+    }
+
 }

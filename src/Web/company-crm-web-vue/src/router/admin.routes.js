@@ -2,6 +2,7 @@ import MasterLayout from '../views/_layouts/MasterLayout.vue'
 import CustomerList from '../views/customer/CustomerList.vue'
 import HomePage from '../views/HomePage.vue'
 import UserImport from '../views/user/UserImport.vue'
+import RegionList from '../views/region/RegionList.vue'
 
 export default {
 	path: '/',
@@ -15,6 +16,7 @@ export default {
 		{ path: '/notification/list', component: NotificationList, meta: { requiresAuth: true } },
 		{ path: '/user-address/list', component: UserAddressList, meta: { requiresAuth: true } },
 		{ path: '/taskStatus/list', component: TaskStatusList, meta: { requiresAuth: true } },
+		{ path: '/region/list', component: RegionList, meta: { requiresAuth: true } },
 		{
 			path: '/about',
 			name: 'about',
