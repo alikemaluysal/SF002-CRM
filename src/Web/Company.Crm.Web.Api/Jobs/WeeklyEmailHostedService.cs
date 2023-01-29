@@ -1,15 +1,16 @@
 ﻿using Company.Crm.Application.Services.Abstracts;
+using Company.Crm.Domain.Entities.Usr;
 
 namespace Company.Crm.Web.Api.Jobs;
 
 public class WeeklyEmailHostedService : IHostedService, IDisposable
 {
+    private int _executionCount;
+    private Timer? _timer;
     private readonly ILogger<TimedHostedService> _logger;
-    private int executionCount = 0;
-    private Timer? _timer = null;
-    private IServiceScopeFactory _services;
+    private readonly IServiceProvider _services;
 
-    public WeeklyEmailHostedService(ILogger<TimedHostedService> logger, IServiceScopeFactory services)
+    public WeeklyEmailHostedService(ILogger<TimedHostedService> logger, IServiceProvider services)
     {
         _logger = logger;
         _services = services;
@@ -22,9 +23,9 @@ public class WeeklyEmailHostedService : IHostedService, IDisposable
         using var scope = _services.CreateScope();
         var userService = scope.ServiceProvider.GetRequiredService<IUserService>();
         var allUsers = userService.GetAll();
+        // db.JobsEmailSending.InsertAll()
 
-        _timer = new Timer(SendEmail, null, TimeSpan.Zero,
-            TimeSpan.FromSeconds(5));
+        _timer = new Timer(SendEmail, allUsers, TimeSpan.Zero, TimeSpan.FromSeconds(5));
 
         return Task.CompletedTask;
     }
@@ -40,13 +41,19 @@ public class WeeklyEmailHostedService : IHostedService, IDisposable
 
     private void SendEmail(object? state)
     {
-        var count = Interlocked.Increment(ref executionCount);
+        var allUsers = state as List<User>;
 
-        if (DateTime.Now.DayOfWeek == DayOfWeek.Sunday &&
-            DateTime.Now.Hour == 12 && DateTime.Now.Minute == 0 && count == 1)
+        var count = Interlocked.Increment(ref _executionCount);
+
+        // Fire and Forget
+        if (DateTime.Now.DayOfWeek == DayOfWeek.Saturday &&
+            DateTime.Now is { Hour: 10, Minute: 9 } && count == 1)
         {
-            _logger.LogInformation(
-                "Email sending. Count: {Count}", count);
+            foreach (var user in allUsers)
+            {
+                _logger.LogInformation($"Email sending. Count: {count}, Email: {user.Email}");
+                // db.JobsEmailSending.Update(IsSent = true)
+            }
         }
     }
 

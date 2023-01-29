@@ -1,4 +1,5 @@
 ﻿using Company.Crm.Web.Api.Jobs;
+using FluentScheduler;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -47,8 +48,31 @@ public static class ServiceRegistrations
             });
 
 
-        // Background Task
-        services.AddHostedService<TimedHostedService>();
-        services.AddHostedService<WeeklyEmailHostedService>();
+        // Hosted Services
+        // https://learn.microsoft.com/en-us/aspnet/core/fundamentals/host/hosted-services
+        //services.AddHostedService<TimedHostedService>();
+        //services.AddHostedService<WeeklyEmailHostedService>();
+
+        #region Fluent Scheduler
+
+        // https://fluentscheduler.github.io/creating-schedules/
+
+        var sp = services.BuildServiceProvider();
+        var logger = sp.GetRequiredService<ILogger<TimedHostedService>>();
+        var job = new WeeklyEmailJob(logger, sp);
+
+        var registry = new Registry();
+        registry.Schedule(job).ToRunNow().AndEvery(20).Seconds();
+
+        JobManager.JobException += info => Console.WriteLine("An error just happened with a scheduled job: " + info.Exception);
+        JobManager.Initialize(registry);
+
+        //JobManager.Initialize();
+        //JobManager.AddJob(
+        //    () => Console.WriteLine("5 minutes just passed."),
+        //    s => s.ToRunNow().AndEvery(1).Weeks().On(DayOfWeek.Sunday).At(12, 0)
+        //);
+
+        #endregion
     }
 }

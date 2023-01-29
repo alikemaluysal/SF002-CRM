@@ -15,8 +15,7 @@ public class TimedHostedService : IHostedService, IDisposable
     {
         _logger.LogInformation("Timed Hosted Service running.");
 
-        _timer = new Timer(DoWork, null, TimeSpan.Zero,
-            TimeSpan.FromSeconds(5));
+        _timer = new Timer(DoWork, null, TimeSpan.Zero, TimeSpan.FromSeconds(5));
 
         return Task.CompletedTask;
     }
@@ -34,8 +33,7 @@ public class TimedHostedService : IHostedService, IDisposable
     {
         var count = Interlocked.Increment(ref executionCount);
 
-        _logger.LogInformation(
-            "Timed Hosted Service is working. Count: {Count}", count);
+        _logger.LogInformation("Timed Hosted Service is working. Count: {Count}", count);
     }
 
     public void Dispose()
