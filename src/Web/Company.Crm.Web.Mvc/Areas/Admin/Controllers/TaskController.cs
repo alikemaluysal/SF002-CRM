@@ -25,7 +25,7 @@ public class TaskController : Controller
 
     public IActionResult Index(int page = 1)
     {
-        var tasks = _taskService.GetPaged(page);
+        var tasks = _taskService.GetPaged(new() { Page = page });
         return View(tasks);
     }
 
@@ -63,7 +63,7 @@ public class TaskController : Controller
             if (validationResult.IsValid)
             {
                 var isInserted = _taskService.Insert(item);
-                if (isInserted)
+                if (isInserted.Data)
                     return Json(new { IsSuccess = true, Redirect = Url.Action("Index") });
             }
         }
@@ -79,7 +79,7 @@ public class TaskController : Controller
     public async Task<PartialViewResult> Edit(int? id)
     {
         var dto = new CreateOrUpdateTaskDto();
-        if (id.HasValue) dto = _taskService.GetForEditById(id.Value);
+        if (id.HasValue) dto = _taskService.GetForEditById(id.Value).Data;
 
 
         return PartialView("_Edit", dto);
@@ -94,7 +94,7 @@ public class TaskController : Controller
             if (ModelState.IsValid)
             {
                 var isUpdated = _taskService.Update(dto);
-                if (isUpdated)
+                if (isUpdated.Data)
                     return Json(new { IsSuccess = true, Redirect = Url.Action("Index") });
             }
         }

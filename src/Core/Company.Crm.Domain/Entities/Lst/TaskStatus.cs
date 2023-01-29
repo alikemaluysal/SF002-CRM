@@ -7,4 +7,6 @@ namespace Company.Crm.Domain.Entities.Lst;
 public class TaskStatus : BaseEntity
 {
     public string? Name { get; set; }
+
+    public List<Task>? Tasks { get; set; }
 }

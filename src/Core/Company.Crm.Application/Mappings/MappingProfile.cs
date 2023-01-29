@@ -5,11 +5,13 @@ using Company.Crm.Application.Dtos.List;
 using Company.Crm.Application.Dtos.Notification;
 using Company.Crm.Application.Dtos.Request;
 using Company.Crm.Application.Dtos.Sale;
+using Company.Crm.Application.Dtos.Task;
 using Company.Crm.Application.Dtos.UserAddress;
 using Company.Crm.Application.Dtos.UserEmail;
 using Company.Crm.Application.Dtos.UserPhone;
 using Company.Crm.Domain.Entities;
 using Company.Crm.Domain.Entities.Lst;
+using Task = Company.Crm.Domain.Entities.Task;
 
 namespace Company.Crm.Application.Mappings;
 
@@ -49,6 +51,10 @@ public class MappingProfile : Profile
 
         CreateMap<UserEmail, UserEmailDto>().ReverseMap();
         CreateMap<UserEmail, CreateOrUpdateUserEmailDto>().ReverseMap();
+
+        CreateMap<TaskDto, Task>().ReverseMap()
+            .ForMember(d => d.TaskStatusName, m => m.MapFrom(s => s.TaskStatusFK != null ? s.TaskStatusFK.Name : ""));
+        CreateMap<Task, CreateOrUpdateTaskDto>().ReverseMap();
 
         CreateMap<Sale, SaleDetailDto>().ReverseMap();
         CreateMap<Sale, CreateOrUpdateSaleDto>().ReverseMap();

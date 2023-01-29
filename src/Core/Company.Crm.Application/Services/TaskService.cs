@@ -2,11 +2,13 @@
 using Company.Crm.Application.Dtos.Task;
 using Company.Crm.Application.Services.Abstracts;
 using Company.Crm.Domain.Repositories;
+using Company.Crm.Entityframework.Repositories;
+using Company.Framework.Dtos;
+using Microsoft.EntityFrameworkCore;
 using Task = Company.Crm.Domain.Entities.Task;
 
 namespace Company.Crm.Application.Services;
 
-// Concrete-Abstract
 public class TaskService : ITaskService
 {
     private readonly IMapper _mapper;
@@ -18,64 +20,70 @@ public class TaskService : ITaskService
         _mapper = mapper;
     }
 
-    public List<TaskDto> GetAll()
+    public ServiceResponse<List<TaskDto>> GetAll()
     {
         var entityList = _taskRepository.GetAll();
 
         var dtoList = _mapper.Map<List<TaskDto>>(entityList);
 
-        return dtoList;
+        return new ServiceResponse<List<TaskDto>>(dtoList);
     }
 
-    public List<TaskDto> GetPaged(int page = 1)
+
+    public ServicePaginationResponse<List<TaskDto>> GetPaged(PaginationRequest req)
     {
-        var entityList = _taskRepository.GetAll()
+        var entityQuery = _taskRepository.GetAll()
+            //.Include(e => e.RequestFK)
+            .Include(e => e.TaskStatusFK)
+            //.Include(e => e.EmployeeFK)
             .OrderByDescending(c => c.Id);
 
-        var pagedList = entityList.Skip((page - 1) * 10).Take(10).ToList();
+        var totalEntity = entityQuery.Count();
+
+        var pagedList = entityQuery.Skip(req.Skip).Take(req.PerPage).ToList();
 
         var dtoList = _mapper.Map<List<TaskDto>>(pagedList);
 
-        return dtoList;
+        return new ServicePaginationResponse<List<TaskDto>>(dtoList, totalEntity, req);
     }
 
-    public TaskDto? GetById(int id)
+    public ServiceResponse<TaskDto?> GetById(int id)
     {
         var entity = _taskRepository.GetById(id);
         var dto = _mapper.Map<TaskDto>(entity);
-        return dto;
+        return new ServiceResponse<TaskDto?>(dto);
     }
 
-    public CreateOrUpdateTaskDto? GetForEditById(int id)
+    public ServiceResponse<CreateOrUpdateTaskDto?> GetForEditById(int id)
     {
         var entity = _taskRepository.GetById(id);
         var dto = _mapper.Map<CreateOrUpdateTaskDto>(entity);
-        return dto;
+        return new ServiceResponse<CreateOrUpdateTaskDto?>(dto);
     }
 
-    public bool Insert(CreateOrUpdateTaskDto dto)
+    public ServiceResponse<bool> Insert(CreateOrUpdateTaskDto dto)
     {
         var task = _mapper.Map<Task>(dto);
 
-        return _taskRepository.Insert(task);
+        return new ServiceResponse<bool>(_taskRepository.Insert(task));
     }
 
-    public bool Update(CreateOrUpdateTaskDto dto)
+    public ServiceResponse<bool> Update(CreateOrUpdateTaskDto dto)
     {
         var task = _mapper.Map<Task>(dto);
 
-        return _taskRepository.Update(task);
+        return new ServiceResponse<bool>(_taskRepository.Update(task));
     }
 
-    public bool Delete(TaskDto dto)
+    public ServiceResponse<bool> Delete(TaskDto dto)
     {
         var task = _mapper.Map<Task>(dto);
 
-        return _taskRepository.Delete(task);
+        return new ServiceResponse<bool>(_taskRepository.Delete(task));
     }
 
-    public bool DeleteById(int id)
+    public ServiceResponse<bool> DeleteById(int id)
     {
-        return _taskRepository.DeleteById(id);
+        return new ServiceResponse<bool>(_taskRepository.DeleteById(id));
     }
 }

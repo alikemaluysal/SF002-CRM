@@ -1,5 +1,7 @@
 ﻿using Company.Crm.Application.Dtos.Task;
+using Company.Crm.Application.Services;
 using Company.Crm.Application.Services.Abstracts;
+using Company.Framework.Dtos;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Company.Crm.Web.Api.Controllers;
@@ -20,6 +22,14 @@ public class TaskController : ControllerBase
     {
         var task = _taskService.GetAll();
         return Ok(task);
+    }
+
+    [HttpGet("GetPaged")]
+    public IActionResult GetPaged([FromQuery] PaginationRequest req)
+    {
+        var tasks = _taskService.GetPaged(req);
+
+        return Ok(tasks);
     }
 
     [HttpGet("{id}")]

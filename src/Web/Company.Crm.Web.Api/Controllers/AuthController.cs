@@ -49,7 +49,7 @@ public class AuthController : ControllerBase
     [HttpPost("register")]
     public async Task<IActionResult> Register(RegisterDto registerModel)
     {
-        if (!String.IsNullOrEmpty(registerModel.EmailAddress))
+        if (String.IsNullOrEmpty(registerModel.EmailAddress))
             return BadRequest("User is exist!");
 
         var isUserExist = await _userService.IsUserExist(registerModel.EmailAddress, registerModel.EmailAddress);
