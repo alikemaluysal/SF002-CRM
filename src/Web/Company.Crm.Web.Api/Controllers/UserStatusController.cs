@@ -1,5 +1,6 @@
 ﻿using Company.Crm.Application.Services.Abstracts;
 using Company.Crm.Domain.Entities.Lst;
+using Company.Framework.Dtos;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Company.Crm.Web.Api.Controllers;
@@ -22,6 +23,12 @@ public class UserStatusController : Controller
         return Ok(data);
     }
 
+    [HttpGet("GetPaged")]
+    public IActionResult GetPaged([FromQuery] PaginationRequest request)
+    {
+        var data = _userStatusService.GetPaged(request);
+        return Ok(data);
+    }
 
     [HttpGet("{id}")]
     public IActionResult GetById(int id)
@@ -36,7 +43,7 @@ public class UserStatusController : Controller
         var isAdded = _userStatusService.Insert(userStatus);
         return Ok(isAdded);
     }
-
+    [HttpPatch("{id}")]
     [HttpPut("{id}")]
     public IActionResult Update(int id, [FromBody] UserStatus userStatus)
     {
