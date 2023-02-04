@@ -3,6 +3,7 @@ using Company.Crm.Application.Dtos.Sale;
 using Company.Crm.Application.Services.Abstracts;
 using Company.Crm.Domain.Entities;
 using Company.Crm.Domain.Repositories;
+using Company.Framework.Dtos;
 
 namespace Company.Crm.Application.Services;
 
@@ -77,5 +78,14 @@ public class SaleService : ISaleService
     {
         var sale = _saleRepository.GetById(id);
         return _mapper.Map<CreateOrUpdateSaleDto>(sale);
+    }
+
+    public ServiceResponse<List<SaleDetailDto>> GetChartData()
+    {
+        var data = _saleRepository.GetAll().ToList();
+
+        var dataDto = _mapper.Map<List<SaleDetailDto>>(data);
+
+        return new(dataDto);
     }
 }

@@ -56,5 +56,14 @@ namespace Company.Crm.Web.Api.Controllers
             var data = _saleService.Delete(entity);
             return Ok(data);
         }
+
+        // api/sale/chartData
+        [HttpGet("chartData")]
+        public IActionResult GetChartData()
+        {
+            var response = _saleService.GetChartData();
+
+            return Ok(response);
+        }
     }
 }

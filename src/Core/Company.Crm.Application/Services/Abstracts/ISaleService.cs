@@ -1,4 +1,5 @@
 ﻿using Company.Crm.Application.Dtos.Sale;
+using Company.Framework.Dtos;
 
 namespace Company.Crm.Application.Services.Abstracts;
 
@@ -12,4 +13,5 @@ public interface ISaleService
     bool Delete(SaleDetailDto entity);
     bool DeleteById(int id);
     CreateOrUpdateSaleDto GetForEditById(int id);
+    ServiceResponse<List<SaleDetailDto>> GetChartData();
 }
