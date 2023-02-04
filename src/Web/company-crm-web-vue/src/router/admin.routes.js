@@ -4,6 +4,9 @@ import HomePage from '../views/HomePage.vue'
 import UserImport from '../views/user/UserImport.vue'
 import RegionList from '../views/region/RegionList.vue'
 import TaskList from '../views/task/TaskList.vue'
+import NotificationList from '../views/notification/NotificationList.vue'
+import UserAddressList from '../views/userAddress/UserAddressList.vue'
+import TaskStatusList from '../views/taskStatus/TaskStatusList.vue'
 
 export default {
 	path: '/',
