@@ -1,6 +1,7 @@
 ﻿using Company.Crm.Application.Constants;
 using Company.Crm.Application.Services.Abstracts;
 using Company.Crm.Domain.Entities.Lst;
+using Company.Framework.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,16 +18,16 @@ public class UserStatusController : Controller
         _userStatusService = userStatusService;
     }
 
-    public IActionResult Index()
+    public IActionResult Index(PaginationRequest request)
     {
-        var data = _userStatusService.GetAll().ToList();
+        var data = _userStatusService.GetPaged(request);
         return View(data);
     }
 
     public async Task<PartialViewResult> Detail(int id)
     {
         var data = _userStatusService.GetById(id);
-        return PartialView("_Detail", data);
+        return PartialView("_Detail", data.Data);
     }
 
     [HttpGet]
@@ -45,11 +46,8 @@ public class UserStatusController : Controller
         {
             if (ModelState.IsValid)
             {
-                var data = _userStatusService.Insert(userStatus);
-                if (data)
-                {
-                    return Json(new { IsSuccess = true, Redirect = Url.Action("Index") });
-                }
+                ServiceResponse<bool> isInserted = _userStatusService.Insert(userStatus);
+                if (isInserted.Data) return Json(new { IsSuccess = true, Redirect = Url.Action("Index") });
             }
         }
         catch
@@ -60,12 +58,11 @@ public class UserStatusController : Controller
         return PartialView("_Create", userStatus);
     }
 
-
     [HttpGet]
     public async Task<PartialViewResult> Edit(int? id)
     {
         var model = new UserStatus();
-        if (id.HasValue) model = _userStatusService.GetById(id.Value);
+        if (id.HasValue) model = _userStatusService.GetById(id.Value).Data;
 
         return PartialView("_Edit", model);
     }
@@ -78,11 +75,8 @@ public class UserStatusController : Controller
         {
             if (ModelState.IsValid)
             {
-                var İsUpdate = _userStatusService.Update(userStatus);
-                if (İsUpdate)
-                {
-                    return Json(new { IsSucces = true, Redirect = Url.Action("Index") });
-                }
+                ServiceResponse<bool> isUpdated = _userStatusService.Update(userStatus);
+                if (isUpdated.Data) return Json(new { IsSuccess = true, Redirect = Url.Action("Index") });
             }
         }
         catch
@@ -97,13 +91,13 @@ public class UserStatusController : Controller
     public async Task<PartialViewResult> Delete(int id)
     {
         var data = _userStatusService.GetById(id);
-        return PartialView("_Delete", data);
+        return PartialView("_Delete", data.Data);
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<ActionResult> DeleteConfirmed(int id)
     {
-        return Json(new { IsSuccess = _userStatusService.DeleteById(id), Redirect = Url.Action("Index") });
+        return Json(new { IsSuccess = _userStatusService.DeleteById(id).Data, Redirect = Url.Action("Index") });
     }
 }

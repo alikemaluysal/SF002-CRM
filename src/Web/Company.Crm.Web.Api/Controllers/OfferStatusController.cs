@@ -1,5 +1,6 @@
 ﻿using Company.Crm.Application.Services.Abstracts;
 using Company.Crm.Domain.Entities.Lst;
+using Company.Framework.Dtos;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Company.Crm.Web.Api.Controllers;
@@ -13,8 +14,15 @@ public class OfferStatusController : ControllerBase
     public OfferStatusController(IOfferStatusService offerStatusService)
     {
         _offerStatusService = offerStatusService;
+    
     }
 
+    [HttpGet("GetPaged")]
+    public IActionResult GetPaged([FromQuery] PaginationRequest request)
+    {
+        var data = _offerStatusService.GetPaged(request);
+        return Ok(data);
+    }
     [HttpGet]
     public IActionResult GetAll()
     {
@@ -36,6 +44,7 @@ public class OfferStatusController : ControllerBase
         return Ok(isAdded);
     }
 
+    [HttpPatch("{id}")]
     [HttpPut("{id}")]
     public IActionResult Update(int id, [FromBody] OfferStatus offerStatus)
     {

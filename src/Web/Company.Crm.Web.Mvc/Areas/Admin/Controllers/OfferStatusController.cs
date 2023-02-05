@@ -1,6 +1,7 @@
 ﻿using Company.Crm.Application.Constants;
 using Company.Crm.Application.Services.Abstracts;
 using Company.Crm.Domain.Entities.Lst;
+using Company.Framework.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,17 +18,17 @@ public class OfferStatusController : Controller
         _service = service;
     }
 
-    public IActionResult Index(int page = 1)
+    public IActionResult Index(PaginationRequest request)
     {
-        var list = _service.GetPaged(page);
-        return View(list);
+        var list = _service.GetPaged(request);
+        return View(list.Data);
     }
 
 
     public async Task<PartialViewResult> Detail(int id)
     {
         var data = _service.GetById(id);
-        return PartialView("_Detail", data);
+        return PartialView("_Detail", data.Data);
     }
 
     [HttpGet]
@@ -46,8 +47,8 @@ public class OfferStatusController : Controller
         {
             if (ModelState.IsValid)
             {
-                var isInserted = _service.Insert(offerStatus);
-                if (isInserted) return Json(new { IsSuccess = true, Redirect = Url.Action("Index") });
+                ServiceResponse<bool> isInserted = _service.Insert(offerStatus);
+                if (isInserted.Data) return Json(new { IsSuccess = true, Redirect = Url.Action("Index") });
             }
         }
         catch
@@ -61,7 +62,7 @@ public class OfferStatusController : Controller
     public async Task<PartialViewResult> Edit(int? id)
     {
         var model = new OfferStatus();
-        if (id.HasValue) model = _service.GetById(id.Value);
+        if (id.HasValue) model = _service.GetById(id.Value).Data;
 
         return PartialView("_Edit", model);
     }
@@ -74,8 +75,8 @@ public class OfferStatusController : Controller
         {
             if (ModelState.IsValid)
             {
-                var isUpdated = _service.Update(offerStatus);
-                if (isUpdated) return Json(new { IsSuccess = true, Redirect = Url.Action("Index") });
+                ServiceResponse<bool> isUpdated = _service.Update(offerStatus);
+                if (isUpdated.Data) return Json(new { IsSuccess = true, Redirect = Url.Action("Index") });
             }
         }
         catch
@@ -91,7 +92,7 @@ public class OfferStatusController : Controller
     public async Task<PartialViewResult> Delete(int id)
     {
         var data = _service.GetById(id);
-        return PartialView("_Delete", data);
+        return PartialView("_Delete", data.Data);
     }
 
 
@@ -99,6 +100,6 @@ public class OfferStatusController : Controller
     [ValidateAntiForgeryToken]
     public async Task<ActionResult> DeleteConfirmed(int id)
     {
-        return Json(new { IsSuccess = _service.DeleteById(id), Redirect = Url.Action("Index") });
+        return Json(new { IsSuccess = _service.DeleteById(id).Data, Redirect = Url.Action("Index") });
     }
 }
