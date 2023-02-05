@@ -13,5 +13,5 @@ public interface ISaleService
     bool Delete(SaleDetailDto entity);
     bool DeleteById(int id);
     CreateOrUpdateSaleDto GetForEditById(int id);
-    ServiceResponse<List<SaleDetailDto>> GetChartData();
+    ServiceResponse<List<SaleChartByYearDto>> GetChartData();
 }

@@ -12,7 +12,22 @@
 			</div>
 
 
-			<div id="chart-tasks-overview"></div>
+			<div class="row row-cards">
+				<div class="col-lg-6">
+					<div class="card">
+						<div class="card-body">
+							<div id="chart-tasks-overview"></div>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-6">
+					<div class="card">
+						<div class="card-body">
+							<div id="chart-demo-pie"></div>
+						</div>
+					</div>
+				</div>
+			</div>
 
 		</div>
 	</div>
@@ -20,6 +35,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
+import _, { map } from 'underscore';
 
 const chartData = ref();
 
@@ -27,6 +43,22 @@ onMounted(() => {
 
 	axios.get('sale/chartData').then(response => {
 		chartData.value = response.data.data
+
+		// 1. yöntem
+		// const years = [];
+		// const counts = [];
+		// const totalSalePrices = [];
+		// chartData.value.forEach(data => {
+		// 	years.push(data.year)
+		// 	counts.push(data.saleCount)
+		// 	totalSalePrices.push(data.totalSalePrice)
+		// })
+
+		// underscore ile veriden kolon dizisi yapma
+		const years = _.pluck(chartData.value, 'year')
+		const counts = _.pluck(chartData.value, 'saleCount');
+		const totalSalePrices = _.pluck(chartData.value, 'totalSalePrice');
+
 
 		window.ApexCharts && (new ApexCharts(document.getElementById('chart-tasks-overview'), {
 			chart: {
@@ -66,7 +98,7 @@ onMounted(() => {
 			},
 			series: [{
 				name: "A",
-				data: [44, 32]
+				data: counts
 			}],
 			xaxis: {
 				labels: {
@@ -78,7 +110,7 @@ onMounted(() => {
 				axisBorder: {
 					show: false,
 				},
-				categories: ['2022', '2023'],
+				categories: years,
 			},
 			yaxis: {
 				labels: {
@@ -89,6 +121,50 @@ onMounted(() => {
 			legend: {
 				show: false,
 			},
+		})).render();
+
+		window.ApexCharts && (new ApexCharts(document.getElementById('chart-demo-pie'), {
+			chart: {
+				type: "donut",
+				fontFamily: 'inherit',
+				height: 360,
+				sparkline: {
+					enabled: true
+				},
+				animations: {
+					enabled: false
+				},
+			},
+			fill: {
+				opacity: 1,
+			},
+			series: totalSalePrices,
+			labels: years,
+			grid: {
+				strokeDashArray: 4,
+			},
+			colors: [tabler.getColor("primary"), tabler.getColor("primary", 0.8), tabler.getColor("primary", 0.6), tabler.getColor("gray-300")],
+			legend: {
+				show: true,
+				position: 'bottom',
+				offsetY: 12,
+				markers: {
+					width: 10,
+					height: 10,
+					radius: 100,
+				},
+				itemMargin: {
+					horizontal: 8,
+					vertical: 8
+				},
+			},
+			tooltip: {
+				theme: 'dark',
+				fillSeriesColor: false,
+				formatter: function (value) {
+					return value + " $";
+				}
+			}
 		})).render();
 
 	})

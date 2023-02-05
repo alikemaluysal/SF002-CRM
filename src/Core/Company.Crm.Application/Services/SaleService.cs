@@ -80,12 +80,27 @@ public class SaleService : ISaleService
         return _mapper.Map<CreateOrUpdateSaleDto>(sale);
     }
 
-    public ServiceResponse<List<SaleDetailDto>> GetChartData()
+    public ServiceResponse<List<SaleChartByYearDto>> GetChartData()
     {
-        var data = _saleRepository.GetAll().ToList();
+        var data = _saleRepository.GetAll()
+            .GroupBy(e => e.SaleDate.Year)
+            .Select(x => new SaleChartByYearDto
+            {
+                Year = x.Key,
+                SaleCount = x.Count(),
+                TotalSalePrice = x.Sum(e => e.SaleAmount)
+            })
+            .ToList();
 
-        var dataDto = _mapper.Map<List<SaleDetailDto>>(data);
+        // 2. yazım şekli
+        //var data2 = from r in _saleRepository.GetAll()
+        //    group r by r.SaleDate.Year into g
+        //    select new 
+        //    {
+        //      Year = g.Key,
+        //      SaleCount = g.Count()
+        //    };
 
-        return new(dataDto);
+        return new(data);
     }
 }
