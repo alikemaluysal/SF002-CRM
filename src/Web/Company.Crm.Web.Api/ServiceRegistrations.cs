@@ -1,4 +1,6 @@
-﻿using Company.Crm.Web.Api.Jobs;
+﻿using Company.Crm.MongoDb;
+using Company.Crm.Redis;
+using Company.Crm.Web.Api.Jobs;
 using FluentScheduler;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -10,6 +12,17 @@ public static class ServiceRegistrations
 {
     public static void AddApiRegistration(this IServiceCollection services, IConfiguration configuration)
     {
+        services.AddSingleton<AuditLogRepository>();
+        services.AddSingleton<ExceptionLogRepository>();
+
+        services.AddStackExchangeRedisCache(options =>
+        {
+            options.Configuration = configuration.GetConnectionString("MyRedisConStr");
+            options.InstanceName = "Crm";
+        });
+
+        services.AddSingleton<RedisService>();
+
         services.AddCors(options =>
         {
             options.AddPolicy(name: "CrmCors", policy =>
@@ -64,8 +77,8 @@ public static class ServiceRegistrations
         var registry = new Registry();
         registry.Schedule(job).ToRunNow().AndEvery(20).Seconds();
 
-        JobManager.JobException += info => Console.WriteLine("An error just happened with a scheduled job: " + info.Exception);
-        JobManager.Initialize(registry);
+        //JobManager.JobException += info => Console.WriteLine("An error just happened with a scheduled job: " + info.Exception);
+        //JobManager.Initialize(registry);
 
         //JobManager.Initialize();
         //JobManager.AddJob(

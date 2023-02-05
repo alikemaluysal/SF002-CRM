@@ -1,6 +1,8 @@
 ﻿using Company.Crm.Application.Services.Abstracts;
 using Company.Crm.Domain.Entities.Lst;
+using Company.Crm.Redis;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
 
 namespace Company.Crm.Web.Api.Controllers;
 
@@ -9,17 +11,33 @@ namespace Company.Crm.Web.Api.Controllers;
 public class TitleController : ControllerBase
 {
     private readonly ITitleService _service;
+    private readonly RedisService _redisService;
 
-    public TitleController(ITitleService service)
+    public TitleController(ITitleService service, RedisService redisService)
     {
         _service = service;
+        _redisService = redisService;
     }
 
     [HttpGet]
     public IActionResult Get()
     {
-        var title = _service.GetAll();
-        return Ok(title);
+        //var titles = _redisService.GetOrSet<List<Title>>(("Titles") => _service.GetAll());
+
+        var titles = new List<Title>();
+        var cacheTitles = _redisService.GetCache("Titles");
+        if (cacheTitles == null)
+        {
+            var titlesDb = _service.GetAll();
+            _redisService.SetCache("Titles", JsonSerializer.Serialize(titles));
+            titles = titlesDb;
+        }
+        else
+        {
+            titles = JsonSerializer.Deserialize<List<Title>>(cacheTitles);
+        }
+
+        return Ok(titles);
     }
 
     [HttpGet("{id}")]

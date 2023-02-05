@@ -1,12 +1,17 @@
 using Company.Crm.Application;
 using Company.Crm.Entityframework;
 using Company.Crm.Web.Api;
+using Company.Crm.Web.Api.Filters;
 using Company.Crm.Web.Api.Middlewares;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<LogActionFilter>();
+});
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(option =>
 {
@@ -35,6 +40,7 @@ builder.Services.AddSwaggerGen(option =>
         }
     });
 });
+
 builder.Services.AddEntityFrameworkRegistration(builder.Configuration);
 builder.Services.AddApplicationRegistration(builder.Configuration);
 builder.Services.AddApiRegistration(builder.Configuration);
