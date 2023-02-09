@@ -29,9 +29,22 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Company.Framework", "src\Fr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test.Unit.Application", "test\Test.Unit.Application\Test.Unit.Application.csproj", "{0C0ADE86-320D-41FC-A2D9-0A6884EE8A85}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Company.Crm.MongoDb", "src\Infrastructure\Company.Crm.MongoDb\Company.Crm.MongoDb.csproj", "{3C5B4934-A826-49E7-A092-BB8BC5E5970E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Company.Crm.MongoDb", "src\Infrastructure\Company.Crm.MongoDb\Company.Crm.MongoDb.csproj", "{3C5B4934-A826-49E7-A092-BB8BC5E5970E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Company.Crm.Redis", "src\Infrastructure\Company.Crm.Redis\Company.Crm.Redis.csproj", "{E00591E8-B178-416B-81EF-1CFAA1E67E3A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Company.Crm.Redis", "src\Infrastructure\Company.Crm.Redis\Company.Crm.Redis.csproj", "{E00591E8-B178-416B-81EF-1CFAA1E67E3A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9A1361BB-5E9C-48BD-A0CF-1DB91E043D66}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{82A02DFD-E76F-4DC5-82C8-9828DE812266}"
+	ProjectSection(SolutionItems) = preProject
+		docs\db_diagram.png = docs\db_diagram.png
+		docs\SF002-Proje Mimarisi-Detaylı Proje Mimarisi.drawio.png = docs\SF002-Proje Mimarisi-Detaylı Proje Mimarisi.drawio.png
+		docs\SF002-Proje Mimarisi-Proje Mimarisi.drawio.png = docs\SF002-Proje Mimarisi-Proje Mimarisi.drawio.png
+		docs\SF002-Proje Mimarisi-Service Akışı.drawio.png = docs\SF002-Proje Mimarisi-Service Akışı.drawio.png
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -93,6 +106,7 @@ Global
 		{0C0ADE86-320D-41FC-A2D9-0A6884EE8A85} = {115E5D39-EA3B-4D1C-ACDC-B82C47C5C66F}
 		{3C5B4934-A826-49E7-A092-BB8BC5E5970E} = {34096A06-335F-4954-A137-03EA8D373F62}
 		{E00591E8-B178-416B-81EF-1CFAA1E67E3A} = {34096A06-335F-4954-A137-03EA8D373F62}
+		{82A02DFD-E76F-4DC5-82C8-9828DE812266} = {9A1361BB-5E9C-48BD-A0CF-1DB91E043D66}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CA9F9B49-3467-45D2-A48F-39EB37A83292}
