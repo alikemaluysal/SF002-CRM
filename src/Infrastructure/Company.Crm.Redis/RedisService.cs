@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
+using System.Text.Json;
 
 namespace Company.Crm.Redis
 {
@@ -29,6 +30,17 @@ namespace Company.Crm.Redis
         public void RemoveCache(string key)
         {
             _redis.Remove(key);
+        }
+
+        public T? GetOrSet<T>(string key, Func<T> action)
+        {
+            var cacheItems = GetCache(key);
+            if (cacheItems != null)
+                return JsonSerializer.Deserialize<T>(cacheItems);
+
+            var itemsDb = action();
+            SetCache(key, JsonSerializer.Serialize(itemsDb));
+            return itemsDb;
         }
     }
 }

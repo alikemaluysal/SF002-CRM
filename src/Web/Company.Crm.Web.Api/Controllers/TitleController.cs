@@ -2,7 +2,6 @@
 using Company.Crm.Domain.Entities.Lst;
 using Company.Crm.Redis;
 using Microsoft.AspNetCore.Mvc;
-using System.Text.Json;
 
 namespace Company.Crm.Web.Api.Controllers;
 
@@ -22,20 +21,7 @@ public class TitleController : ControllerBase
     [HttpGet]
     public IActionResult Get()
     {
-        //var titles = _redisService.GetOrSet<List<Title>>(("Titles") => _service.GetAll());
-
-        var titles = new List<Title>();
-        var cacheTitles = _redisService.GetCache("Titles");
-        if (cacheTitles == null)
-        {
-            var titlesDb = _service.GetAll();
-            _redisService.SetCache("Titles", JsonSerializer.Serialize(titles));
-            titles = titlesDb;
-        }
-        else
-        {
-            titles = JsonSerializer.Deserialize<List<Title>>(cacheTitles);
-        }
+        var titles = _redisService.GetOrSet("Titles", () => _service.GetAll());
 
         return Ok(titles);
     }
