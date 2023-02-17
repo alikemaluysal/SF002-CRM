@@ -76,7 +76,7 @@ public class AuthController : ControllerBase
 
         var employeeResponse = _employeeService.GetByUserId(userId);
         if (!employeeResponse.IsSuccess || employeeResponse.Data == null) return BadRequest("Employee not found!");
-        
+
         var data = employeeResponse.Data;
         var genderLetter = data.GenderId == 1 ? "m" : "f";
 
@@ -120,7 +120,7 @@ public class AuthController : ControllerBase
             //new Claim("Permissions", "1,2")
         };
 
-        if (user.Roles.Any())
+        if (user.Roles != null && user.Roles.Any())
         {
             foreach (var role in user.Roles)
             {
