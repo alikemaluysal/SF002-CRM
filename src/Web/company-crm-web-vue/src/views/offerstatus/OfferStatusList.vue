@@ -71,7 +71,7 @@ function itemSaved() {
 		<div class="container-xl">
 			<div class="card">
 				<div class="card-header">
-					<h3 class="card-title">OfferStatus</h3>
+					<h3 class="card-title">Offer Status</h3>
 					<div class="btn-group ms-auto">
 						<button class="btn btn-primary" @click="createItem">New</button>
 						<button class="btn btn-primary" @click.prevent="fetchItems(1)">Refresh</button>
@@ -86,7 +86,7 @@ function itemSaved() {
 							</tr>
 						</thead>
 						<tbody>
-							<tr v-for="{ id,name} in dataList" :key="id">
+							<tr v-for="{ id, name } in dataList" :key="id">
 								<td>{{ id }}</td>
 								<td>{{ name }}</td>
 								<td>

@@ -6,7 +6,9 @@ import RegionList from '../views/region/RegionList.vue'
 import TaskList from '../views/task/TaskList.vue'
 import NotificationList from '../views/notification/NotificationList.vue'
 import UserAddressList from '../views/userAddress/UserAddressList.vue'
+import UserStatusList from '../views/userStatus/UserStatusList.vue'
 import TaskStatusList from '../views/taskStatus/TaskStatusList.vue'
+import OfferStatusList from '../views/offerStatus/OfferStatusList.vue'
 
 export default {
 	path: '/',
@@ -17,9 +19,11 @@ export default {
 		{ path: '/', name: 'home', component: HomePage },
 		{ path: '/customer/list', component: CustomerList },
 		{ path: '/user/import', component: UserImport },
-		{ path: '/notification/list', component: NotificationList, meta: { requiresAuth: true } },
 		{ path: '/user-address/list', component: UserAddressList, meta: { requiresAuth: true } },
-		{ path: '/taskStatus/list', component: TaskStatusList, meta: { requiresAuth: true } },
+		{ path: '/user-status/list', component: UserStatusList, meta: { requiresAuth: true } },
+		{ path: '/notification/list', component: NotificationList, meta: { requiresAuth: true } },
+		{ path: '/offer-status/list', component: OfferStatusList, meta: { requiresAuth: true } },
+		{ path: '/task-status/list', component: TaskStatusList, meta: { requiresAuth: true } },
 		{ path: '/region/list', component: RegionList, meta: { requiresAuth: true } },
 		{ path: '/task/list', component: TaskList },
 		{

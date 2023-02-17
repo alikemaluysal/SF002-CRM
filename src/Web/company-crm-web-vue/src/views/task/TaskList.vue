@@ -78,8 +78,8 @@ function itemSaved() {
 						<button class="btn btn-primary" @click.prevent="fetchItems(1)">Refresh</button>
 					</div>
 				</div>
-				<div class="table-responsive" v-if="dataList && dataList.length">
-					<table class="table table-vcenter card-table">
+				<div class="table-responsive">
+					<table class="table table-vcenter card-table" v-if="dataList && dataList.length">
 						<thead>
 							<tr>
 								<th>#</th>
@@ -93,7 +93,7 @@ function itemSaved() {
 							</tr>
 						</thead>
 						<tbody>
-							<tr v-for="{ id, requestId, employeeUserId, taskStartDate, taskEndDate, description, taskStatusName} in dataList" :key="id">
+							<tr v-for="{ id, requestId, employeeUserId, taskStartDate, taskEndDate, description, taskStatusName } in dataList" :key="id">
 								<td>{{ id }}</td>
 								<td>{{ requestId }}</td>
 								<td>{{ employeeUserId }}</td>
@@ -115,13 +115,12 @@ function itemSaved() {
 							</tr>
 						</tbody>
 					</table>
+					<div class="card-body" v-else>
+						No records!
+					</div>
 				</div>
 
-				<div v-else>
-					No records!
-				</div>
-
-				<pagination class="mt-3" v-if="dataMeta" :meta="dataMeta" v-on:pageChange="fetchItems" />
+				<pagination class="mt-3" v-if="dataMeta && dataList && dataList.length" :meta="dataMeta" v-on:pageChange="fetchItems" />
 			</div>
 
 			<task-modal :item="dataItem" @onSaved="itemSaved"></task-modal>

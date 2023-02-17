@@ -224,7 +224,7 @@ function exportPdf() {
 					</div>
 				</div>
 
-				<pagination class="mt-3" v-if="dataMeta" :meta="dataMeta" v-on:pageChange="fetchItems" />
+				<pagination class="mt-3" v-if="dataMeta && dataList && dataList.length" :meta="dataMeta" v-on:pageChange="fetchItems" />
 			</div>
 
 			<customer-modal :item="dataItem" @onSaved="itemSaved"></customer-modal>

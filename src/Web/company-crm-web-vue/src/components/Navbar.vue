@@ -295,12 +295,12 @@ function handleLogout() {
 							</button>
 							<ul class="dropdown-menu">
 								<li>
-									<router-link class="dropdown-item" to="/offerstatus/list">
+									<router-link class="dropdown-item" to="/offer-status/list">
 										Offer Status
 									</router-link>
 								</li>
 								<li>
-									<router-link class="dropdown-item" to="/taskstatus/list">
+									<router-link class="dropdown-item" to="/task-status/list">
 										Task Status
 									</router-link>
 								</li>
@@ -310,7 +310,7 @@ function handleLogout() {
 									</router-link>
 								</li>
 								<li>
-									<router-link class="dropdown-item" to="/userstatus/list">
+									<router-link class="dropdown-item" to="/user-status/list">
 										User Status
 									</router-link>
 								</li>
