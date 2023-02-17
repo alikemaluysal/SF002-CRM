@@ -196,7 +196,39 @@ function handleLogout() {
 								</span>
 							</router-link>
 						</li>
-            
+
+						<li class="nav-item dropdown">
+							<button class="nav-link bg-transparent border-0 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+								<span class="nav-link-icon d-md-none d-lg-inline-block">
+									<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brightness-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+										<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+										<path d="M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path>
+										<path d="M6 6h3.5l2.5 -2.5l2.5 2.5h3.5v3.5l2.5 2.5l-2.5 2.5v3.5h-3.5l-2.5 2.5l-2.5 -2.5h-3.5v-3.5l-2.5 -2.5l2.5 -2.5z"></path>
+									</svg>
+								</span>
+								<span class="nav-link-title">
+									Administrator
+								</span>
+							</button>
+							<ul class="dropdown-menu">
+								<li>
+									<router-link class="dropdown-item" to="/user/list">
+										Users
+									</router-link>
+								</li>
+								<li>
+									<router-link class="dropdown-item" to="/user-address/list">
+										User Addresses
+									</router-link>
+								</li>
+								<li>
+									<router-link class="dropdown-item" to="/user/import">
+										Import Users
+									</router-link>
+								</li>
+							</ul>
+						</li>
+
 						<li class="nav-item dropdown">
 							<button class="nav-link bg-transparent border-0 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
 								<span class="nav-link-icon d-md-none d-lg-inline-block">
@@ -215,61 +247,17 @@ function handleLogout() {
 							<ul class="dropdown-menu">
 								<li>
 									<router-link class="dropdown-item" to="/customer/list">
-										List
+										All Customers
+									</router-link>
+								</li>
+								<li>
+									<router-link class="dropdown-item" to="/task/list">
+										Tasks
 									</router-link>
 								</li>
 							</ul>
 						</li>
-            
-            <li class="nav-item dropdown">
-							<button class="nav-link bg-transparent border-0 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-								<span class="nav-link-icon d-md-none d-lg-inline-block">
-									<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-users" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-										<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-										<circle cx="9" cy="7" r="4"></circle>
-										<path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"></path>
-										<path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-										<path d="M21 21v-2a4 4 0 0 0 -3 -3.85"></path>
-									</svg>
-								</span>
-								<span class="nav-link-title">
-									OfferStatus
-								</span>
-							</button>
-							<ul class="dropdown-menu">
-								<li>
-									<router-link class="dropdown-item" to="/offerstatus/list">
-						</li>
-            
-						<li class="nav-item dropdown">
-							<button class="nav-link bg-transparent border-0 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-								<span class="nav-link-icon d-md-none d-lg-inline-block">
-									<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-users" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-										<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-										<circle cx="9" cy="7" r="4"></circle>
-										<path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"></path>
-										<path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-										<path d="M21 21v-2a4 4 0 0 0 -3 -3.85"></path>
-									</svg>
-								</span>
-								<span class="nav-link-title">
-									Users
-								</span>
-							</button>
-							<ul class="dropdown-menu">
-								<li>
-									<router-link class="dropdown-item" to="/customer/list">
-										List
-									</router-link>
-								</li>
-								<li>
-									<router-link class="dropdown-item" to="/user/import">
-										Import Users
-									</router-link>
-								</li>
-							</ul>
-						</li>
-            
+
 						<li class="nav-item dropdown">
 							<button class="nav-link bg-transparent border-0 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
 								<span class="nav-link-icon d-md-none d-lg-inline-block">
@@ -287,145 +275,96 @@ function handleLogout() {
 								</li>
 							</ul>
 						</li>
-            
+
 						<li class="nav-item dropdown">
 							<button class="nav-link bg-transparent border-0 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
 								<span class="nav-link-icon d-md-none d-lg-inline-block">
-									<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-users" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+									<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-list-details" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
 										<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-										<circle cx="9" cy="7" r="4"></circle>
-										<path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"></path>
-										<path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-										<path d="M21 21v-2a4 4 0 0 0 -3 -3.85"></path>
+										<path d="M13 5h8"></path>
+										<path d="M13 9h5"></path>
+										<path d="M13 15h8"></path>
+										<path d="M13 19h5"></path>
+										<path d="M3 4m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z"></path>
+										<path d="M3 14m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z"></path>
 									</svg>
 								</span>
 								<span class="nav-link-title">
-									TaskStatus
+									Lists
 								</span>
 							</button>
 							<ul class="dropdown-menu">
 								<li>
-									<router-link class="dropdown-item" to="/taskStatus/list">
-										List
+									<router-link class="dropdown-item" to="/offerstatus/list">
+										Offer Status
 									</router-link>
 								</li>
-							</ul>
-						</li>
-            
-						<li class="nav-item dropdown">
-							<button class="nav-link bg-transparent border-0 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-								<span class="nav-link-icon d-md-none d-lg-inline-block">
-									<IconUserAdress></IconUserAdress>
-								</span>
-								<span class="nav-link-title">
-									User Adresses
-								</span>
-							</button>
-							<ul class="dropdown-menu">
 								<li>
-									<router-link class="dropdown-item" to="/user-address/list">
-										List
+									<router-link class="dropdown-item" to="/taskstatus/list">
+										Task Status
 									</router-link>
 								</li>
-							</ul>
-						</li>
-            
-						<li class="nav-item dropdown">
-							<button class="nav-link bg-transparent border-0 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-								<span class="nav-link-icon d-md-none d-lg-inline-block">
-									<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-users" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-										<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-										<circle cx="9" cy="7" r="4"></circle>
-										<path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"></path>
-										<path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-										<path d="M21 21v-2a4 4 0 0 0 -3 -3.85"></path>
-									</svg>
-								</span>
-								<span class="nav-link-title">
-									Regions
-								</span>
-							</button>
-							<ul class="dropdown-menu">
 								<li>
 									<router-link class="dropdown-item" to="/region/list">
-										List
+										Region
 									</router-link>
 								</li>
-							</ul>
-						</li>
-            
-            <li class="nav-item dropdown">
-							<button class="nav-link bg-transparent border-0 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-								<span class="nav-link-icon d-md-none d-lg-inline-block">
-									<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-users" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-										<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-										<circle cx="9" cy="7" r="4"></circle>
-										<path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"></path>
-										<path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-										<path d="M21 21v-2a4 4 0 0 0 -3 -3.85"></path>
-									</svg>
-								</span>
-								<span class="nav-link-title">
-									UserStatus
-								</span>
-							</button>
-							<ul class="dropdown-menu">
 								<li>
 									<router-link class="dropdown-item" to="/userstatus/list">
-										List
+										User Status
 									</router-link>
 								</li>
 							</ul>
 						</li>
-            
+
 						<li class="nav-item dropdown">
 							<button class="nav-link bg-transparent border-0 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
 								<span class="nav-link-icon d-md-none d-lg-inline-block">
-									<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-users" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+									<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-file-code-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
 										<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-										<circle cx="9" cy="7" r="4"></circle>
-										<path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"></path>
-										<path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-										<path d="M21 21v-2a4 4 0 0 0 -3 -3.85"></path>
+										<path d="M10 12h-1v5h1"></path>
+										<path d="M14 12h1v5h-1"></path>
+										<path d="M14 3v4a1 1 0 0 0 1 1h4"></path>
+										<path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z"></path>
 									</svg>
 								</span>
 								<span class="nav-link-title">
-									Tasks
+									Dev
 								</span>
 							</button>
 							<ul class="dropdown-menu">
 								<li>
-									<router-link class="dropdown-item" to="/task/list">
-										List
+									<router-link class="dropdown-item" to="/auth/login">
+										<span class="nav-link-icon d-md-none d-lg-inline-block">
+											<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-login" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+												<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+												<path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2"></path>
+												<path d="M20 12h-13l3 -3m0 6l-3 -3"></path>
+											</svg>
+										</span>
+										<span class="nav-link-title">
+											Login
+										</span>
 									</router-link>
 								</li>
+								<li>
+									<a class="dropdown-item" href="/template/index.html" target="_blank">
+										<span class="nav-link-icon d-md-none d-lg-inline-block">
+											<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-template" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+												<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+												<rect x="4" y="4" width="16" height="4" rx="1"></rect>
+												<rect x="4" y="12" width="6" height="8" rx="1"></rect>
+												<line x1="14" y1="12" x2="20" y2="12"></line>
+												<line x1="14" y1="16" x2="20" y2="16"></line>
+												<line x1="14" y1="20" x2="20" y2="20"></line>
+											</svg>
+										</span>
+										<span class="nav-link-title">
+											Template
+										</span>
+									</a>
+								</li>
 							</ul>
-						</li>
-            
-						<li class="nav-item">
-							<a class="nav-link" href="/template/index.html" target="_blank">
-								<span class="nav-link-icon d-md-none d-lg-inline-block">
-									<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-template" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-										<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-										<rect x="4" y="4" width="16" height="4" rx="1"></rect>
-										<rect x="4" y="12" width="6" height="8" rx="1"></rect>
-										<line x1="14" y1="12" x2="20" y2="12"></line>
-										<line x1="14" y1="16" x2="20" y2="16"></line>
-										<line x1="14" y1="20" x2="20" y2="20"></line>
-									</svg>
-								</span>
-								<span class="nav-link-title">
-									Template
-								</span>
-							</a>
-						</li>
-            
-						<li class="nav-item">
-							<router-link class="nav-link" to="/auth/login">
-								<span class="nav-link-title">
-									Login
-								</span>
-							</router-link>
 						</li>
 					</ul>
 					<div class="my-2 my-md-0 flex-grow-1 flex-md-grow-0 order-first order-md-last">
