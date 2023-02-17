@@ -9,7 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers(options =>
 {
-    options.Filters.Add<LogActionFilter>();
+    if (Environment.GetEnvironmentVariable("IS_MONGO_LOG_ACTIVE") == "1")
+        options.Filters.Add<LogActionFilter>();
 });
 
 builder.Services.AddEndpointsApiExplorer();

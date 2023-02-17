@@ -15,11 +15,18 @@ public static class ServiceRegistrations
         services.AddSingleton<AuditLogRepository>();
         services.AddSingleton<ExceptionLogRepository>();
 
-        services.AddStackExchangeRedisCache(options =>
+        if (Environment.GetEnvironmentVariable("IS_REDIS_CACHE_ACTIVE") == "1")
         {
-            options.Configuration = configuration.GetConnectionString("MyRedisConStr");
-            options.InstanceName = "Crm";
-        });
+            services.AddStackExchangeRedisCache(options =>
+            {
+                options.Configuration = configuration.GetConnectionString("MyRedisConStr");
+                options.InstanceName = "Crm";
+            });
+        }
+        else
+        {
+            services.AddDistributedMemoryCache();
+        }
 
         services.AddSingleton<RedisService>();
 
