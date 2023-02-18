@@ -32,7 +32,7 @@ namespace Company.Crm.Redis
             _redis.Remove(key);
         }
 
-        public T? GetOrSet<T>(string key, Func<T> action)
+        public T? GetOrSetCache<T>(string key, Func<T> action)
         {
             var cacheItems = GetCache(key);
             if (cacheItems != null)

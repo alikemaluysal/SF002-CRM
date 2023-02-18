@@ -21,7 +21,7 @@ public class TitleController : ControllerBase
     [HttpGet]
     public IActionResult Get()
     {
-        var titles = _redisService.GetOrSet("Titles", () => _service.GetAll());
+        var titles = _redisService.GetOrSetCache("Titles", () => _service.GetAll());
 
         return Ok(titles);
     }
@@ -37,6 +37,9 @@ public class TitleController : ControllerBase
     public IActionResult Post([FromBody] Title titles)
     {
         var isAdded = _service.Insert(titles);
+
+        _redisService.RemoveCache("Titles");
+
         return Ok(isAdded);
     }
 
@@ -44,6 +47,9 @@ public class TitleController : ControllerBase
     public IActionResult Put(int id, [FromBody] Title titles)
     {
         var isUpdated = _service.Update(titles);
+
+        _redisService.RemoveCache("Titles");
+
         return Ok(isUpdated);
     }
 
@@ -51,6 +57,9 @@ public class TitleController : ControllerBase
     public IActionResult Delete(int id)
     {
         var isDeleted = _service.DeleteById(id);
+
+        _redisService.RemoveCache("Titles");
+
         return Ok(isDeleted);
     }
 }
