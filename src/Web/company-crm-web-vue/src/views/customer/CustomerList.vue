@@ -4,7 +4,7 @@ import Pagination from '@/components/Pagination.vue'
 import Loading from '@/components/Loading.vue'
 import { moment } from '@/plugins/datetime'
 import pdfMake from "pdfmake/build/pdfmake"
-import pdfFonts from "pdfmake/build/vfs_fonts.js";
+import * as pdfFonts from "pdfmake/build/vfs_fonts.js";
 import { Logo } from './report-logos.js'
 import CustomerModal from './CustomerModal.vue'
 import { storeToRefs } from 'pinia'
