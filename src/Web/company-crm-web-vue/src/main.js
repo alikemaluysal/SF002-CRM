@@ -19,10 +19,10 @@ const app = createApp(App)
 // PrimeVue Components
 app.use(PrimeVue, {
 	zIndex: {
-		modal: 2100,        //dialog, sidebar
-		overlay: 2000,      //dropdown, overlaypanel
-		menu: 2000,         //overlay menus
-		tooltip: 2100       //tooltip
+		modal: 2100, //dialog, sidebar
+		overlay: 2000, //dropdown, overlaypanel
+		menu: 2000, //overlay menus
+		tooltip: 2100 //tooltip
 	},
 	locale: tr
 })
