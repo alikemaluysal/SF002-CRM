@@ -25,31 +25,27 @@
 	</div>
 </template>
 
-
-
-
-
-
 <script setup>
-import { ref, computed } from 'vue'
+import { computed } from 'vue'
 import { Clone } from '@/plugins/helper'
-import { stringifyExpression } from '@vue/compiler-core';
 const props = defineProps(['item'])
 const emit = defineEmits(['onSaved'])
 
-
 const isValid = computed(() => {
-	return props.item.name != null && props.item.name != '' && props.item.name.length !=0
+	return (
+		props.item.name != null &&
+		props.item.name != '' &&
+		props.item.name.length != 0
+	)
 })
-
 
 function saveItem() {
 	if (!isValid.value) {
 		toastr.error('Form is not valid!')
-		return;
+		return
 	}
 	// Fix ISO Date timezone
-	const item = Clone(props.item);
+	const item = Clone(props.item)
 
 	if (item.id > 0) {
 		axios.patch("offerstatus/" + item.id, item).then(res => {

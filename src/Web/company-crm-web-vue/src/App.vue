@@ -1,7 +1,7 @@
 <script setup>
-import Loading from "@/components/Loading.vue";
-import { useLayoutStore } from "./stores/layout.store";
-const store = useLayoutStore();
+import Loading from '@/components/Loading.vue'
+import { useLayoutStore } from '@/stores/layout.store'
+const store = useLayoutStore()
 </script>
 
 <template>
