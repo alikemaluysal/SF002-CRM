@@ -53,4 +53,3 @@ Run Redis container for Caching Infrastructure
 
 Run RabbitMQ Server and Management Panel container for Message Queue Examples
 > docker run -it -p 5672:5672 -p 15672:15672 --name myrabbitmq rabbitmq:3.11-management
-"# CompanyCRM" 
